@@ -117,9 +117,41 @@ namespace Assets.Scripts.Tools.ADT
                 t2.size = 0;
             }
         }
-        #endregion
 
+        /// <summary>
+        /// removes the node at position p and replaces it with its child, if any
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public E Remove(List<E> p)
+        {
+            Node<E> node = Validate(p);
+            Node<E> child = node.Children as Node<E>;
+            if (child != null)
+            {
+                child.Parent = node.Parent; // set the child's grandparent as the parent
+            }
+            if (node == Root)
+            {
+                Root = child;               //child is now root
+            }
+            else
+            {
+                Node<E> parent = node.Parent;
+                    parent.Children.Add(child);
+            }
+            size --;
+            E temp = node.Element;
+            node.Element = default(E);  //help out the garbage collector
+            node.Children = null;
+            node.Parent = null;
+            return temp;
+        }
+
+        #endregion
     }
+
+  
 
     partial class Node<E> : List<E>
     {
