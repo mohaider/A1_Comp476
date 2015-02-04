@@ -16,12 +16,13 @@ namespace Assets.Scripts.Character
         #region class variables and properties
         public enum PlayerState
         {
-            idle = 0, left, right, up, down, jump, landing, fall, resurrect, crawling, climbing,
-            attacking, throwItem, usePotion, poisoned, confused, slowed,
-            healthy, run, walk //todo might need to remove this if we decide that the player needs to move through keyboard inputs. Also change the array instatiation below
-        }
+            chasing = 0,    //chase flag carrier
+            idle, 
+            tagged, 
+            holdingFlag
+            }
 
-        public static float[] stateDelayTimer = new float[(int)PlayerState.walk]; //in the case we need to add various timers to various states
+        public static float[] stateDelayTimer = new float[(int)PlayerState.holdingFlag]; //in the case we need to add various timers to various states
 
         public delegate void playerStateHandler(PlayerStateController.PlayerState newState);
 
@@ -38,14 +39,14 @@ namespace Assets.Scripts.Character
 
         #region unity functions
 
-        //not sure which one is appropriate
+   
 
         private void Update()
         {
 
 
             //detect the current input of the horizontal axis, then broadcast a state update for the player
-            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+ /*           if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
                 if (OnStateChange != null)
                 {
@@ -54,9 +55,9 @@ namespace Assets.Scripts.Character
                         OnStateChange(PlayerStateController.PlayerState.run);
                     else if (Input.GetKey(KeyCode.LeftShift)) //crawling
                     {
-                        
-                            OnStateChange(PlayerStateController.PlayerState.crawling);
-                          
+
+                        OnStateChange(PlayerStateController.PlayerState.crawling);
+
                     }
                     else
                         OnStateChange(PlayerStateController.PlayerState.walk);
@@ -75,7 +76,7 @@ namespace Assets.Scripts.Character
                     OnStateChange(PlayerStateController.PlayerState.jump);
                 }
             }
-
+*/
 
         }
 

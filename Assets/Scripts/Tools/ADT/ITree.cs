@@ -14,7 +14,7 @@ namespace Assets.Scripts.Tools.ADT
         bool isInternal(List<T> childrenList);
         bool isExternal(List<T> childrenList);
         bool isRoot(List<T> childrenList);
-        int size();
+        int getSize();
         bool isEmpty();
         List<T> iterator();
 

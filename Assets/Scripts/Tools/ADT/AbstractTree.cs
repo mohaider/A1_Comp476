@@ -8,6 +8,14 @@ namespace Assets.Scripts.Tools.ADT
 {
     abstract class AbstractTree<E>: ITree<E>
     {
+        public int size;
+
+        public int Size
+        {
+            get { return size; }
+            set { size = value; }
+        }
+
         public List<E> Root()
         {
             throw new NotImplementedException();
@@ -43,14 +51,14 @@ namespace Assets.Scripts.Tools.ADT
             return element == Root();
         }
 
-        public int size()
-        {
-            throw new NotImplementedException();
-        }
+   //     public int size()
+     //   {
+       //     return _size;
+       // }
 
         public bool isEmpty()
         {
-            return size() == 0;
+            return size == 0;
         }
 
         public List<E> iterator()
@@ -84,6 +92,61 @@ namespace Assets.Scripts.Tools.ADT
                 h = Math.Max(h, 1 + Height(c));
             return h;
 
+        }
+
+        List<E> ITree<E>.Root()
+        {
+            throw new NotImplementedException();
+        }
+
+        List<E> ITree<E>.Parent(List<E> p)
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<List<E>> ITree<E>.Chilcren(List<E> children)
+        {
+            throw new NotImplementedException();
+        }
+
+        int ITree<E>.numChildren(List<E> childrenList)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool ITree<E>.isInternal(List<E> childrenList)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool ITree<E>.isExternal(List<E> childrenList)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool ITree<E>.isRoot(List<E> childrenList)
+        {
+            throw new NotImplementedException();
+        }
+
+        int ITree<E>.getSize()
+        {
+            throw new NotImplementedException();
+        }
+
+        bool ITree<E>.isEmpty()
+        {
+            throw new NotImplementedException();
+        }
+
+        List<E> ITree<E>.iterator()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator<E> IEnumerable<E>.GetEnumerator()
+        {
+            throw new NotImplementedException();
         }
     }
 }
