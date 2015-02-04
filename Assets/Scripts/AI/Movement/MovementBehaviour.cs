@@ -574,13 +574,15 @@ public class MovementBehaviour : MonoBehaviour
     /// </summary>
     public void KinematicArrive()
     {
-        float mag = Vector3.Magnitude(TargetGameObject.transform.position - character.transform.position);
-        float velocity = 0;
+        CharacterVelocity = TargetGameObject.transform.position - character.transform.position;
+        float mag = CharacterVelocity.magnitude;
+        float currentVelocity = 0;
         if (mag > ArrivalRadius)
-        {
-            velocity= Mathf.Min(maxspeed, dist/timeToTarget);
-        }
-       // KinematicSeek();
+            currentVelocity = Mathf.Min(maxVelocity, mag/timeToTarget);
+        else
+            currentVelocity = 0;
+        character.rigidbody.velocity = CharacterVelocity.normalized*currentVelocity;
+        // KinematicSeek();
     }
 
     /// <summary>
@@ -590,6 +592,21 @@ public class MovementBehaviour : MonoBehaviour
     {
         CharacterVelocity = TargetGameObject.transform.position - character.transform.position;
         character.rigidbody.velocity = CharacterVelocity.normalized * maxVelocity;
+
+    }
+
+    public void KinematicFlee()
+    {
+        CharacterVelocity = character.transform.position - TargetGameObject.transform.position;
+        character.rigidbody.velocity = CharacterVelocity.normalized * maxVelocity;
+    }
+
+    public void InterpolateRotate()
+    {
+        Vector3 currentOrientation = character.transform.rotation.eulerAngles;
+        float angle = Mathf.Atan2(CharacterVelocity.z, CharacterVelocity.x);
+        currentOrientation.y= Mathf.Lerp(angle, currentOrientation.y, Time.deltaTime*10f);
+        character.transform.rotation = Quaternion.Euler(currentOrientation);
     }
 
     #endregion
