@@ -6,12 +6,12 @@ using Assets.Script.Tools;
 
 public class MovementBehaviour : MonoBehaviour
 {
-    public GameObject TargetGameObject;
+    public GameObject _targetGameObject;
     private GameObject character;
     private Vector3 CharacterVelocity;
     private Vector3 targetVelocity;
     private Vector3 characterAcceleration;
-    public float maxSpeed;
+    public float maxVelocity;
     public float maxAngularVelocity;
     public float maxAcceleration;
     public float maxAngularAcceleration;
@@ -25,7 +25,7 @@ public class MovementBehaviour : MonoBehaviour
     public float maxPredictionTime; //max prediction time for pursue, and evade
     public float satisfactionRotation;
     public float slowDownOrientation;
-    public float timeToTarget = 0.09f;
+    public float timeToTarget = 5f; //time to target
     public float angularVelocity;
     public float characterAngularVelocity;
 
@@ -41,7 +41,7 @@ public class MovementBehaviour : MonoBehaviour
     {
 
         this.character = character;
-        this.maxSpeed = maxspeed;
+        this.maxVelocity = maxspeed;
         this.maxAngularAcceleration = maxAngularAcceleration;
         this.maxAngularVelocity = maxAngularvelocity;
         this.maxAcceleration = maxAcceleration;
@@ -49,12 +49,18 @@ public class MovementBehaviour : MonoBehaviour
         this.turnSmoothing = turnSmoothing;
     }
 
+    public GameObject TargetGameObject
+    {
+        get { return _targetGameObject; }
+        set { _targetGameObject = value; }
+    }
+
     public void InstatiateMovementBehaviour(GameObject character, float maxspeed, float maxAngularvelocity, float maxAcceleration,
         float maxAngularAcceleration)
     {
 
         this.character = character;
-        this.maxSpeed = maxspeed;
+        this.maxVelocity = maxspeed;
         this.maxAngularAcceleration = maxAngularAcceleration;
         this.maxAngularVelocity = maxAngularvelocity;
         this.maxAcceleration = maxAcceleration;
@@ -81,7 +87,7 @@ public class MovementBehaviour : MonoBehaviour
             characterAcceleration = Vector3.Normalize(characterAcceleration) * maxAcceleration;
             CharacterVelocity = CharacterVelocity + (characterAcceleration * timeStep);
             //current velocity + desiredAcceleration* time
-            CharacterVelocity = AdditionalVector3Tools.Limit(CharacterVelocity, maxSpeed);
+            CharacterVelocity = AdditionalVector3Tools.Limit(CharacterVelocity, maxVelocity);
             FixRotation();
         }
         return CharacterVelocity;
@@ -99,7 +105,7 @@ public class MovementBehaviour : MonoBehaviour
             characterAcceleration = Vector3.Normalize(characterAcceleration) * maxAcceleration;
             CharacterVelocity = CharacterVelocity + (characterAcceleration * timeStep);
             //current velocity + desiredAcceleration* time
-            CharacterVelocity = AdditionalVector3Tools.Limit(CharacterVelocity, maxSpeed);
+            CharacterVelocity = AdditionalVector3Tools.Limit(CharacterVelocity, maxVelocity);
 
         }
         return CharacterVelocity;
@@ -122,7 +128,7 @@ public class MovementBehaviour : MonoBehaviour
         characterAcceleration.y = 0;
         characterAcceleration = Vector3.Normalize(characterAcceleration) * maxAcceleration;
         CharacterVelocity = CharacterVelocity + (characterAcceleration * timeStep);
-        CharacterVelocity = AdditionalVector3Tools.Limit(CharacterVelocity, maxSpeed);
+        CharacterVelocity = AdditionalVector3Tools.Limit(CharacterVelocity, maxVelocity);
         return CharacterVelocity;
     }
 
@@ -134,7 +140,7 @@ public class MovementBehaviour : MonoBehaviour
         characterAcceleration.y = 0;
         characterAcceleration = Vector3.Normalize(characterAcceleration) * maxAcceleration;
         CharacterVelocity = CharacterVelocity + (characterAcceleration * timeStep);
-        CharacterVelocity = AdditionalVector3Tools.Limit(CharacterVelocity, maxSpeed);
+        CharacterVelocity = AdditionalVector3Tools.Limit(CharacterVelocity, maxVelocity);
         return CharacterVelocity;
     }
 
@@ -154,7 +160,7 @@ public class MovementBehaviour : MonoBehaviour
         {
             Vector3 desiredVel = target.transform.position - character.transform.position;
             float distance = desiredVel.magnitude;
-            float mag = AdditionalVector3Tools.map(distance, 0, 50, 0, maxSpeed);
+            float mag = AdditionalVector3Tools.map(distance, 0, 50, 0, maxVelocity);
             //CharacterVelocity = mag*desiredVel*timeStep;
             CharacterVelocity = Vector3.Lerp(CharacterVelocity, Vector3.zero, timeStep);
 
@@ -229,7 +235,7 @@ public class MovementBehaviour : MonoBehaviour
         //calculate the new velocity, that is find the velocity from the middle of the circle to the chosen point. 
         CharacterVelocity.x = randCircle.x - target.x;
         CharacterVelocity.z = randCircle.y - target.z;
-        CharacterVelocity = Vector3.Normalize(CharacterVelocity) * maxSpeed / 2;
+        CharacterVelocity = Vector3.Normalize(CharacterVelocity) * maxVelocity / 2;
 
         return CharacterVelocity;
 
@@ -243,9 +249,9 @@ public class MovementBehaviour : MonoBehaviour
         Vector3 target = character.transform.position.normalized * dist;
         randCircle.x += target.x;
         randCircle.y += target.z;
-        target = Vector3.Normalize(target) * maxSpeed;
+        target = Vector3.Normalize(target) * maxVelocity;
         CharacterVelocity = character.transform.position - target;
-        CharacterVelocity = Vector3.Normalize(CharacterVelocity) * maxSpeed;
+        CharacterVelocity = Vector3.Normalize(CharacterVelocity) * maxVelocity;
 
         FixRotation();
     }
@@ -308,11 +314,11 @@ public class MovementBehaviour : MonoBehaviour
         Vector3 directionVector3 = target.character.transform.position - character.transform.position;
         float distance = Vector3.Magnitude(directionVector3);
         float predictionTime; //prediction time
-        if (maxSpeed < distance)
+        if (maxVelocity < distance)
             predictionTime = maxPredictionTime;
         else
         {
-            predictionTime = distance / maxSpeed;
+            predictionTime = distance / maxVelocity;
         }
         //delegate to seek
         return SteeringSeek(target.character, timeStep);
@@ -561,6 +567,30 @@ public class MovementBehaviour : MonoBehaviour
 
 
     #region kinematic 
+
+    /// <summary>
+    /// implmenetation of the kinematic arrive algorithm.
+    /// move towards the target at max velocity and stop immediately at a satisfaction radius
+    /// </summary>
+    public void KinematicArrive()
+    {
+        float mag = Vector3.Magnitude(TargetGameObject.transform.position - character.transform.position);
+        float velocity = 0;
+        if (mag > ArrivalRadius)
+        {
+            velocity= Mathf.Min(maxspeed, dist/timeToTarget);
+        }
+       // KinematicSeek();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void KinematicSeek()
+    {
+        CharacterVelocity = TargetGameObject.transform.position - character.transform.position;
+        character.rigidbody.velocity = CharacterVelocity.normalized * maxVelocity;
+    }
 
     #endregion
 }
