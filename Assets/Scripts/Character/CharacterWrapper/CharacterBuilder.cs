@@ -15,7 +15,7 @@ namespace Assets.Scripts.CharacterWrapper
     class CharacterBuilder: MonoBehaviour
     {
         #region class variables
-        public GameObject TargetAgent;
+
         public float maxSpeed;
         public float maxAngularVelocity;
         public float maxAcceleration;
@@ -38,7 +38,7 @@ namespace Assets.Scripts.CharacterWrapper
 
 
         #region
-        void Start()
+        void Awake()
         {
             movementBehaviour = new MovementBehaviour(gameObject, maxSpeed, maxAngularVelocity, maxAcceleration, maxAngularAcceleration, turnSmoothing);
             gameObject.AddComponent<PlayerStateListener>();

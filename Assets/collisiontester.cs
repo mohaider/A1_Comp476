@@ -15,8 +15,9 @@ public class collisiontester : MonoBehaviour
 	void Update ()
 	{
 	    if (Input.GetKeyDown(KeyCode.A))
-	        gameObject.GetComponent<Animation>().Play("walk");
-       rigidbody.velocity = Vector3.forward * speed;
+	        gameObject.GetComponent<Animation>().Play("pick_up");
+     //   rigidbody.velocity = Vector3.forward * speed;
+        
 
 	}
 

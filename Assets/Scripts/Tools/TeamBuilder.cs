@@ -8,6 +8,8 @@ public class TeamBuilder : MonoBehaviour
     #region class variables and properties
 
     [SerializeField]  int playerPerTeam;
+    [SerializeField] private GameObject flag1;
+    [SerializeField] private GameObject flag2;
     [SerializeField] private GameObject teamOneMember;
     [SerializeField] private GameObject teamTwoMember;
     [SerializeField]
@@ -20,10 +22,33 @@ public class TeamBuilder : MonoBehaviour
     private GameObject TeamTWoSpawningAreaB;
     [SerializeField] private int positionalRadius; //this will be used for randomizing team members positons around the spawning points
     private GameObject[] teamAgents;
-    private List<GameObject> teamOnePool;
-    private List<GameObject> teamTwoPool;
+    private ArrayList teamOnePool;
+    private ArrayList teamTwoPool;
+
+    public ArrayList TeamOnePool
+    {
+        get { return teamOnePool; }
+    }
+
+    public ArrayList TeamTwoPool
+    {
+        get { return teamTwoPool; }
+    }
+
+    public GameObject Flag1
+    {
+        get { return flag1; }
+    }
+
+    public GameObject Flag2
+    {
+        get { return flag2; }
+    }
+
+    //  private List<GameObject> teamOnePool;
+    //private List<GameObject> teamTwoPool;
     
-    public List<GameObject> TeamOnePool
+  /*  public List<GameObject> TeamOnePool
     {
         get { return teamOnePool; }
     }
@@ -31,17 +56,17 @@ public class TeamBuilder : MonoBehaviour
     public List<GameObject> TeamTwoPool
     {
         get { return teamTwoPool; }
-    }
+    }*/
 
     #endregion
 
     #region unity functions
     // Use this for initialization
-	void Start () {
-	   
+	void Awake () {
+        print("Teambuilder");
         teamAgents = new GameObject[playerPerTeam * 2]; 
-        teamOnePool = new List<GameObject>();
-	    teamTwoPool = new List<GameObject>();
+        teamOnePool = new ArrayList();
+        teamTwoPool = new ArrayList();
 	    bool switchSides = false;
         //instantiate players in a random area around the spawning point
 	    for (int i = 0; i < playerPerTeam; i++)
@@ -69,12 +94,12 @@ public class TeamBuilder : MonoBehaviour
 	        teamOnePos.y = 0;
 	        teamTwoPos.y = 0;
             
-	        GameObject tm1 = Instantiate(teamOneMember,teamOnePos,Quaternion.identity) as GameObject;//Team Member one
+	        GameObject tm1 = Instantiate(teamOneMember,teamOnePos,teamOneMember.transform.rotation) as GameObject;//Team Member one
             tm1.name = "A team #+" +i;
 	        teamAgents[i] = tm1;
 	        teamOnePool.Add(tm1);
 
-            GameObject tm2 = Instantiate(teamTwoMember, teamTwoPos, Quaternion.identity) as GameObject;//Team Member one
+            GameObject tm2 = Instantiate(teamTwoMember, teamTwoPos, teamTwoMember.transform.rotation) as GameObject;//Team Member one
             teamAgents[i] = tm2;
             teamTwoPool.Add(tm2);
             tm2.name = "B team #+" + i;

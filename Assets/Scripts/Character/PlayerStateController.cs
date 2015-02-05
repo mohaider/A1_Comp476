@@ -17,6 +17,8 @@ namespace Assets.Scripts.Character
         public enum PlayerState
         {
             chasing = 0,    //chase flag carrier
+            runningAway,
+
             idle, 
             tagged, 
             holdingFlag
@@ -34,6 +36,12 @@ namespace Assets.Scripts.Character
 
         #region class functions
 
+        public void ChangeState(PlayerStateController.PlayerState newState)
+        {
+            if (OnStateChange != null)
+                OnStateChange(newState);
+            print(gameObject.name + "'s new state is " + newState);
+        }
 
         #endregion
 
@@ -45,8 +53,8 @@ namespace Assets.Scripts.Character
         {
 
 
-            //detect the current input of the horizontal axis, then broadcast a state update for the player
- /*           if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+        /*    //detect the current input of the horizontal axis, then broadcast a state update for the player
+            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
                 if (OnStateChange != null)
                 {
@@ -82,6 +90,7 @@ namespace Assets.Scripts.Character
 
 
     }
+
         #endregion
 
 

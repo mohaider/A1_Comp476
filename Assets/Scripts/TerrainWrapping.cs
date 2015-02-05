@@ -31,9 +31,7 @@ public class TerrainWrapping : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(col.transform.position, -col.rigidbody.velocity.normalized, out hit, Mathf.Infinity, layerMask))
             {
-                print(col.name+" hit");
                 Vector3 currPos = hit.point ;
-                print("vel "+col.rigidbody.velocity.normalized);
                 col.transform.position = currPos;
             }
 

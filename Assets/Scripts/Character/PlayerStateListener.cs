@@ -25,7 +25,7 @@ namespace Assets.Scripts.Character
         public float playerJumpForceHorizontal; //in case you need to jumo, what is the horizontal force?
         private Animation playerAnimation;
         private MovementBehaviour _movementBehaviour;
-
+        public GameObject TargetAgent;
 
 
         //default the states to idle
@@ -65,6 +65,10 @@ namespace Assets.Scripts.Character
                     playerAnimation.Play("walk");
                         _movementBehaviour.ReynoldsWander(3f, Time.fixedDeltaTime);
 
+                    break;
+                case PlayerStateController.PlayerState.chasing:
+                    playerAnimation.Play("walk");
+                    Chase();
                     break;
                 /*  
                                 case PlayerStateController.PlayerState.left:
@@ -136,46 +140,46 @@ namespace Assets.Scripts.Character
         {
             //if the current state are the same, abort. No need to change the state we're in
 
-            /* if (newPlayerState == currentState)
+             if (newPlayerState == currentState)
              {
                  return;
              }
-
+            
              //check if any special conditions that would cause this new state to abort
              if (CheckIfAbortState(newPlayerState))
              {
                  return;
              }
+             /*
+              //check if the current is allowed to transition into this new state. if not, abort.
+              if (!CheckValidStatePairing(newPlayerState))
+              {
+                  return;
+              }
 
-             //check if the current is allowed to transition into this new state. if not, abort.
-             if (!CheckValidStatePairing(newPlayerState))
-             {
-                 return;
-             }
+              //if we're here, then state change is allowed
 
-             //if we're here, then state change is allowed
-
-             switch (newPlayerState)
-             {
-                 case PlayerStateController.PlayerState.walk:
-                     playerAnimation.Play("walk");
-                     break;
-                 case PlayerStateController.PlayerState.run:
-                     playerAnimation.Play("run");
-                     break;
-                 case PlayerStateController.PlayerState.crawling:
-                     playerAnimation.Play("walk");
-                     break;
+              switch (newPlayerState)
+              {
+                  case PlayerStateController.PlayerState.walk:
+                      playerAnimation.Play("walk");
+                      break;
+                  case PlayerStateController.PlayerState.run:
+                      playerAnimation.Play("run");
+                      break;
+                  case PlayerStateController.PlayerState.crawling:
+                      playerAnimation.Play("walk");
+                      break;
 
 
-             }
-
+              }
+             */
              //store the current state as the previous state
              previousState = currentState;
 
              //store new state as the current state
              currentState = newPlayerState;
- */
+ 
 
         }
 
@@ -346,6 +350,11 @@ namespace Assets.Scripts.Character
 
         }
 
+        private void Chase()
+        {
+            _movementBehaviour.KinematicArrive();
+        }
+
         private void Crawl()
         {
 
@@ -422,6 +431,7 @@ namespace Assets.Scripts.Character
         private void Awake()
         {
             playerAnimation = gameObject.GetComponent<Animation>();
+            print(gameObject.name + " listener");
 
         }
 
@@ -439,6 +449,7 @@ namespace Assets.Scripts.Character
 
         private void State()
         {
+           
             // PlayerStateController.stateDelayTimer[(int)PlayerStateController.PlayerState.jump] = 1.0f;//can jump every 1.0 seconds
             //PlayerStateController.stateDelayTimer[(int)PlayerStateController.PlayerState.jump] = 1.0f;//can jump every 1.0 seconds
         }
@@ -446,6 +457,7 @@ namespace Assets.Scripts.Character
         private void Update()
         {
             OnStateCycle();
+            print(gameObject.name + "current state is " +currentState);
         }
 
 
