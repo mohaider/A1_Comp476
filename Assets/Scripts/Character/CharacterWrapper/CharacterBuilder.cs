@@ -40,12 +40,18 @@ namespace Assets.Scripts.CharacterWrapper
         #region
         void Awake()
         {
-            movementBehaviour = new MovementBehaviour(gameObject, maxSpeed, maxAngularVelocity, maxAcceleration, maxAngularAcceleration, turnSmoothing);
-            gameObject.AddComponent<PlayerStateListener>();
-            gameObject.GetComponent<PlayerStateListener>().movementBehaviour = movementBehaviour;
-
+           // movementBehaviour = new MovementBehaviour(gameObject, maxSpeed, maxAngularVelocity, maxAcceleration, maxAngularAcceleration, turnSmoothing);
+           
+            gameObject.AddComponent<MovementBehaviour>();
+            gameObject.GetComponent<MovementBehaviour>().InstatiateMovementBehaviour(gameObject, maxSpeed, maxAngularVelocity, maxAcceleration, maxAngularAcceleration, turnSmoothing,5f    );
 
             gameObject.AddComponent<PlayerStateController>();
+            gameObject.AddComponent<PlayerStateListener>();
+            gameObject.GetComponent<PlayerStateListener>().movementBehaviour =
+                gameObject.GetComponent<MovementBehaviour>();
+
+
+
             
         }
         #endregion

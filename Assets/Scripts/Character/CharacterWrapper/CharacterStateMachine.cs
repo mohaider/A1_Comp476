@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Assets.Scripts.AI.CharacterWrapper
+namespace Assets.Scripts.Character.CharacterWrapper
 {
-
-
-    class CharacterWrapper:MonoBehaviour
+    class CharacterStateMachine: MonoBehaviour
     {
-
     }
 }

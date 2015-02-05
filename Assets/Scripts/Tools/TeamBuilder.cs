@@ -95,14 +95,14 @@ public class TeamBuilder : MonoBehaviour
 	        teamTwoPos.y = 0;
             
 	        GameObject tm1 = Instantiate(teamOneMember,teamOnePos,teamOneMember.transform.rotation) as GameObject;//Team Member one
-            tm1.name = "A team #+" +i;
+            tm1.name = "Agent A" +i;
 	        teamAgents[i] = tm1;
 	        teamOnePool.Add(tm1);
 
             GameObject tm2 = Instantiate(teamTwoMember, teamTwoPos, teamTwoMember.transform.rotation) as GameObject;//Team Member one
             teamAgents[i] = tm2;
             teamTwoPool.Add(tm2);
-            tm2.name = "B team #+" + i;
+            tm2.name = "Agent B" + i;
 
 	        switchSides = !switchSides;
 

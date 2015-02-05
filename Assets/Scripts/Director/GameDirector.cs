@@ -26,7 +26,7 @@ namespace Assets.Scripts.Director
 
         private void Awake()
         {
-            print("game director");
+
             teamBuilder = GetComponent<TeamBuilder>();
 
             if (teamBuilder == null)
@@ -55,13 +55,13 @@ namespace Assets.Scripts.Director
             int flagRunnerTwoIndex = UnityEngine.Random.Range(0, teamTwoPool.Count);
 
             GameObject flagBearerOne = teamOnePool[flagRunnerOneIndex] as GameObject;
-            GameObject flagBearerTwo = teamOnePool[flagRunnerTwoIndex] as GameObject;
+            GameObject flagBearerTwo = teamTwoPool[flagRunnerTwoIndex] as GameObject;
             
-            print(flagBearerOne.name + " is the flag runner");
-            print(flagBearerTwo.name + " is the flag runner");
 
-            flagBearerOne.GetComponent<PlayerStateListener>().TargetAgent = teamBuilder.Flag1;
-            flagBearerTwo.GetComponent<PlayerStateListener>().TargetAgent = teamBuilder.Flag2;
+
+            flagBearerOne.GetComponent<PlayerStateListener>().TargetAgent = teamBuilder.Flag2;
+            flagBearerTwo.GetComponent<PlayerStateListener>().TargetAgent = teamBuilder.Flag1;
+
 
             flagBearerOne.GetComponent<PlayerStateController>().ChangeState(PlayerStateController.PlayerState.chasing);
             flagBearerTwo.GetComponent<PlayerStateController>().ChangeState(PlayerStateController.PlayerState.chasing);

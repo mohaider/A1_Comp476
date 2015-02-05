@@ -24,8 +24,9 @@ namespace Assets.Scripts.Character
         public float playerJumpForceVertical; //in case you need to jump, what is the vertical force?
         public float playerJumpForceHorizontal; //in case you need to jumo, what is the horizontal force?
         private Animation playerAnimation;
-        private MovementBehaviour _movementBehaviour;
-        public GameObject TargetAgent;
+        public MovementBehaviour _movementBehaviour;
+        public GameObject _targetAgent;
+        private PlayerStateController stateController;
 
 
         //default the states to idle
@@ -68,7 +69,9 @@ namespace Assets.Scripts.Character
                     break;
                 case PlayerStateController.PlayerState.chasing:
                     playerAnimation.Play("walk");
+                    
                     Chase();
+                   
                     break;
                 /*  
                                 case PlayerStateController.PlayerState.left:
@@ -424,6 +427,21 @@ namespace Assets.Scripts.Character
             set { _movementBehaviour = value; }
         }
 
+        public GameObject TargetAgent
+        {
+            get { return _targetAgent;}
+            set
+            {
+               
+                if (_movementBehaviour == null)
+                    Debug.Log("there is no assigned movement behaviour");
+                else
+                    _movementBehaviour.TargetGameObject = value;
+                _targetAgent = value;
+                
+            }
+        }
+
         #endregion
 
         #region unity functions
@@ -431,18 +449,21 @@ namespace Assets.Scripts.Character
         private void Awake()
         {
             playerAnimation = gameObject.GetComponent<Animation>();
-            print(gameObject.name + " listener");
+
 
         }
 
         private void OnEnable()
         {
-            PlayerStateController.OnStateChange += OnStateChange;
+            stateController = gameObject.GetComponent<PlayerStateController>();
+            //PlayerStateController.OnStateChange += OnStateChange;
+            stateController.OnStateChange += OnStateChange;
         }
 
         private void OnDisable()
         {
-            PlayerStateController.OnStateChange -= OnStateChange;
+            //PlayerStateController.OnStateChange -= OnStateChange;
+            stateController.OnStateChange -= OnStateChange;
         }
 
 
@@ -457,7 +478,7 @@ namespace Assets.Scripts.Character
         private void Update()
         {
             OnStateCycle();
-            print(gameObject.name + "current state is " +currentState);
+          
         }
 
 

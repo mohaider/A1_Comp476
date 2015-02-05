@@ -18,17 +18,16 @@ namespace Assets.Scripts.Character
         {
             chasing = 0,    //chase flag carrier
             runningAway,
-
             idle, 
             tagged, 
             holdingFlag
             }
 
-        public static float[] stateDelayTimer = new float[(int)PlayerState.holdingFlag]; //in the case we need to add various timers to various states
+        public  float[] stateDelayTimer = new float[(int)PlayerState.holdingFlag]; //in the case we need to add various timers to various states
 
         public delegate void playerStateHandler(PlayerStateController.PlayerState newState);
 
-        public static event playerStateHandler OnStateChange;
+        public event playerStateHandler OnStateChange;
 
 
         #endregion
@@ -40,7 +39,7 @@ namespace Assets.Scripts.Character
         {
             if (OnStateChange != null)
                 OnStateChange(newState);
-            print(gameObject.name + "'s new state is " + newState);
+
         }
 
         #endregion

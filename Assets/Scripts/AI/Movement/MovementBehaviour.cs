@@ -25,7 +25,7 @@ public class MovementBehaviour : MonoBehaviour
     public float maxPredictionTime; //max prediction time for pursue, and evade
     public float satisfactionRotation;
     public float slowDownOrientation;
-    public float timeToTarget = 5f; //time to target
+    public float timeToTarget; //time to target
     public float angularVelocity;
     public float characterAngularVelocity;
 
@@ -56,7 +56,7 @@ public class MovementBehaviour : MonoBehaviour
     }
 
     public void InstatiateMovementBehaviour(GameObject character, float maxspeed, float maxAngularvelocity, float maxAcceleration,
-        float maxAngularAcceleration)
+        float maxAngularAcceleration, float turnSmoothing, float timeToTarget)
     {
 
         this.character = character;
@@ -64,6 +64,9 @@ public class MovementBehaviour : MonoBehaviour
         this.maxAngularAcceleration = maxAngularAcceleration;
         this.maxAngularVelocity = maxAngularvelocity;
         this.maxAcceleration = maxAcceleration;
+        seekTargetDelegate += SteeringSeek;
+        this.turnSmoothing = turnSmoothing;
+        this.timeToTarget = timeToTarget;
         resetTimer = 3.5f;
     }
 
@@ -581,6 +584,8 @@ public class MovementBehaviour : MonoBehaviour
             currentVelocity = Mathf.Min(maxVelocity, mag/timeToTarget);
         else
             currentVelocity = 0;
+        print( timeToTarget);
+        print(currentVelocity);
         character.rigidbody.velocity = CharacterVelocity.normalized*currentVelocity;
         // KinematicSeek();
     }
