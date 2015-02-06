@@ -40,17 +40,24 @@ namespace Assets.Scripts.CharacterWrapper
         #region
         void Awake()
         {
-           // movementBehaviour = new MovementBehaviour(gameObject, maxSpeed, maxAngularVelocity, maxAcceleration, maxAngularAcceleration, turnSmoothing);
+           // movementBehaviour = new MovementBehaviour(gameObject, maxSpeed, maxAngularVelocity, maxAcceleration, maxAngularAcceleration, TurnSmoothing);
            
             gameObject.AddComponent<MovementBehaviour>();
-            gameObject.GetComponent<MovementBehaviour>().InstatiateMovementBehaviour(gameObject, maxSpeed, maxAngularVelocity, maxAcceleration, maxAngularAcceleration, turnSmoothing,5f    );
-
+            gameObject.GetComponent<MovementBehaviour>().InstatiateMovementBehaviour(gameObject, maxSpeed, maxAngularVelocity, maxAcceleration, maxAngularAcceleration, turnSmoothing,5f);
+            gameObject.GetComponent<MovementBehaviour>().ArrivalRadius = this.ArrivalRadius;
+            gameObject.GetComponent<MovementBehaviour>().SlowDownRadius = this.SlowDownRadius;
+            gameObject.GetComponent<MovementBehaviour>().slowDownRotationRadius = this.slowDownRotationRadius;
+            gameObject.GetComponent<MovementBehaviour>().maxPredictionTime = this.maxPredictionTime;
+            gameObject.GetComponent<MovementBehaviour>().satisfactionRotation = this.satisfactionRotation;
+            gameObject.GetComponent<MovementBehaviour>().slowDownOrientation = this.slowDownOrientation;
+            gameObject.GetComponent<MovementBehaviour>().angularVelocity = this.angularVelocity;
+            gameObject.GetComponent<MovementBehaviour>().characterAngularVelocity = this.characterAngularVelocity;
             gameObject.AddComponent<PlayerStateController>();
             gameObject.AddComponent<PlayerStateListener>();
             gameObject.GetComponent<PlayerStateListener>().movementBehaviour =
-                gameObject.GetComponent<MovementBehaviour>();
+            gameObject.GetComponent<MovementBehaviour>();
 
-
+            Destroy(this);
 
             
         }

@@ -355,7 +355,47 @@ namespace Assets.Scripts.Character
 
         private void Chase()
         {
-            _movementBehaviour.KinematicArrive();
+            Vector3 directionalVector3 = TargetAgent.transform.position - transform.position;
+            float directionAngle = Mathf.Atan2(directionalVector3.z, directionalVector3.x) % 360; //wrap it to 360 degrees
+
+            float currentAngle = transform.rotation.eulerAngles.y % 360;//wrap it within 360 degrees
+            float angleBetweenDirAndTar = Vector3.Angle(directionalVector3, transform.forward);
+
+        /*    if (rigidbody.velocity.sqrMagnitude <= 0.1f && !(Mathf.Abs(directionAngle - currentAngle) < 30f))
+            {
+                if (Vector3.Distance(transform.position, TargetAgent.transform.position) < movementBehaviour.ArrivalRadius/2)
+                {
+                    transform.position = TargetAgent.transform.position + TargetAgent.transform.position.normalized * movementBehaviour.ArrivalRadius / 4;
+                    print("chase state 1");
+                }
+                else
+                {
+                    movementBehaviour.InterpolateRotate();
+                    movementBehaviour.KinematicArrive();
+                    print("chase state 2");
+                }
+            }
+            else*/
+            {
+
+                if (Mathf.Abs(angleBetweenDirAndTar) < 30f)
+                {
+                    movementBehaviour.InterpolateRotate();
+                   // movementBehaviour.InterpolateRotate();
+                     movementBehaviour.KinematicArrive();
+                    print("chase state 3");
+                }
+                else
+                {
+                  //  rigidbody.velocity = Vector3.zero;
+                  //stop the character
+                    rigidbody.velocity = Vector3.zero;
+                  movementBehaviour.InterpolateRotate();
+                    print("chase state 4");
+  
+                }
+            }
+           
         }
 
         private void Crawl()

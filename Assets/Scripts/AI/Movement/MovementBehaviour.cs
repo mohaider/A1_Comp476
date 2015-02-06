@@ -21,7 +21,7 @@ public class MovementBehaviour : MonoBehaviour
     private bool hasArrived = false;
     private float resetTimer = 3f;
     private float timer = 3f;
-    public float turnSmoothing;
+    public float TurnSmoothing;
     public float maxPredictionTime; //max prediction time for pursue, and evade
     public float satisfactionRotation;
     public float slowDownOrientation;
@@ -46,7 +46,7 @@ public class MovementBehaviour : MonoBehaviour
         this.maxAngularVelocity = maxAngularvelocity;
         this.maxAcceleration = maxAcceleration;
         seekTargetDelegate += SteeringSeek;
-        this.turnSmoothing = turnSmoothing;
+        this.TurnSmoothing = turnSmoothing;
     }
 
     public GameObject TargetGameObject
@@ -65,7 +65,7 @@ public class MovementBehaviour : MonoBehaviour
         this.maxAngularVelocity = maxAngularvelocity;
         this.maxAcceleration = maxAcceleration;
         seekTargetDelegate += SteeringSeek;
-        this.turnSmoothing = turnSmoothing;
+        this.TurnSmoothing = turnSmoothing;
         this.timeToTarget = timeToTarget;
         resetTimer = 3.5f;
     }
@@ -91,7 +91,7 @@ public class MovementBehaviour : MonoBehaviour
             CharacterVelocity = CharacterVelocity + (characterAcceleration * timeStep);
             //current velocity + desiredAcceleration* time
             CharacterVelocity = AdditionalVector3Tools.Limit(CharacterVelocity, maxVelocity);
-            FixRotation();
+            //FixRotation();
         }
         return CharacterVelocity;
 
@@ -102,7 +102,7 @@ public class MovementBehaviour : MonoBehaviour
     {
         if (!hasArrived)
         {
-            FixRotation();
+         //   FixRotation();
             characterAcceleration = (targetPos - character.transform.position);
             characterAcceleration.y = 0;
             characterAcceleration = Vector3.Normalize(characterAcceleration) * maxAcceleration;
@@ -125,7 +125,7 @@ public class MovementBehaviour : MonoBehaviour
     /// <returns></returns>
     public Vector3 SteeringFlee(GameObject target, float timeStep)
     {
-        FixRotation();
+       // FixRotation();
         characterAcceleration = (character.transform.position - target.transform.position);
 
         characterAcceleration.y = 0;
@@ -137,7 +137,7 @@ public class MovementBehaviour : MonoBehaviour
 
     public Vector3 SteeringFlee(Vector3 target, float timeStep)
     {
-        FixRotation();
+       // FixRotation();
         characterAcceleration = (character.transform.position - target);
 
         characterAcceleration.y = 0;
@@ -205,7 +205,7 @@ public class MovementBehaviour : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
 
         // Incremental rotation towards target rotation from the player's rotation.
-        Quaternion newRotation = Quaternion.Lerp(character.rigidbody.rotation, targetRotation, turnSmoothing * timeStep);
+        Quaternion newRotation = Quaternion.Lerp(character.rigidbody.rotation, targetRotation, TurnSmoothing * timeStep);
 
         character.rigidbody.MoveRotation(newRotation);
     }
@@ -256,7 +256,7 @@ public class MovementBehaviour : MonoBehaviour
         CharacterVelocity = character.transform.position - target;
         CharacterVelocity = Vector3.Normalize(CharacterVelocity) * maxVelocity;
 
-        FixRotation();
+       // FixRotation();
     }
 
 
@@ -438,7 +438,21 @@ public class MovementBehaviour : MonoBehaviour
         float targetOrientation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
         Align2(targetOrientation, timeStep);
 
+    }
+    /// <summary>
+    /// faces the character away from the target
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="timeStep"></param>
+    public void FaceAway(Transform target, float timeStep)
+    {
+        Vector3 direction = target.position - character.transform.position;
+        if (direction.magnitude < 0.01f && direction.magnitude > 0.01f)
+            return;
 
+
+        float targetOrientation = Mathf.Atan2(-direction.x, direction.z) * Mathf.Rad2Deg;
+        Align2(targetOrientation, timeStep);
 
     }
 
@@ -453,6 +467,11 @@ public class MovementBehaviour : MonoBehaviour
         }
 
     }
+
+    public void FaceAway(float timeStep)
+    {
+    }
+
     void Align(float targetOrientation, float timeStep)
     {
 
@@ -465,9 +484,6 @@ public class MovementBehaviour : MonoBehaviour
         //if we are within the range of satisfaction, stop rotating and return the targets rotation
         if (Mathf.Abs(Mathf.Abs(targetOrientation) - Mathf.Abs(transform.rotation.eulerAngles.y)) < satisfactionRotation)
         {
-            print("satisfactionRotation satisfied ");
-
-
             charRotation.y = targetOrientation;
             character.transform.rotation = Quaternion.Euler(charRotation);
             return;
@@ -492,21 +508,21 @@ public class MovementBehaviour : MonoBehaviour
 
         if (Mathf.Abs(angularAcceleration) > Mathf.Abs(maxAngularAcceleration))
         {
-            print("angularAcceleration is greater than maxangularacceleration ");
+
             angularAcceleration = maxAngularAcceleration * sign;
         }
 
         //ensure angular velocity sign is the same as rotation
         if (Mathf.Sign(maxAngularVelocity) != sign)
         {
-            print("maxAngularVelocity != sign ");
+
             angularVelocity *= sign;
         }
         angularVelocity += angularAcceleration * timeStep;
 
         if (Mathf.Abs(angularVelocity) > maxAngularVelocity)
         {
-            print("Mathf.Abs(angularVelocity) > maxAngularVelocity");
+
             angularVelocity = Mathf.Abs(maxAngularVelocity) * sign;
         }
 
@@ -581,11 +597,17 @@ public class MovementBehaviour : MonoBehaviour
         float mag = CharacterVelocity.magnitude;
         float currentVelocity = 0;
         if (mag > ArrivalRadius)
+        {
+
             currentVelocity = Mathf.Min(maxVelocity, mag/timeToTarget);
+        }
         else
-            currentVelocity = 0;
-        print( timeToTarget);
-        print(currentVelocity);
+        {
+            currentVelocity = 0; 
+            print(character.rigidbody.velocity);
+        }
+           
+
         character.rigidbody.velocity = CharacterVelocity.normalized*currentVelocity;
         // KinematicSeek();
     }
@@ -605,13 +627,27 @@ public class MovementBehaviour : MonoBehaviour
         CharacterVelocity = character.transform.position - TargetGameObject.transform.position;
         character.rigidbody.velocity = CharacterVelocity.normalized * maxVelocity;
     }
-
+    /// <summary>
+    /// linearly interpolate the rotation to face the target
+    /// </summary>
     public void InterpolateRotate()
     {
-        Vector3 currentOrientation = character.transform.rotation.eulerAngles;
-        float angle = Mathf.Atan2(CharacterVelocity.z, CharacterVelocity.x);
-        currentOrientation.y= Mathf.Lerp(angle, currentOrientation.y, Time.deltaTime*10f);
-        character.transform.rotation = Quaternion.Euler(currentOrientation);
+       /* Vector3 currentOrientation = character.transform.rotation.eulerAngles;
+        Vector3 directionVector3 = (TargetGameObject.transform.position - character.transform.position).normalized;
+       // print(gameObject.name + " is trying to point to " + TargetGameObject.transform.position + " and its direction is  " + directionVector3.x);
+        float angle = Mathf.Atan2(directionVector3.z, directionVector3.x)* Mathf.Rad2Deg;
+      // currentOrientation.y = Mathf.Lerp(currentOrientation.y, angle, Time.deltaTime * 5f);
+        currentOrientation.y = angle;
+      //  print(TargetGameObject.name + " and the angle " + angle);
+        character.transform.rotation = Quaternion.Euler(currentOrientation);*/
+        Vector3 aimingDirection = _targetGameObject.transform.position - transform.position;
+
+        var heading = _targetGameObject.transform.position - transform.position;
+        var newHeading = new Vector2(heading.x, heading.z).normalized;
+        var currentHeading = new Vector2(transform.forward.x, transform.forward.z).normalized;
+        float angle = Mathf.Atan2(newHeading.x, newHeading.y) * Mathf.Rad2Deg;
+        Quaternion rot = Quaternion.Euler(new Vector3(0, angle, 0));
+        transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * 2.0f);
     }
 
     #endregion

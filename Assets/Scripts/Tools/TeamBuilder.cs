@@ -45,6 +45,11 @@ public class TeamBuilder : MonoBehaviour
         get { return flag2; }
     }
 
+    public GameObject[] TeamAgents
+    {
+        get { return teamAgents; }
+    }
+
     //  private List<GameObject> teamOnePool;
     //private List<GameObject> teamTwoPool;
     

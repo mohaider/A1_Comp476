@@ -17,6 +17,7 @@ namespace Assets.Scripts.Director
 
         private ArrayList teamOnePool = new ArrayList();
         private ArrayList teamTwoPool = new ArrayList();
+        private GameObject[] playerPool;
       //  private List<GameObject> teamOnePool = new List<GameObject>();
       //  private List<GameObject> teamTwoPool = new List<GameObject>();
         private TeamBuilder teamBuilder;
@@ -32,9 +33,12 @@ namespace Assets.Scripts.Director
             if (teamBuilder == null)
                 Debug.Log("teambuilder isn't found on the director!");
 
+            playerPool = teamBuilder.TeamAgents;
+
             teamOnePool = teamBuilder.TeamOnePool;
             teamTwoPool = teamBuilder.TeamTwoPool;
-            RandomizeFirstFlagRunners();
+
+            RandomizeFirstFlagRunners();//randomize first two flag runners from opposing teams            
         }
 
         private void Start()
@@ -65,6 +69,15 @@ namespace Assets.Scripts.Director
 
             flagBearerOne.GetComponent<PlayerStateController>().ChangeState(PlayerStateController.PlayerState.chasing);
             flagBearerTwo.GetComponent<PlayerStateController>().ChangeState(PlayerStateController.PlayerState.chasing);
+        }
+
+        /// <summary>
+        /// This class will change the movement behaviour of all characters in the playerpool movement 
+        /// behaviour type in accordance with the assignment requirements
+        /// </summary>
+        public  void PlrMovementBehaviourChange()
+        {
+
         }
 
         #endregion
