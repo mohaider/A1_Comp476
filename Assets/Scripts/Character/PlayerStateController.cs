@@ -17,6 +17,7 @@ namespace Assets.Scripts.Character
         public enum PlayerState
         {
             chasing = 0,    //chase flag carrier
+            slowlyChasing,
             runningAway,
             idle, 
             tagged, 

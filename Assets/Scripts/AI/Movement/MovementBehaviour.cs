@@ -604,7 +604,6 @@ public class MovementBehaviour : MonoBehaviour
         else
         {
             currentVelocity = 0; 
-            print(character.rigidbody.velocity);
         }
            
 

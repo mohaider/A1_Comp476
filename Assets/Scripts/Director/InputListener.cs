@@ -7,6 +7,7 @@ public class InputListener : MonoBehaviour
 
     #region class variables and properties
 
+    private bool isKinematicMovement = true;
     #endregion
 
 
@@ -19,6 +20,9 @@ public class InputListener : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
 
+        if (Input.GetButtonDown("Change_movement_type"))
+            print("changing movement type");
+       
     }
     #endregion
 }

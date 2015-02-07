@@ -344,6 +344,7 @@ GameObject:
   - 114: {fileID: 11460008}
   - 54: {fileID: 5460010}
   - 65: {fileID: 6560010}
+  - 95: {fileID: 9556974}
   m_Layer: 0
   m_Name: Team One member
   m_TagString: NPC_Agent
@@ -928,6 +929,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: .982996345, y: 1.37768912, z: 1.053128}
   m_Center: {x: -.00850097649, y: .703686535, z: .0265624989}
+--- !u!95 &9556974
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 159992}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1b14a1bc37bd12b4596002aa8515513a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!111 &11160010
 Animation:
   m_ObjectHideFlags: 1
@@ -1058,6 +1074,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8a41a6e96b88c54fb902d45844474d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  rotspeed: 0
   speed: -400
 --- !u!137 &13760010
 SkinnedMeshRenderer:

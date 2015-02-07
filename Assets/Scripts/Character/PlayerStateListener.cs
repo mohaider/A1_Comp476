@@ -361,7 +361,7 @@ namespace Assets.Scripts.Character
             float currentAngle = transform.rotation.eulerAngles.y % 360;//wrap it within 360 degrees
             float angleBetweenDirAndTar = Vector3.Angle(directionalVector3, transform.forward);
 
-        /*    if (rigidbody.velocity.sqrMagnitude <= 0.1f && !(Mathf.Abs(directionAngle - currentAngle) < 30f))
+            if (rigidbody.velocity.sqrMagnitude <= 0.1f )
             {
                 if (Vector3.Distance(transform.position, TargetAgent.transform.position) < movementBehaviour.ArrivalRadius/2)
                 {
@@ -375,7 +375,7 @@ namespace Assets.Scripts.Character
                     print("chase state 2");
                 }
             }
-            else*/
+            else
             {
 
                 if (Mathf.Abs(angleBetweenDirAndTar) < 30f)
