@@ -116,6 +116,75 @@ public class MovementBehaviour : MonoBehaviour
 
     }
 
+    public void SteeringArrive()
+    {/*
+
+        characterAcceleration = (_targetGameObject.transform.position - character.transform.position);
+        characterAcceleration.y = 0;
+        characterAcceleration = Vector3.Normalize(characterAcceleration) * maxAcceleration;
+        CharacterVelocity = CharacterVelocity + (characterAcceleration * Time.fixedDeltaTime);
+        //current velocity + desiredAcceleration* time
+        CharacterVelocity = AdditionalVector3Tools.Limit(CharacterVelocity, maxVelocity);
+
+
+        float dist = (_targetGameObject.transform.position - character.transform.position).magnitude;
+
+        //in the inner radius, stop
+        if (dist < ArrivalRadius)
+        {
+            CharacterVelocity = Vector3.zero;
+           // hasArrived = true;
+
+        }
+        else if (dist < SlowDownRadius)
+        {
+            Vector3 desiredVel = _targetGameObject.transform.position - character.transform.position;
+            float distance = desiredVel.magnitude;
+           // float mag = AdditionalVector3Tools.map(distance, 0, 50, 0, maxVelocity);
+            //CharacterVelocity = mag*desiredVel*timeStep;
+            CharacterVelocity = Vector3.Lerp(CharacterVelocity, Vector3.zero, Time.fixedDeltaTime);
+
+            hasArrived = true;
+        }
+     /*   else if ((_targetGameObject.transform.position - character.transform.position).magnitude > SlowDownRadius)
+        {
+            hasArrived = false;
+        }#1#
+        character.rigidbody.velocity = CharacterVelocity;*/
+        Vector3 targetVelocity = _targetGameObject.transform.position - character.transform.position;
+        float targetspeed = 0;
+        float dist = targetVelocity.magnitude;
+        if (dist < ArrivalRadius)
+        {
+            character.rigidbody.velocity = Vector3.zero;
+            return;
+
+        }
+        else if (dist > SlowDownRadius)
+        {
+            targetspeed = maxVelocity;
+            //CharacterVelocity = desiredVel.normalized*maxVelocity;
+        }
+        else
+        {
+            targetspeed = maxVelocity*dist/SlowDownRadius;
+            // CharacterVelocity = desiredVel.normalized*maxVelocity/SlowDownRadius;
+        }
+        targetVelocity = character.rigidbody.velocity.normalized*targetspeed;
+        characterAcceleration =  targetVelocity - character.rigidbody.velocity;
+        characterAcceleration /= timeToTarget;
+
+        if (characterAcceleration.magnitude > maxAcceleration)
+        {
+            characterAcceleration = characterAcceleration.normalized*maxAcceleration;
+        }
+
+        CharacterVelocity = targetVelocity + characterAcceleration*Time.fixedDeltaTime;
+        if (CharacterVelocity.magnitude > maxVelocity)
+            CharacterVelocity = CharacterVelocity.normalized*maxVelocity;
+       // character.rigidbody.velocity
+    }
+
     /// <summary>
     /// this will return a velocity that is trying to steer away from the target. 
     /// will always set velocity.y to 0
@@ -360,7 +429,7 @@ public class MovementBehaviour : MonoBehaviour
             //ensure angular velocity sign is the same as rotation
             if (Mathf.Sign(maxAngularVelocity) != sign)
                 angularVelocity *= sign;
-            angularVelocity += angularAcceleration * Time.deltaTime;
+            angularVelocity += angularAcceleration * Time.fixedDeltaTime;
 
             if (Mathf.Abs(angularVelocity) > maxAngularVelocity)
                 angularVelocity = Mathf.Abs(maxAngularVelocity) * sign;
@@ -368,7 +437,7 @@ public class MovementBehaviour : MonoBehaviour
 
 
 
-            float newAngle = character.transform.rotation.eulerAngles.y + Time.deltaTime * angularVelocity;
+            float newAngle = character.transform.rotation.eulerAngles.y + Time.fixedDeltaTime * angularVelocity;
             return newAngle;
         }
         else return character.transform.rotation.eulerAngles.y;
@@ -408,7 +477,7 @@ public class MovementBehaviour : MonoBehaviour
             //ensure angular velocity sign is the same as rotation
             if (Mathf.Sign(maxAngularVelocity) != sign)
                 angularVelocity *= sign;
-            angularVelocity += angularAcceleration * Time.deltaTime;
+            angularVelocity += angularAcceleration * Time.fixedDeltaTime;
 
             if (Mathf.Abs(angularVelocity) > maxAngularVelocity)
                 angularVelocity = Mathf.Abs(maxAngularVelocity) * sign;
@@ -416,7 +485,7 @@ public class MovementBehaviour : MonoBehaviour
 
 
 
-            float newAngle = character.transform.rotation.eulerAngles.y + Time.deltaTime * angularVelocity;
+            float newAngle = character.transform.rotation.eulerAngles.y + Time.fixedDeltaTime * angularVelocity;
             return newAngle;
         }
         else return character.transform.rotation.eulerAngles.y;
@@ -646,7 +715,7 @@ public class MovementBehaviour : MonoBehaviour
         var currentHeading = new Vector2(transform.forward.x, transform.forward.z).normalized;
         float angle = Mathf.Atan2(newHeading.x, newHeading.y) * Mathf.Rad2Deg;
         Quaternion rot = Quaternion.Euler(new Vector3(0, angle, 0));
-        transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * 2.0f);
+        transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.fixedDeltaTime * 2.0f);
     }
 
     #endregion

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using Assets.Scripts.Character;
+using Assets.Scripts.Character.CharacterWrapper;
+
 /**
  * Code written by Mohammed Haider
  * If you have any questions about this code, feel free to email me
@@ -24,9 +26,10 @@ namespace Assets.Scripts.Character
         public float playerJumpForceVertical; //in case you need to jump, what is the vertical force?
         public float playerJumpForceHorizontal; //in case you need to jumo, what is the horizontal force?
         private Animation playerAnimation;
-        public MovementBehaviour _movementBehaviour;
+
         public GameObject _targetAgent;
         private PlayerStateController stateController;
+        public CharacterBehaviourWrapper _characterBehaviourWrapper;
 
 
         //default the states to idle
@@ -63,8 +66,8 @@ namespace Assets.Scripts.Character
             switch (currentState)
             {
                 case PlayerStateController.PlayerState.idle:
-                    playerAnimation.Play("walk");
-                        _movementBehaviour.ReynoldsWander(3f, Time.fixedDeltaTime);
+                    _characterBehaviourWrapper.Wander();
+                  
 
                     break;
                 case PlayerStateController.PlayerState.chasing:
@@ -355,7 +358,7 @@ namespace Assets.Scripts.Character
 
         private void Chase()
         {
-            Vector3 directionalVector3 = TargetAgent.transform.position - transform.position;
+            Vector3 directionalVector3 = _characterBehaviourWrapper.Target.transform.position - transform.position;
             float directionAngle = Mathf.Atan2(directionalVector3.z, directionalVector3.x) % 360; //wrap it to 360 degrees
 
             float currentAngle = transform.rotation.eulerAngles.y % 360;//wrap it within 360 degrees
@@ -363,15 +366,15 @@ namespace Assets.Scripts.Character
 
             if (rigidbody.velocity.sqrMagnitude <= 0.1f )
             {
-                if (Vector3.Distance(transform.position, TargetAgent.transform.position) < movementBehaviour.ArrivalRadius/2)
+                if (Vector3.Distance(transform.position, _characterBehaviourWrapper.Target.transform.position) < _characterBehaviourWrapper.MovementBehaviour1.ArrivalRadius / 2)
                 {
-                    transform.position = TargetAgent.transform.position + TargetAgent.transform.position.normalized * movementBehaviour.ArrivalRadius / 4;
+                    _characterBehaviourWrapper.Hop();
                     print("chase state 1");
                 }
                 else
                 {
-                    movementBehaviour.InterpolateRotate();
-                    movementBehaviour.KinematicArrive();
+                    _characterBehaviourWrapper.Rotate();
+                    _characterBehaviourWrapper.Arrive();
                     print("chase state 2");
                 }
             }
@@ -380,9 +383,8 @@ namespace Assets.Scripts.Character
 
                 if (Mathf.Abs(angleBetweenDirAndTar) < 30f)
                 {
-                    movementBehaviour.InterpolateRotate();
-                   // movementBehaviour.InterpolateRotate();
-                     movementBehaviour.KinematicArrive();
+                    _characterBehaviourWrapper.Rotate();
+                    _characterBehaviourWrapper.Arrive();
                     print("chase state 3");
                 }
                 else
@@ -390,7 +392,7 @@ namespace Assets.Scripts.Character
                   //  rigidbody.velocity = Vector3.zero;
                   //stop the character
                     rigidbody.velocity = Vector3.zero;
-                  movementBehaviour.InterpolateRotate();
+                    _characterBehaviourWrapper.Rotate();
                     print("chase state 4");
   
                 }
@@ -461,7 +463,13 @@ namespace Assets.Scripts.Character
             set { throw new NotImplementedException(); }
         }
 
-        public MovementBehaviour movementBehaviour
+        public CharacterBehaviourWrapper characterBehaviourWrapper
+        {
+            get { return _characterBehaviourWrapper; }
+            set { _characterBehaviourWrapper = value; }
+        }
+
+/*        public MovementBehaviour _characterBehaviourWrapper
         {
             get { return _movementBehaviour; }
             set { _movementBehaviour = value; }
@@ -480,7 +488,7 @@ namespace Assets.Scripts.Character
                 _targetAgent = value;
                 
             }
-        }
+        }*/
 
         #endregion
 
@@ -515,7 +523,7 @@ namespace Assets.Scripts.Character
             //PlayerStateController.stateDelayTimer[(int)PlayerStateController.PlayerState.jump] = 1.0f;//can jump every 1.0 seconds
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             OnStateCycle();
           

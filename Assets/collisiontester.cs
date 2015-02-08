@@ -16,7 +16,7 @@ public class collisiontester : MonoBehaviour
 	{
 	    //if (Input.GetKeyDown(KeyCode.A))
 	      //      gameObject.GetComponent<Animation>().Play("pick_up");
-     
+     /*
         Vector3 currentOrientation = transform.rotation.eulerAngles;
         Vector3 directionVector3 =(target.transform.position) - transform.position;
         print("InverseTransformDirection" + transform.InverseTransformDirection(directionVector3));
@@ -28,7 +28,8 @@ public class collisiontester : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, rotationQuaternion, Time.deltaTime * rotspeed);
        // transform.LookAt(target.transform);
         print("direction vector  " + directionVector3.normalized);
-        print(rigidbody.velocity.normalized);
+        print(rigidbody.velocity.normalized);*/
+	    rigidbody.velocity = Vector3.forward*speed;
 	}
 
      void OnTriggerEnter(Collider col)

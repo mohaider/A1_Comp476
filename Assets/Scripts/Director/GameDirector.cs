@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Assets.Scripts.Character;
+using Assets.Scripts.Character.CharacterWrapper;
 using UnityEngine;
 
 namespace Assets.Scripts.Director
@@ -63,9 +64,11 @@ namespace Assets.Scripts.Director
             
 
 
-            flagBearerOne.GetComponent<PlayerStateListener>().TargetAgent = teamBuilder.Flag2;
-            flagBearerTwo.GetComponent<PlayerStateListener>().TargetAgent = teamBuilder.Flag1;
+           // flagBearerOne.GetComponent<PlayerStateListener>().TargetAgent = teamBuilder.Flag2;
+          //  flagBearerTwo.GetComponent<PlayerStateListener>().TargetAgent = teamBuilder.Flag1;
 
+            flagBearerOne.GetComponent<CharacterBehaviourWrapper>().TargetAgent = teamBuilder.Flag2;
+            flagBearerTwo.GetComponent<CharacterBehaviourWrapper>().TargetAgent = teamBuilder.Flag1;
 
             flagBearerOne.GetComponent<PlayerStateController>().ChangeState(PlayerStateController.PlayerState.chasing);
             flagBearerTwo.GetComponent<PlayerStateController>().ChangeState(PlayerStateController.PlayerState.chasing);

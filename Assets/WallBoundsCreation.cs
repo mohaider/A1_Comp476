@@ -29,16 +29,16 @@ public class WallBoundsCreation : MonoBehaviour {
 
         //set boxcollider 1 paramaters
         boxColliders[0].center = new Vector3(terrainPos.x, terrainPos.y, terrainPos.z + l / 2);
-        boxColliders[0].size = new Vector3(5f, 400f, l);
+        boxColliders[0].size = new Vector3(15f, 400f, l);
         //set boxcollider 2 parameters
         boxColliders[1].center = new Vector3(terrainPos.x + w / 2, terrainPos.y, terrainPos.z + l);
-        boxColliders[1].size = new Vector3(w, 400f, 5f);
+        boxColliders[1].size = new Vector3(w, 400f, 15f);
         //set boxcollider 3 parameters
         boxColliders[2].center = new Vector3(terrainPos.x + w, terrainPos.y, terrainPos.z + l / 2);
-        boxColliders[2].size = new Vector3(5f, 400f, l);
+        boxColliders[2].size = new Vector3(15f, 400f, l);
         //set boxcollider 4 parameters
         boxColliders[3].center = new Vector3(terrainPos.x + w / 2, terrainPos.y, terrainPos.z);
-        boxColliders[3].size = new Vector3(w, 400f, 5f);
+        boxColliders[3].size = new Vector3(w, 400f, 15f);
 
 
 	}
