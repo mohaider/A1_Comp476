@@ -1254,6 +1254,7 @@ MonoBehaviour:
   angularVelocity: 0
   characterAngularVelocity: 0
   textbubble: {fileID: 102688}
+  holder: {fileID: 127548, guid: 6f63635784b756f4f9a2cde2ea583c44, type: 2}
 --- !u!137 &13793654
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -1135,6 +1135,7 @@ MonoBehaviour:
   angularVelocity: 0
   characterAngularVelocity: 0
   textbubble: {fileID: 190498}
+  holder: {fileID: 127548, guid: 6f63635784b756f4f9a2cde2ea583c44, type: 2}
 --- !u!114 &11460010
 MonoBehaviour:
   m_ObjectHideFlags: 1

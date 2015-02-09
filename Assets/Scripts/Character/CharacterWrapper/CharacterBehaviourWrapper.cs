@@ -13,7 +13,7 @@ namespace Assets.Scripts.Character.CharacterWrapper
     /// This calls on a static event from input controller 
     /// in order to find what the current state of the  movmement type is
     /// </summary>
-    public class CharacterBehaviourWrapper: MonoBehaviour
+    public class CharacterBehaviourWrapper : MonoBehaviour
     {
         #region
 
@@ -34,18 +34,18 @@ namespace Assets.Scripts.Character.CharacterWrapper
             get { return _targetAgent; }
             set { _targetAgent = value; }
         }
-                public GameObject TargetAgent
+        public GameObject TargetAgent
         {
-            get { return _targetAgent;}
+            get { return _targetAgent; }
             set
             {
-               
+
                 if (_movementBehaviour == null)
                     Debug.Log("there is no assigned movement behaviour");
                 else
                     _movementBehaviour.TargetGameObject = value;
                 _targetAgent = value;
-                
+
             }
         }
         #endregion
@@ -63,16 +63,22 @@ namespace Assets.Scripts.Character.CharacterWrapper
 
             currentState = newInputState;
 
-            print("current state has changed to "+ newInputState);
+            print("current state has changed to " + newInputState);
         }
 
         public void Arrive()
         {
-            if (currentState == InputController.MovementTypeState.kinematic)
-                MovementBehaviour1.KinematicArrive();
-            else
+            if (!CheckStop())
             {
-                MovementBehaviour1.SteeringArrive();
+                if (currentState == InputController.MovementTypeState.kinematic)
+                    MovementBehaviour1.KinematicArrive();
+                else
+                {
+                    MovementBehaviour1.SteeringArrive();
+                }
+                playerAnimation.Play("walk");
+
+
             }
         }
 
@@ -89,9 +95,22 @@ namespace Assets.Scripts.Character.CharacterWrapper
 
         public void Wander()
         {
-            playerAnimation.Play("walk");
+            if (!CheckStop())
+                playerAnimation.Play("walk");
             _movementBehaviour.ReynoldsWander(3f, Time.fixedDeltaTime);
         }
+
+        public bool CheckStop()
+        {
+            if (rigidbody.velocity.magnitude < 1f)
+            {
+                playerAnimation.Play("idle");
+                return true;
+            }
+            
+                return false;
+        }
+
 
         public void Hop()
         {

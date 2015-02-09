@@ -29,10 +29,11 @@ namespace Assets.Scripts.CharacterWrapper
         public float maxPredictionTime; //max prediction time for pursue, and evade
         public float satisfactionRotation;
         public float slowDownOrientation;
-        public float timeToTarget = 0.09f;
+        public float timeToTarget = 5f;
         public float angularVelocity;
         public float characterAngularVelocity;
         public GameObject textbubble;
+        public GameObject holder;
         private MovementBehaviour movementBehaviour;
 
         #endregion
@@ -53,6 +54,8 @@ namespace Assets.Scripts.CharacterWrapper
             gameObject.GetComponent<MovementBehaviour>().slowDownOrientation = this.slowDownOrientation;
             gameObject.GetComponent<MovementBehaviour>().angularVelocity = this.angularVelocity;
             gameObject.GetComponent<MovementBehaviour>().characterAngularVelocity = this.characterAngularVelocity;
+            GameObject tempHolder =(GameObject) Instantiate(holder);
+            gameObject.GetComponent<MovementBehaviour>().holder = tempHolder;
             
             gameObject.AddComponent<PlayerStateController>();
             gameObject.AddComponent<PlayerStateListener>();

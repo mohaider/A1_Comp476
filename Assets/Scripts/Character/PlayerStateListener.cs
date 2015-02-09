@@ -73,8 +73,7 @@ namespace Assets.Scripts.Character
 
                     break;
                 case PlayerStateController.PlayerState.chasing:
-                    playerAnimation.Play("walk");
-                    
+
                     Chase();
                    
                     break;
@@ -361,6 +360,11 @@ namespace Assets.Scripts.Character
 
         }
 
+        private void Escape()
+        {
+
+        }
+
         private void Chase()
         {
             Vector3 directionalVector3 = _characterBehaviourWrapper.Target.transform.position - transform.position;
@@ -374,13 +378,13 @@ namespace Assets.Scripts.Character
                 if (Vector3.Distance(transform.position, _characterBehaviourWrapper.Target.transform.position) < _characterBehaviourWrapper.MovementBehaviour1.ArrivalRadius / 2)
                 {
                     _characterBehaviourWrapper.Hop();
-                    print("chase state 1");
+                //    print("chase state 1");
                 }
                 else
                 {
                     _characterBehaviourWrapper.Rotate();
                     _characterBehaviourWrapper.Arrive();
-                    print("chase state 2");
+                 ///   print("chase state 2");
                 }
             }
             else
@@ -390,7 +394,7 @@ namespace Assets.Scripts.Character
                 {
                     _characterBehaviourWrapper.Rotate();
                     _characterBehaviourWrapper.Arrive();
-                    print("chase state 3");
+                  //  print("chase state 3");
                 }
                 else
                 {
@@ -398,7 +402,7 @@ namespace Assets.Scripts.Character
                   //stop the character
                     rigidbody.velocity = Vector3.zero;
                     _characterBehaviourWrapper.Rotate();
-                    print("chase state 4");
+                  //  print("chase state 4");
   
                 }
             }

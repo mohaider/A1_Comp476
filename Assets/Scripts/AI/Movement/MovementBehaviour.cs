@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Runtime.InteropServices;
 using Assets.Script.Tools;
+using Assets.Scripts.Tools;
 
 public class MovementBehaviour : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class MovementBehaviour : MonoBehaviour
     public float maxAngularVelocity;
     public float maxAcceleration;
     public float maxAngularAcceleration;
+    private float angularAcceleration;
     public float ArrivalRadius; //inner satisfaction radius
     public float SlowDownRadius;
     public float slowDownRotationRadius;
@@ -29,6 +31,8 @@ public class MovementBehaviour : MonoBehaviour
     public float angularVelocity;
     public float characterAngularVelocity;
     public string outputInfo;
+    public float maxRotation;
+    public GameObject holder;
 
     public delegate Vector3 SeekTargetDelegate(GameObject target, float timeStep);
 
@@ -104,11 +108,41 @@ public class MovementBehaviour : MonoBehaviour
 
     }
 
+    public void SteeringSeek(Transform target)
+    {
+        //get the direction of the target and normalize it
+        characterAcceleration = (target.transform.position - character.transform.position).normalized;
+        characterAcceleration *= maxAcceleration;
+
+        _characterVelocity = _characterVelocity + (characterAcceleration * Time.fixedDeltaTime);
+
+        _characterVelocity = AdditionalVector3Tools.Limit(_characterVelocity, maxVelocity);
+        //FixRotation();
+        flattenYtoZero();
+        character.rigidbody.velocity = _characterVelocity;
+
+    }
+
+    public void SteeringFlee(Transform target)
+    {
+        //get the direction of the target and normalize it
+        characterAcceleration = (character.transform.position - target.transform.position).normalized;
+        characterAcceleration *= maxAcceleration;
+
+        _characterVelocity = _characterVelocity + (characterAcceleration * Time.fixedDeltaTime);
+
+        _characterVelocity = AdditionalVector3Tools.Limit(_characterVelocity, maxVelocity);
+        //FixRotation();
+        flattenYtoZero();
+        character.rigidbody.velocity = _characterVelocity;
+
+    }
+
     public Vector3 SteeringSeek(Vector3 targetPos, float timeStep)
     {
         if (!hasArrived)
         {
-         //   FixRotation();
+            //   FixRotation();
             characterAcceleration = (targetPos - character.transform.position);
             characterAcceleration.y = 0;
             characterAcceleration = Vector3.Normalize(characterAcceleration) * maxAcceleration;
@@ -123,48 +157,14 @@ public class MovementBehaviour : MonoBehaviour
     }
 
     public void SteeringArrive()
-    {/*
-
-        characterAcceleration = (_targetGameObject.transform.position - character.transform.position);
-        characterAcceleration.y = 0;
-        characterAcceleration = Vector3.Normalize(characterAcceleration) * maxAcceleration;
-        CharacterVelocity = CharacterVelocity + (characterAcceleration * Time.fixedDeltaTime);
-        //current velocity + desiredAcceleration* time
-        CharacterVelocity = AdditionalVector3Tools.Limit(CharacterVelocity, maxVelocity);
-
-
-        float dist = (_targetGameObject.transform.position - character.transform.position).magnitude;
-
-        //in the inner radius, stop
-        if (dist < ArrivalRadius)
-        {
-            CharacterVelocity = Vector3.zero;
-           // hasArrived = true;
-
-        }
-        else if (dist < SlowDownRadius)
-        {
-            Vector3 desiredVel = _targetGameObject.transform.position - character.transform.position;
-            float distance = desiredVel.magnitude;
-           // float mag = AdditionalVector3Tools.map(distance, 0, 50, 0, maxVelocity);
-            //CharacterVelocity = mag*desiredVel*timeStep;
-            CharacterVelocity = Vector3.Lerp(CharacterVelocity, Vector3.zero, Time.fixedDeltaTime);
-
-            hasArrived = true;
-        }
-     /*   else if ((_targetGameObject.transform.position - character.transform.position).magnitude > SlowDownRadius)
-        {
-            hasArrived = false;
-        }#1#
-        character.rigidbody.velocity = CharacterVelocity;*/
-       
+    {
         Vector3 targetVelocity = _targetGameObject.transform.position - character.transform.position;
         Vector3 direction = _targetGameObject.transform.position - character.transform.position;
         float targetspeed = 0;
         float dist = targetVelocity.magnitude;
         if (dist < ArrivalRadius)
         {
-          //  print("setting to zero");
+            //  print("setting to zero");
             character.rigidbody.velocity = Vector3.zero;
             return;
 
@@ -176,31 +176,148 @@ public class MovementBehaviour : MonoBehaviour
         }
         else
         {
-            targetspeed = maxVelocity*dist/SlowDownRadius;
+            targetspeed = maxVelocity * dist / SlowDownRadius;
             // CharacterVelocity = desiredVel.normalized*maxVelocity/SlowDownRadius;
         }
         targetVelocity = direction.normalized;
-        targetVelocity = targetVelocity*targetspeed;
+        targetVelocity = targetVelocity * targetspeed;
         //targetVelocity = character.rigidbody.velocity.normalized*targetspeed;
-        characterAcceleration =  targetVelocity - character.rigidbody.velocity;
+        characterAcceleration = targetVelocity - character.rigidbody.velocity;
         characterAcceleration /= timeToTarget;
 
         if (characterAcceleration.magnitude > maxAcceleration)
         {
-            characterAcceleration = characterAcceleration.normalized*maxAcceleration;
+            characterAcceleration = characterAcceleration.normalized * maxAcceleration;
         }
 
-        _characterVelocity = targetVelocity + characterAcceleration*Time.fixedDeltaTime;
+        _characterVelocity = targetVelocity + characterAcceleration * Time.fixedDeltaTime;
         if (_characterVelocity.magnitude > maxVelocity)
-            _characterVelocity = _characterVelocity.normalized*maxVelocity;
+            _characterVelocity = _characterVelocity.normalized * maxVelocity;
         flattenYtoZero();
-        outputInfo = name+" velocity =" + _characterVelocity + "\n Character Acceleration= "+characterAcceleration
-            + "\n Target velocity " + targetVelocity + "\n Target speed " + targetspeed + "\n Distance to target "+ dist + "\n slow down radius"+SlowDownRadius
-            +"\n arrival radius"+ArrivalRadius+"\n t2t"+timeToTarget;
-        rigidbody.velocity = _characterVelocity ;
+        outputInfo = name + " velocity =" + _characterVelocity + "\n Character Acceleration= " + characterAcceleration
+            + "\n Target velocity " + targetVelocity + "\n Target speed " + targetspeed + "\n Distance to target " + dist + "\n slow down radius" + SlowDownRadius
+            + "\n arrival radius" + ArrivalRadius + "\n t2t" + timeToTarget;
+        rigidbody.velocity = _characterVelocity;
         // character.rigidbody.velocity
     }
 
+    /// <summary>
+    /// Implementation of align according to AI for game by Ian Millington and John Funge
+    /// </summary>
+    /// <param name="t"></param>
+    public void Align(Transform t)
+    {
+
+        float rotation = 0;
+        Transform target;
+
+        target = t.transform;
+
+
+        /*        Vector2 targetForward = new Vector2(target.transform.forward.x, target.transform.forward.y);
+                Vector2 charForward = new Vector2(character.transform.forward.x, character.transform.forward.y);
+                rotation = Vector2.Angle(targetForward, charForward);*/
+
+        rotation = target.rotation.eulerAngles.y - character.transform.rotation.eulerAngles.y;
+        //map between -180 and 180
+        rotation = CalculateTools.mapAngleToRange(rotation);
+        float rotationSize = Mathf.Abs(rotation);
+        // print("rotation size is "+ rotationSize);
+        float targetRotation = 0;
+        //are we there yet?
+        if (rotationSize < 8f)
+        {
+          //  Vector3 directionVector3 = (target.transform.position - character.transform.position).normalized;
+         //   float angle = Mathf.Atan2(directionVector3.x, directionVector3.z) * Mathf.Rad2Deg;
+         //   Quaternion rotationQuaternion = Quaternion.Euler(new Vector3(0, angle, 0));
+        //    print("might need to change this part if the rotation is off");
+         //   character.transform.rotation = rotationQuaternion;
+            return;
+        }
+     //   print("aligning");
+        //if we're outside the slow radius, then use max rotation
+        if (rotationSize > slowDownRotationRadius)
+        {
+            targetRotation = maxRotation;
+        }
+        //else calculate a scaled rotation
+        else
+        {
+            targetRotation = maxRotation * rotationSize / slowDownRotationRadius;
+        }
+
+        //the final target rotation combines speed and direction
+        targetRotation *= rotation / rotationSize;
+
+        //acceleration tries to get to the target rotation 
+        angularAcceleration = targetRotation - character.transform.rotation.eulerAngles.y;
+        angularAcceleration /= timeToTarget;
+
+        //check if acceleration is too great
+        float angularAccelCheck = Mathf.Abs(angularAcceleration);
+        if (angularAccelCheck > maxAngularAcceleration)
+        {
+//            print("angular accel check is bigger");
+            angularAcceleration /= angularAccelCheck;
+            angularAcceleration *= maxAngularAcceleration;
+        }
+
+        //set the angle of the character
+        float targetAngle = character.transform.rotation.eulerAngles.y + angularAcceleration * Time.fixedDeltaTime;
+        Quaternion rotQuaternion = Quaternion.Euler(new Vector3(0, targetAngle, 0));
+        print("setting alignment");
+        character.transform.rotation = rotQuaternion;
+
+    }
+
+
+    /// <summary>
+    /// Implementation of Face according to AI for game by Ian Millington and John Funge
+    /// </summary>
+    /// <param name="t"></param>
+    /// <summary>
+    /// will simply flatten the character's velocity to zero
+    /// </summary>
+    public void Face(Transform t)
+    {
+        print("in Face() and aligning face" +
+           "");
+        //calculate the target to delegate to Align
+        Vector3 direction = t.position - character.transform.position;
+        //if direction is marginally small, do nothing
+        if (direction.sqrMagnitude < 0.1f)
+            return;
+        //put the target into the holder
+        holder.transform.position = t.position;
+        float targetAngle = Mathf.Atan2(direction.x, direction.z)*Mathf.Rad2Deg;
+        Quaternion rotQuaternion = Quaternion.Euler(new Vector3(0, targetAngle, 0));
+        holder.transform.rotation = rotQuaternion;
+        
+
+     
+        Align( holder.transform.transform);
+    }
+
+    public void LookWhereYoureGoing()
+    {
+        //calculate the target to o delegate to align
+
+        //if the target velocity is marginally small, return 
+        if (character.rigidbody.velocity.sqrMagnitude < 0.1f)
+            return;
+        
+
+        //otherwise set the target based on the velocity
+
+
+        //set the holder's position directly in front of the character
+        holder.transform.position = character.transform.forward.normalized * 2f;
+        float targetAngle = Mathf.Atan2(character.rigidbody.velocity.x, character.rigidbody.velocity.z) * Mathf.Rad2Deg;
+        Quaternion rotQuaternion = Quaternion.Euler(new Vector3(0, targetAngle, 0));
+        holder.transform.rotation = rotQuaternion;
+        Align(holder.transform.transform);
+
+    }
     private void flattenYtoZero()
     {
         _characterVelocity.y = 0;
@@ -215,7 +332,7 @@ public class MovementBehaviour : MonoBehaviour
     /// <returns></returns>
     public Vector3 SteeringFlee(GameObject target, float timeStep)
     {
-       // FixRotation();
+        // FixRotation();
         characterAcceleration = (character.transform.position - target.transform.position);
 
         characterAcceleration.y = 0;
@@ -227,7 +344,7 @@ public class MovementBehaviour : MonoBehaviour
 
     public Vector3 SteeringFlee(Vector3 target, float timeStep)
     {
-       // FixRotation();
+        // FixRotation();
         characterAcceleration = (character.transform.position - target);
 
         characterAcceleration.y = 0;
@@ -236,6 +353,94 @@ public class MovementBehaviour : MonoBehaviour
         _characterVelocity = AdditionalVector3Tools.Limit(_characterVelocity, maxVelocity);
         return _characterVelocity;
     }
+
+    public void SteeringFlee()
+    {
+        characterAcceleration = (character.transform.position - _targetGameObject.transform.position);
+
+        characterAcceleration.y = 0;
+        characterAcceleration = Vector3.Normalize(characterAcceleration) * maxAcceleration;
+     
+
+        _characterVelocity = _characterVelocity + (characterAcceleration * Time.fixedDeltaTime);
+        _characterVelocity = AdditionalVector3Tools.Limit(_characterVelocity, maxVelocity);
+
+        rigidbody.velocity = _characterVelocity;
+
+    }
+    public Vector3 Pursuit(MovementBehaviour target, float timeStep, float timeInterval)
+    {
+        Vector3 directionVector3 = target.character.transform.position - character.transform.position;
+        float distance = Vector3.Magnitude(directionVector3);
+        float predictionTime; //prediction time
+        if (maxVelocity < distance)
+            predictionTime = maxPredictionTime;
+        else
+        {
+            predictionTime = distance / maxVelocity;
+        }
+        //delegate to seek
+        return SteeringSeek(target.character, timeStep);
+
+    }
+    /// <summary>
+    /// Pursuit implementation of Artificial intelligence by Ian Millington and John Funge
+    /// </summary>
+    public void Pursuit()
+    {
+        Vector3 directionVector3 = _targetGameObject.transform.position - character.transform.position;
+        print(_targetGameObject.name + " is being persued by  "+name);
+        float distance = directionVector3.magnitude;
+
+        //find our current speed
+        float speed = character.rigidbody.velocity.magnitude;
+        //check if the speed is too small to give a reasonable prediction time
+        float predictionTime; //prediction time
+        if (speed <= distance/maxPredictionTime)
+            predictionTime = maxPredictionTime;
+
+        //else calculate the prediction time
+        else
+            predictionTime = distance/speed;
+
+        holder.transform.position = _targetGameObject.transform.position;
+        holder.transform.position += _targetGameObject.rigidbody.velocity *predictionTime;
+        holder.transform.rotation = _targetGameObject.transform.rotation;
+        //delegate to seek
+        //delegate to seek
+        SteeringSeek(holder.transform);
+
+
+    }
+    /// <summary>
+    /// Pursuit implementation of Artificial intelligence by Ian Millington and John Funge
+    /// </summary>
+    public void Evade()
+    {
+        Vector3 directionVector3 = _targetGameObject.transform.position - character.transform.position;
+        float distance = directionVector3.magnitude;
+
+        //find our current speed
+        float speed = character.rigidbody.velocity.magnitude;
+        //check if the speed is too small to give a reasonable prediction time
+        float predictionTime; //prediction time
+        if (speed <= distance / maxPredictionTime)
+            predictionTime = maxPredictionTime;
+
+        //else calculate the prediction time
+        else
+            predictionTime = distance / speed;
+
+        holder.transform.position = _targetGameObject.transform.position;
+        holder.transform.position += _targetGameObject.rigidbody.velocity * predictionTime;
+        holder.transform.rotation = _targetGameObject.transform.rotation;
+        //delegate to seek
+        //delegate to seek
+        SteeringFlee(holder.transform);
+
+    }
+
+
 
     public Vector3 SteeringArrive(GameObject target, float timeStep)
     {
@@ -346,7 +551,7 @@ public class MovementBehaviour : MonoBehaviour
         _characterVelocity = character.transform.position - target;
         _characterVelocity = Vector3.Normalize(_characterVelocity) * maxVelocity;
 
-       // FixRotation();
+        // FixRotation();
     }
 
 
@@ -402,23 +607,8 @@ public class MovementBehaviour : MonoBehaviour
         }
     }
 
-    public Vector3 Persuit(MovementBehaviour target, float timeStep, float timeInterval)
-    {
-        Vector3 directionVector3 = target.character.transform.position - character.transform.position;
-        float distance = Vector3.Magnitude(directionVector3);
-        float predictionTime; //prediction time
-        if (maxVelocity < distance)
-            predictionTime = maxPredictionTime;
-        else
-        {
-            predictionTime = distance / maxVelocity;
-        }
-        //delegate to seek
-        return SteeringSeek(target.character, timeStep);
 
-    }
-
-    public float Align(Transform target)
+    /*public float Align(Transform target)
     {
         if (target.rotation.eulerAngles.y != character.transform.rotation.eulerAngles.y)
         {
@@ -463,7 +653,7 @@ public class MovementBehaviour : MonoBehaviour
         }
         else return character.transform.rotation.eulerAngles.y;
 
-    }
+    }*/
     float Align3(GameObject target)
     {
 
@@ -546,6 +736,11 @@ public class MovementBehaviour : MonoBehaviour
 
     }
 
+    public void FaceAway(Transform target)
+    {
+
+    }
+
     public void LookWhereYoureGoing(float timeStep)
     {
         if (character.rigidbody.velocity.magnitude < 0.01f && character.rigidbody.velocity.magnitude > -0.01f)
@@ -553,14 +748,11 @@ public class MovementBehaviour : MonoBehaviour
         else
         {
             float orientation = Mathf.Atan2(-character.rigidbody.velocity.x, character.rigidbody.velocity.z);
-            Align2(orientation,timeStep);
+            Align2(orientation, timeStep);
         }
 
     }
 
-    public void FaceAway(float timeStep)
-    {
-    }
 
     void Align(float targetOrientation, float timeStep)
     {
@@ -646,22 +838,23 @@ public class MovementBehaviour : MonoBehaviour
         float angle = charAngles.y;
         if (Mathf.Abs(angularAcceleration) < Mathf.Abs(maxAngularAcceleration))
         {
-            characterAngularVelocity = characterAngularVelocity + angularAcceleration*timeStep;
+            characterAngularVelocity = characterAngularVelocity + angularAcceleration * timeStep;
         }
         else
         {
-            characterAngularVelocity = (sign) *angularAcceleration;
+            characterAngularVelocity = (sign) * angularAcceleration;
         }
         if (characterAngularVelocity < maxAngularVelocity)
         {
-            charAngles.y = angle + characterAngularVelocity*timeStep;
+            charAngles.y = angle + characterAngularVelocity * timeStep;
             character.transform.rotation = Quaternion.Euler(charAngles);
             return;
         }
 
     }
-    public void LookWhereYoureGoing()
-    { }
+
+   
+
 
 
 
@@ -675,7 +868,7 @@ public class MovementBehaviour : MonoBehaviour
     #endregion
 
 
-    #region kinematic 
+    #region kinematic
 
     /// <summary>
     /// implmenetation of the kinematic arrive algorithm.
@@ -689,15 +882,15 @@ public class MovementBehaviour : MonoBehaviour
         if (mag > ArrivalRadius)
         {
 
-            currentVelocity = Mathf.Min(maxVelocity, mag/timeToTarget);
+            currentVelocity = Mathf.Min(maxVelocity, mag / timeToTarget);
         }
         else
         {
-            currentVelocity = 0; 
+            currentVelocity = 0;
         }
 
-        outputInfo = "Character Velocity: " + _characterVelocity + "\n Arrival radius is "+ ArrivalRadius+"\n Current speed is"+ currentVelocity;
-        character.rigidbody.velocity = _characterVelocity.normalized*currentVelocity;
+        outputInfo = "Character Velocity: " + _characterVelocity + "\n Arrival radius is " + ArrivalRadius + "\n Current speed is" + currentVelocity;
+        character.rigidbody.velocity = _characterVelocity.normalized * currentVelocity;
         // KinematicSeek();
     }
 
@@ -722,14 +915,14 @@ public class MovementBehaviour : MonoBehaviour
     /// </summary>
     public void InterpolateRotate()
     {
-       /* Vector3 currentOrientation = character.transform.rotation.eulerAngles;
-        Vector3 directionVector3 = (TargetGameObject.transform.position - character.transform.position).normalized;
-       // print(gameObject.name + " is trying to point to " + TargetGameObject.transform.position + " and its direction is  " + directionVector3.x);
-        float angle = Mathf.Atan2(directionVector3.z, directionVector3.x)* Mathf.Rad2Deg;
-      // currentOrientation.y = Mathf.Lerp(currentOrientation.y, angle, Time.deltaTime * 5f);
-        currentOrientation.y = angle;
-      //  print(TargetGameObject.name + " and the angle " + angle);
-        character.transform.rotation = Quaternion.Euler(currentOrientation);*/
+        /* Vector3 currentOrientation = character.transform.rotation.eulerAngles;
+         Vector3 directionVector3 = (TargetGameObject.transform.position - character.transform.position).normalized;
+        // print(gameObject.name + " is trying to point to " + TargetGameObject.transform.position + " and its direction is  " + directionVector3.x);
+         float angle = Mathf.Atan2(directionVector3.z, directionVector3.x)* Mathf.Rad2Deg;
+       // currentOrientation.y = Mathf.Lerp(currentOrientation.y, angle, Time.deltaTime * 5f);
+         currentOrientation.y = angle;
+       //  print(TargetGameObject.name + " and the angle " + angle);
+         character.transform.rotation = Quaternion.Euler(currentOrientation);*/
         Vector3 aimingDirection = _targetGameObject.transform.position - transform.position;
 
         var heading = _targetGameObject.transform.position - transform.position;
