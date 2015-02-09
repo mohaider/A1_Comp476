@@ -32,7 +32,7 @@ namespace Assets.Scripts.CharacterWrapper
         public float timeToTarget = 0.09f;
         public float angularVelocity;
         public float characterAngularVelocity;
-   
+        public GameObject textbubble;
         private MovementBehaviour movementBehaviour;
 
         #endregion
@@ -61,7 +61,9 @@ namespace Assets.Scripts.CharacterWrapper
             gameObject.GetComponent<CharacterBehaviourWrapper>().MovementBehaviour1 = gameObject.GetComponent<MovementBehaviour>();
 
             gameObject.GetComponent<PlayerStateListener>().characterBehaviourWrapper = gameObject.GetComponent<CharacterBehaviourWrapper>();
-
+            gameObject.GetComponent<PlayerStateListener>().TextBubble = GetComponentInChildren<ShowTextBubble>();
+            gameObject.GetComponent<PlayerStateListener>().TextBubbleGameObject = this.textbubble;
+             gameObject.GetComponent<PlayerStateListener>().TextBubbleGameObject.SetActive(false);
             Destroy(this);
 
             

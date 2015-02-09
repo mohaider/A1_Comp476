@@ -22,6 +22,7 @@ namespace Assets.Scripts.Character.CharacterWrapper
         private MovementBehaviour _movementBehaviour;
         private GameObject _targetAgent;
         private Animation playerAnimation;
+
         public MovementBehaviour MovementBehaviour1
         {
             get { return _movementBehaviour; }

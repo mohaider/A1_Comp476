@@ -5,6 +5,7 @@ public class InputController : MonoBehaviour {
      #region class variables and properties
 
     private bool isKinematicMovement = true;
+    public bool shome;
     #region class variables and properties
     public  delegate void changeMovementTypeHandler(InputController.MovementTypeState newState);
 
@@ -15,7 +16,6 @@ public class InputController : MonoBehaviour {
         kinematic,
         steering
     }
-
 
     #endregion
 
@@ -39,7 +39,14 @@ public class InputController : MonoBehaviour {
 
 #region class functions
 
-
+    public void Toggle()
+    {
+        isKinematicMovement = !isKinematicMovement;
+        if (isKinematicMovement)
+            OnStateChange(InputController.MovementTypeState.kinematic);
+        else
+            OnStateChange(InputController.MovementTypeState.steering);
+    }
 
     private void ChangeState(InputController.MovementTypeState newState)
     {

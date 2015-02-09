@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class InputListener : MonoBehaviour
 {
 
@@ -8,8 +9,28 @@ public class InputListener : MonoBehaviour
     #region class variables and properties
 
     private bool isKinematicMovement = true;
-    #endregion
+    public UnityEngine.UI.Text text;
+    private InputController.MovementTypeState currentState = InputController.MovementTypeState.kinematic;
 
+    #endregion
+    #region class funtions
+
+    private void OnStateChange(InputController.MovementTypeState newInputState)
+    {
+        //if the current state are the same, abort. No need to change the state we're in
+
+        if (newInputState == currentState)
+        {
+            return;
+        }
+
+        currentState = newInputState;
+
+        text.text = "Mode: " + currentState;
+
+    }
+
+    #endregion
 
     #region unity functions
     // Use this for initialization
@@ -24,5 +45,20 @@ public class InputListener : MonoBehaviour
             print("changing movement type");
        
     }
+    private void OnEnable()
+    {
+        //hook onstatechange
+        InputController.OnStateChange += OnStateChange;
+    }
+
+    private void OnDisable()
+    {
+        //unhook onstatechange
+        InputController.OnStateChange -= OnStateChange;
+    }
+
+    void ChangeState()
+    { }
+
     #endregion
 }

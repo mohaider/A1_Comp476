@@ -30,6 +30,8 @@ namespace Assets.Scripts.Character
         public GameObject _targetAgent;
         private PlayerStateController stateController;
         public CharacterBehaviourWrapper _characterBehaviourWrapper;
+        private ShowTextBubble textBubble;
+        public GameObject TextBubbleGameObject;
 
 
         //default the states to idle
@@ -164,28 +166,31 @@ namespace Assets.Scripts.Character
               }
 
               //if we're here, then state change is allowed
-
-              switch (newPlayerState)
+*/
+              switch (newPlayerState) //for all cases, you must activate the text speech bubble
               {
-                  case PlayerStateController.PlayerState.walk:
-                      playerAnimation.Play("walk");
+                  case PlayerStateController.PlayerState.chasing:
+                      TextBubbleGameObject.SetActive(true);
+                      textBubble.ApplyNewText("I'm chasing "+_characterBehaviourWrapper.TargetAgent.name);
                       break;
-                  case PlayerStateController.PlayerState.run:
-                      playerAnimation.Play("run");
+                  case PlayerStateController.PlayerState.idle:
+                      TextBubbleGameObject.SetActive(true);
+                      textBubble.ApplyNewText("I'm wandering around");
                       break;
-                  case PlayerStateController.PlayerState.crawling:
-                      playerAnimation.Play("walk");
+                  case PlayerStateController.PlayerState.holdingFlag:
+                      TextBubbleGameObject.SetActive(true);
+                      textBubble.ApplyNewText("I'm holding the flag!");
                       break;
 
 
               }
-             */
+             
              //store the current state as the previous state
              previousState = currentState;
 
              //store new state as the current state
              currentState = newPlayerState;
- 
+              
 
         }
 
@@ -467,6 +472,12 @@ namespace Assets.Scripts.Character
         {
             get { return _characterBehaviourWrapper; }
             set { _characterBehaviourWrapper = value; }
+        }
+
+        public ShowTextBubble TextBubble
+        {
+            get { return textBubble; }
+            set { textBubble = value; }
         }
 
 /*        public MovementBehaviour _characterBehaviourWrapper

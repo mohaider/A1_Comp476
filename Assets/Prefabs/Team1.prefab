@@ -1033,8 +1033,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 328ac17dc3e1f984589bd35ad1d84236, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetAgent: {fileID: 0}
-  maxSpeed: 120
+  maxSpeed: 200
   maxAngularVelocity: 20
   maxAcceleration: 20
   maxAngularAcceleration: 20
@@ -1059,6 +1058,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8a41a6e96b88c54fb902d45844474d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  rotspeed: 0
   speed: -400
 --- !u!137 &13735844
 SkinnedMeshRenderer:
