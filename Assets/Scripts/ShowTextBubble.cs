@@ -33,7 +33,7 @@ public class ShowTextBubble : MonoBehaviour
     
 	        if (alphaVal >0.999f)
 	            appear = false;
-
+         
 	    }
 	    else
 	    {

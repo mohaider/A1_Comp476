@@ -7,7 +7,7 @@ using System.Collections.Generic;
 /// 1. FCSetterSM(flag carrier setter state machine)
 /// 2. FlagSaverSetterSM(notify a player to go chase after the flag
 /// 3. UntaggerSetterSM(explained below)
-/// Furthermore it gets notified by players that they are tagged. Once they get tagged they get placed into 
+/// Furthermore it gets notified by players that they are IsTagged. Once they get IsTagged they get placed into 
 /// a linked list data structure. The manager then calls on the UntaggerSM to free them
 /// It gets notified by the flag that it has been captured.
 /// </summary>
@@ -19,6 +19,8 @@ public class TeamManager : MonoBehaviour
    
     [SerializeField] GameObject _chaser;
     [SerializeField] private ArrayList teamPool;
+    [SerializeField]
+    private ArrayList _enemyTeamPool;
     [SerializeField] private GameObject flag;
     private LinkedList<GameObject> taggedPlayers;
 
@@ -50,6 +52,12 @@ public class TeamManager : MonoBehaviour
     {
         get { return flag; }
         set { flag = value; }
+    }
+
+    public ArrayList EnemyTeamPool
+    {
+        get { return _enemyTeamPool; }
+        set { _enemyTeamPool = value; }
     }
 
     #endregion

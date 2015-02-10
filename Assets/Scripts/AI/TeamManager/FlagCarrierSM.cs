@@ -18,6 +18,12 @@ public class FlagCarrierSM : MonoBehaviour
         set { isAnFC = value; }
     }
 
+    public bool HasFlag
+    {
+        get { return hasFlag; }
+        set { hasFlag = value; }
+    }
+
     #endregion
 
     #region class functions

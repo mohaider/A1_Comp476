@@ -67,6 +67,7 @@ namespace Assets.Scripts.CharacterWrapper
             gameObject.GetComponent<PlayerStateListener>().TextBubble = GetComponentInChildren<ShowTextBubble>();
             gameObject.GetComponent<PlayerStateListener>().TextBubbleGameObject = this.textbubble;
              gameObject.GetComponent<PlayerStateListener>().TextBubbleGameObject.SetActive(false);
+
             Destroy(this);
 
             

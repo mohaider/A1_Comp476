@@ -39,6 +39,7 @@ namespace Assets.Scripts.Character
         private PlayerStateController.PlayerState previousState = PlayerStateController.PlayerState.idle;
         //previous state
 
+        [SerializeField]
         private PlayerStateController.PlayerState currentState = PlayerStateController.PlayerState.idle;
         //current state
 
@@ -112,7 +113,7 @@ namespace Assets.Scripts.Character
                    
                     break;
 
-                case PlayerStateController.PlayerState.runningAway:
+                case PlayerStateController.PlayerState.EscapingState:
                     Escape();
                     break;
                 /*  

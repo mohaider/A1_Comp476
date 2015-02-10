@@ -127,7 +127,9 @@ public class TeamBuilder : MonoBehaviour
         if (teamManager1 != null && teamManager2 != null)
         {
             teamManager1.TeamPool = TeamOnePool;
+            teamManager1.EnemyTeamPool = TeamTwoPool;
             teamManager2.TeamPool = TeamTwoPool;
+            teamManager2.EnemyTeamPool = TeamOnePool;
         }
         else 
             Debug.Log("Team manager's haven't been set in the TeamBuilder");

@@ -346,6 +346,7 @@ GameObject:
   - 65: {fileID: 6560010}
   - 95: {fileID: 9556974}
   - 114: {fileID: 11473902}
+  - 114: {fileID: 11429144}
   m_Layer: 0
   m_Name: Team One member
   m_TagString: TeamOrange
@@ -1110,6 +1111,20 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 1
+--- !u!114 &11429144
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 159992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e31263fa0964cac449771dc5021e3930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  homebase: {fileID: 0}
+  enemybase: {fileID: 0}
+  currentLocation: 0
 --- !u!114 &11460008
 MonoBehaviour:
   m_ObjectHideFlags: 1

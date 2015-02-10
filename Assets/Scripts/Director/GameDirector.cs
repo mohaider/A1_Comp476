@@ -39,7 +39,7 @@ namespace Assets.Scripts.Director
             teamOnePool = teamBuilder.TeamOnePool;
             teamTwoPool = teamBuilder.TeamTwoPool;
 
-            RandomizeFirstFlagRunners();//randomize first two flag runners from opposing teams            
+          //  RandomizeFirstFlagRunners();//randomize first two flag runners from opposing teams            
         }
 
         private void Start()
@@ -64,8 +64,8 @@ namespace Assets.Scripts.Director
             
 
 
-           // flagBearerOne.GetComponent<PlayerStateListener>().TargetAgent = teamBuilder.Flag2;
-          //  flagBearerTwo.GetComponent<PlayerStateListener>().TargetAgent = teamBuilder.Flag1;
+            flagBearerOne.GetComponent<PlayerStateListener>().TargetAgent = teamBuilder.Flag2;
+           flagBearerTwo.GetComponent<PlayerStateListener>().TargetAgent = teamBuilder.Flag1;
 
             flagBearerOne.GetComponent<CharacterBehaviourWrapper>().TargetAgent = teamBuilder.Flag2;
             flagBearerTwo.GetComponent<CharacterBehaviourWrapper>().TargetAgent = teamBuilder.Flag1;

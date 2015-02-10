@@ -5,7 +5,13 @@ public class AreaBound : MonoBehaviour
 {
     #region class variables and properties
 
-    public Rect rect;
+    private Rect rect;
+
+    public Rect Rect1
+    {
+        get { return rect; }
+        set { rect = value; }
+    }
 
     #endregion
 

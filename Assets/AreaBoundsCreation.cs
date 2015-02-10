@@ -15,6 +15,9 @@ public class AreaBoundsCreation : MonoBehaviour
     // Use this for initialization
 	void Start () {
 	
+        Rect orangeRect = new Rect();
+
+
 	}
 	
 	// Update is called once per frame

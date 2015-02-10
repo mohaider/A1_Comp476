@@ -219,6 +219,7 @@ GameObject:
   - 54: {fileID: 5493654}
   - 65: {fileID: 6593654}
   - 114: {fileID: 11478970}
+  - 114: {fileID: 11405658}
   m_Layer: 0
   m_Name: Team two member
   m_TagString: TeamBanana
@@ -1215,6 +1216,17 @@ MonoBehaviour:
   dissapearSpeed: .00499999989
   appearingSpeed: .0900000036
   appear: 1
+--- !u!114 &11405658
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e31263fa0964cac449771dc5021e3930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11478970
 MonoBehaviour:
   m_ObjectHideFlags: 1

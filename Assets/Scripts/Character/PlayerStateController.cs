@@ -18,9 +18,10 @@ namespace Assets.Scripts.Character
         {
             chasing = 0,    //chase flag carrier
             slowlyChasing,
-            runningAway,
+            EscapingState,
             idle, 
-            tagged, 
+            IsTagged, 
+            untagger,
             holdingFlag
             }
 

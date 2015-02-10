@@ -344,7 +344,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400032, guid: d09528fac9a464315b5cfd8a151d5b89, type: 3}
       propertyPath: m_RootOrder
-      value: 19
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 100032, guid: d09528fac9a464315b5cfd8a151d5b89, type: 3}
       propertyPath: m_Name
@@ -1005,7 +1005,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400032, guid: d09528fac9a464315b5cfd8a151d5b89, type: 3}
       propertyPath: m_RootOrder
-      value: 18
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 100032, guid: d09528fac9a464315b5cfd8a151d5b89, type: 3}
       propertyPath: m_Name
@@ -1632,7 +1632,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 26002d1fcb9cd4590a25764095b4826d, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 26002d1fcb9cd4590a25764095b4826d, type: 2}
       propertyPath: m_LocalScale.x
@@ -2120,12 +2120,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84c9021c3ef2d6440b7e440a513efe30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
 --- !u!1 &324060763
 GameObject:
   m_ObjectHideFlags: 0
@@ -2972,6 +2966,7 @@ GameObject:
   - 65: {fileID: 437530796}
   - 95: {fileID: 437530801}
   - 114: {fileID: 437530802}
+  - 114: {fileID: 437530803}
   - 114: {fileID: 437530800}
   m_Layer: 0
   m_Name: TesterTarget
@@ -3178,6 +3173,21 @@ MonoBehaviour:
   hasFlag: 0
   isAnFC: 0
   touchingFlag: 0
+--- !u!114 &437530803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11429144, guid: 8bbb7547688b6414aab8b344943cb3b6,
+    type: 2}
+  m_PrefabInternal: {fileID: 984105291}
+  m_GameObject: {fileID: 437530794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e31263fa0964cac449771dc5021e3930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  homebase: {fileID: 0}
+  enemybase: {fileID: 0}
+  currentLocation: 0
 --- !u!1 &437591870
 GameObject:
   m_ObjectHideFlags: 0
@@ -3479,6 +3489,7 @@ GameObject:
   - 54: {fileID: 523568951}
   - 65: {fileID: 523568950}
   - 114: {fileID: 523568955}
+  - 114: {fileID: 523568956}
   m_Layer: 0
   m_Name: Team two member
   m_TagString: TeamBanana
@@ -3683,6 +3694,21 @@ MonoBehaviour:
   hasFlag: 0
   isAnFC: 0
   touchingFlag: 0
+--- !u!114 &523568956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11405658, guid: 8b5fc658ff1b66f49b56f6959337066c,
+    type: 2}
+  m_PrefabInternal: {fileID: 2002753772}
+  m_GameObject: {fileID: 523568948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e31263fa0964cac449771dc5021e3930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  homebase: {fileID: 0}
+  enemybase: {fileID: 0}
+  currentLocation: 0
 --- !u!1 &527383234
 GameObject:
   m_ObjectHideFlags: 0
@@ -4038,7 +4064,7 @@ GameObject:
   - 65: {fileID: 626574627}
   m_Layer: 16
   m_Name: Area2
-  m_TagString: Untagged
+  m_TagString: BananaAreaTag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5090,6 +5116,7 @@ GameObject:
   - 65: {fileID: 844070696}
   - 95: {fileID: 844070697}
   - 114: {fileID: 844070698}
+  - 114: {fileID: 844070699}
   m_Layer: 0
   m_Name: Team One member
   m_TagString: TeamOrange
@@ -5310,6 +5337,21 @@ MonoBehaviour:
   hasFlag: 0
   isAnFC: 0
   touchingFlag: 0
+--- !u!114 &844070699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11429144, guid: 8bbb7547688b6414aab8b344943cb3b6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1819409072}
+  m_GameObject: {fileID: 844070690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e31263fa0964cac449771dc5021e3930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  homebase: {fileID: 0}
+  enemybase: {fileID: 0}
+  currentLocation: 0
 --- !u!1 &846404243
 GameObject:
   m_ObjectHideFlags: 0
@@ -5738,7 +5780,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 427548, guid: 6f63635784b756f4f9a2cde2ea583c44, type: 2}
       propertyPath: m_RootOrder
-      value: 17
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6f63635784b756f4f9a2cde2ea583c44, type: 2}
@@ -8153,7 +8195,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c4fc60e87dcc34629abdeea93f1ff1ff, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c4fc60e87dcc34629abdeea93f1ff1ff, type: 2}
       propertyPath: m_LocalScale.x
@@ -8822,7 +8864,7 @@ GameObject:
   - 65: {fileID: 1593605564}
   m_Layer: 13
   m_Name: Area1
-  m_TagString: Untagged
+  m_TagString: OrangeAreaTag
   m_Icon: {fileID: 266726316, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12387,6 +12429,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80a2e33b47d02094e8cdc2e22637ca0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyFlag: {fileID: 1709034926}
+  homeBase: {fileID: 13622388}
+  flagCarrier: {fileID: 0}
 --- !u!1 &2128618752
 GameObject:
   m_ObjectHideFlags: 0
