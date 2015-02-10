@@ -173,7 +173,7 @@ GameObject:
   - 4: {fileID: 13622390}
   - 135: {fileID: 13622389}
   m_Layer: 0
-  m_Name: Area1
+  m_Name: FlagArea1
   m_TagString: Untagged
   m_Icon: {fileID: -1500306622, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -203,7 +203,7 @@ Transform:
   m_Children:
   - {fileID: 103322104}
   - {fileID: 1427578276}
-  m_Father: {fileID: 2015491138}
+  m_Father: {fileID: 1593605563}
   m_RootOrder: 0
 --- !u!1 &18659695
 GameObject:
@@ -1860,7 +1860,7 @@ MonoBehaviour:
   TeamTWoSpawningAreaB: {fileID: 1406194788}
   positionalRadius: 75
   teamManager1: {fileID: 2118027934}
-  teamManager2: {fileID: 0}
+  teamManager2: {fileID: 1365384027}
 --- !u!4 &238053121
 Transform:
   m_ObjectHideFlags: 0
@@ -2075,8 +2075,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 283106696}
   - 135: {fileID: 283106697}
+  - 114: {fileID: 283106698}
   m_Layer: 8
-  m_Name: Area2
+  m_Name: FlagArea2
   m_TagString: Untagged
   m_Icon: {fileID: -1500306622, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -2094,8 +2095,8 @@ Transform:
   m_Children:
   - {fileID: 1709034927}
   - {fileID: 1661351595}
-  m_Father: {fileID: 2015491138}
-  m_RootOrder: 1
+  m_Father: {fileID: 626574626}
+  m_RootOrder: 0
 --- !u!135 &283106697
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2108,6 +2109,23 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 84.2399979
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &283106698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 283106695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84c9021c3ef2d6440b7e440a513efe30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
 --- !u!1 &324060763
 GameObject:
   m_ObjectHideFlags: 0
@@ -2953,10 +2971,11 @@ GameObject:
   - 54: {fileID: 437530797}
   - 65: {fileID: 437530796}
   - 95: {fileID: 437530801}
+  - 114: {fileID: 437530802}
   - 114: {fileID: 437530800}
   m_Layer: 0
   m_Name: TesterTarget
-  m_TagString: NPC_Agent
+  m_TagString: TeamOrange
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3003,7 +3022,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!114 &437530798
 MonoBehaviour:
@@ -3144,6 +3163,21 @@ Animator:
   m_ApplyRootMotion: 1
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &437530802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11473902, guid: 8bbb7547688b6414aab8b344943cb3b6,
+    type: 2}
+  m_PrefabInternal: {fileID: 984105291}
+  m_GameObject: {fileID: 437530794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54d188b5fe36e1344ba4c441d0f25d45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasFlag: 0
+  isAnFC: 0
+  touchingFlag: 0
 --- !u!1 &437591870
 GameObject:
   m_ObjectHideFlags: 0
@@ -3444,9 +3478,10 @@ GameObject:
   - 114: {fileID: 523568952}
   - 54: {fileID: 523568951}
   - 65: {fileID: 523568950}
+  - 114: {fileID: 523568955}
   m_Layer: 0
   m_Name: Team two member
-  m_TagString: NPC_Agent
+  m_TagString: TeamBanana
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3493,7 +3528,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!114 &523568952
 MonoBehaviour:
@@ -3511,8 +3546,8 @@ MonoBehaviour:
   maxAngularVelocity: 20
   maxAcceleration: 20
   maxAngularAcceleration: 20
-  ArrivalRadius: 70
-  SlowDownRadius: 200
+  ArrivalRadius: 50
+  SlowDownRadius: 90
   slowDownRotationRadius: 20
   turnSmoothing: 15
   maxPredictionTime: 20
@@ -3633,6 +3668,21 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 1
+--- !u!114 &523568955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11478970, guid: 8b5fc658ff1b66f49b56f6959337066c,
+    type: 2}
+  m_PrefabInternal: {fileID: 2002753772}
+  m_GameObject: {fileID: 523568948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54d188b5fe36e1344ba4c441d0f25d45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasFlag: 0
+  isAnFC: 0
+  touchingFlag: 0
 --- !u!1 &527383234
 GameObject:
   m_ObjectHideFlags: 0
@@ -3977,6 +4027,47 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: .882817924, y: .662543595, z: .807032824}
   m_DirtyAABB: 0
+--- !u!1 &626574625
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 626574626}
+  - 65: {fileID: 626574627}
+  m_Layer: 16
+  m_Name: Area2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &626574626
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 626574625}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 283106696}
+  m_Father: {fileID: 2015491138}
+  m_RootOrder: 1
+--- !u!65 &626574627
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 626574625}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 600, y: 100, z: 1000}
+  m_Center: {x: 1300, y: 47.6800003, z: 500}
 --- !u!1 &629145574
 GameObject:
   m_ObjectHideFlags: 0
@@ -4009,7 +4100,7 @@ MonoBehaviour:
   m_Color: {r: .1953125, g: .1953125, b: .1953125, a: 1}
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 20
+    m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -4998,9 +5089,10 @@ GameObject:
   - 54: {fileID: 844070695}
   - 65: {fileID: 844070696}
   - 95: {fileID: 844070697}
+  - 114: {fileID: 844070698}
   m_Layer: 0
   m_Name: Team One member
-  m_TagString: NPC_Agent
+  m_TagString: TeamOrange
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5147,7 +5239,7 @@ MonoBehaviour:
   maxAcceleration: 5
   maxAngularAcceleration: 20
   ArrivalRadius: 70
-  SlowDownRadius: 200
+  SlowDownRadius: 100
   slowDownRotationRadius: 20
   turnSmoothing: 15
   maxPredictionTime: 20
@@ -5172,7 +5264,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!65 &844070696
 BoxCollider:
@@ -5203,6 +5295,21 @@ Animator:
   m_ApplyRootMotion: 1
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &844070698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11473902, guid: 8bbb7547688b6414aab8b344943cb3b6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1819409072}
+  m_GameObject: {fileID: 844070690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54d188b5fe36e1344ba4c441d0f25d45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasFlag: 0
+  isAnFC: 0
+  touchingFlag: 0
 --- !u!1 &846404243
 GameObject:
   m_ObjectHideFlags: 0
@@ -5789,7 +5896,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 459992, guid: 8bbb7547688b6414aab8b344943cb3b6, type: 2}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 11460010, guid: 8bbb7547688b6414aab8b344943cb3b6, type: 2}
       propertyPath: m_Enabled
@@ -7441,8 +7548,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 765e75aa1e5b4f64788166d24fd546b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FlagCarrier: {fileID: 0}
-  Chaser: {fileID: 0}
+  _flagCarrier: {fileID: 0}
+  TeamArea: {fileID: 283106695}
+  _chaser: {fileID: 0}
+  flag: {fileID: 1709034926}
 --- !u!1 &1367392690
 GameObject:
   m_ObjectHideFlags: 0
@@ -7719,9 +7828,10 @@ GameObject:
   m_Component:
   - 4: {fileID: 1427578276}
   - 135: {fileID: 1427578277}
+  - 114: {fileID: 1427578278}
   m_Layer: 11
-  m_Name: Team1 Flag
-  m_TagString: Untagged
+  m_Name: the juicy orange
+  m_TagString: Orange
   m_Icon: {fileID: -2065832391, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7733,7 +7843,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1427578275}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 373, y: 16, z: 0}
+  m_LocalPosition: {x: 15, y: 16, z: 0}
   m_LocalScale: {x: 30, y: 30, z: 30}
   m_Children:
   - {fileID: 1617101184}
@@ -7751,6 +7861,17 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: .5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1427578278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1427578275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e822f52fc129fb4d91dacb168c372e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1439527088
 GameObject:
   m_ObjectHideFlags: 0
@@ -8690,6 +8811,47 @@ Transform:
   - {fileID: 1130772093}
   m_Father: {fileID: 437530795}
   m_RootOrder: 0
+--- !u!1 &1593605562
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1593605563}
+  - 65: {fileID: 1593605564}
+  m_Layer: 13
+  m_Name: Area1
+  m_TagString: Untagged
+  m_Icon: {fileID: 266726316, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1593605563
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1593605562}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 13622390}
+  m_Father: {fileID: 2015491138}
+  m_RootOrder: 0
+--- !u!65 &1593605564
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1593605562}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 600, y: 100, z: 1000}
+  m_Center: {x: 300, y: 44.9000015, z: 500}
 --- !u!1 &1600120497
 GameObject:
   m_ObjectHideFlags: 0
@@ -8824,7 +8986,7 @@ GameObject:
   - 23: {fileID: 1617101185}
   m_Layer: 0
   m_Name: Orange
-  m_TagString: Untagged
+  m_TagString: Orange
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8836,7 +8998,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1617101183}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -.0700000003, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1694945422}
@@ -9395,10 +9557,11 @@ GameObject:
   - 23: {fileID: 1709034928}
   - 114: {fileID: 1709034931}
   - 135: {fileID: 1709034930}
+  - 114: {fileID: 1709034932}
   m_Layer: 12
-  m_Name: Team 2 flag
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Name: the badacious banana
+  m_TagString: Banana
+  m_Icon: {fileID: -1203168336, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -9409,7 +9572,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1709034926}
   m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
-  m_LocalPosition: {x: -522.200012, y: 7, z: 403}
+  m_LocalPosition: {x: -14, y: 7, z: -15}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children: []
   m_Father: {fileID: 283106696}
@@ -9467,6 +9630,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forward: {x: 0, y: 0, z: 0}
+--- !u!114 &1709034932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1709034926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e822f52fc129fb4d91dacb168c372e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1713950088
 GameObject:
   m_ObjectHideFlags: 0
@@ -10213,7 +10387,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 459992, guid: 8bbb7547688b6414aab8b344943cb3b6, type: 2}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 159992, guid: 8bbb7547688b6414aab8b344943cb3b6, type: 2}
       propertyPath: m_IsActive
@@ -11193,7 +11367,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 493610, guid: 8b5fc658ff1b66f49b56f6959337066c, type: 2}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 193610, guid: 8b5fc658ff1b66f49b56f6959337066c, type: 2}
       propertyPath: m_IsActive
@@ -11345,9 +11519,8 @@ GameObject:
   - 4: {fileID: 2015491138}
   - 114: {fileID: 2015491137}
   - 154: {fileID: 2015491136}
-  - 114: {fileID: 2015491139}
-  - 114: {fileID: 2015491140}
   - 114: {fileID: 2015491141}
+  - 114: {fileID: 2015491139}
   m_Layer: 8
   m_Name: Terrain
   m_TagString: Untagged
@@ -11402,8 +11575,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: .980000019, z: 1}
   m_Children:
-  - {fileID: 13622390}
-  - {fileID: 283106696}
+  - {fileID: 1593605563}
+  - {fileID: 626574626}
   m_Father: {fileID: 1063786979}
   m_RootOrder: 0
 --- !u!114 &2015491139
@@ -11412,27 +11585,13 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2015491135}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4345b8c34f3c8484fb1a6944a875af63, type: 3}
+  m_Script: {fileID: 11500000, guid: c16c77db058d7c54586d45e9c87c3e3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 256
---- !u!114 &2015491140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2015491135}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca56ed58ce3dba24787ab9d810eb47c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  terrain: {fileID: 0}
-  wallbounds: {fileID: 1254503423}
+  TeamBananaArea: {fileID: 283106698}
+  TeamOrangeArea: {fileID: 0}
 --- !u!114 &2015491141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12158,6 +12317,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 2118027933}
   - 114: {fileID: 2118027934}
+  - 114: {fileID: 2118027937}
+  - 114: {fileID: 2118027936}
+  - 114: {fileID: 2118027935}
   m_Layer: 0
   m_Name: TeamManager1
   m_TagString: TeamManager
@@ -12188,8 +12350,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 765e75aa1e5b4f64788166d24fd546b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FlagCarrier: {fileID: 0}
-  Chaser: {fileID: 0}
+  _flagCarrier: {fileID: 0}
+  TeamArea: {fileID: 13622388}
+  _chaser: {fileID: 0}
+  flag: {fileID: 1427578275}
+--- !u!114 &2118027935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2118027932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16eaea2fe020a444597e025091a0d433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2118027936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2118027932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6aa5ffbf6f295d488805d8fe0b0e32d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2118027937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2118027932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80a2e33b47d02094e8cdc2e22637ca0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2128618752
 GameObject:
   m_ObjectHideFlags: 0

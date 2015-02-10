@@ -218,9 +218,10 @@ GameObject:
   - 114: {fileID: 11493654}
   - 54: {fileID: 5493654}
   - 65: {fileID: 6593654}
+  - 114: {fileID: 11478970}
   m_Layer: 0
   m_Name: Team two member
-  m_TagString: NPC_Agent
+  m_TagString: TeamBanana
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -985,7 +986,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!65 &6593654
 BoxCollider:
@@ -1214,6 +1215,20 @@ MonoBehaviour:
   dissapearSpeed: .00499999989
   appearingSpeed: .0900000036
   appear: 1
+--- !u!114 &11478970
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54d188b5fe36e1344ba4c441d0f25d45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasFlag: 0
+  isAnFC: 0
+  touchingFlag: 0
 --- !u!114 &11493652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1243,8 +1258,8 @@ MonoBehaviour:
   maxAngularVelocity: 20
   maxAcceleration: 20
   maxAngularAcceleration: 20
-  ArrivalRadius: 70
-  SlowDownRadius: 200
+  ArrivalRadius: 50
+  SlowDownRadius: 90
   slowDownRotationRadius: 20
   turnSmoothing: 15
   maxPredictionTime: 20

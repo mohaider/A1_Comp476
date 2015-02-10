@@ -26,7 +26,7 @@ public class TerrainWrapping : MonoBehaviour
     #region collision detection
     void OnTriggerEnter(Collider col)
     {
-        if ((col.tag == "NPC_Agent" || col.tag == "Player" ))
+        if ((col.tag == "NPC_Agent" || col.tag == "Player" || col.tag == "TeamOrange" || col.tag == "TeamBanana"))
         {
             RaycastHit hit;
             if (Physics.Raycast(col.transform.position, -col.rigidbody.velocity.normalized, out hit, Mathf.Infinity, layerMask))

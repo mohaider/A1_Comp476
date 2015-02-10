@@ -6,6 +6,10 @@ TagManager:
   - NPC_Agent
   - WallBounds
   - TeamManager
+  - TeamOrange
+  - TeamBanana
+  - Orange
+  - Banana
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
@@ -20,10 +24,10 @@ TagManager:
   User Layer 10: SpeechBox
   User Layer 11: Flag1
   User Layer 12: Flag2
-  User Layer 13: 
-  User Layer 14: 
-  User Layer 15: 
-  User Layer 16: 
+  User Layer 13: Team Orange Area
+  User Layer 14: Team Banana Area
+  User Layer 15: Team Orange Flag Zone
+  User Layer 16: Team Banana Flag zone
   User Layer 17: 
   User Layer 18: 
   User Layer 19: 

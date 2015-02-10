@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Schema;
 using UnityEngine;
 using Assets.Scripts.Character;
 using Assets.Scripts.Character.CharacterWrapper;
@@ -42,7 +43,41 @@ namespace Assets.Scripts.Character
         //current state
 
         [SerializeField] private string outputinfo="";
+      
 
+        public CharacterBehaviourWrapper characterBehaviourWrapper
+        {
+            get { return _characterBehaviourWrapper; }
+            set { _characterBehaviourWrapper = value; }
+        }
+
+        public ShowTextBubble TextBubble
+        {
+            get { return textBubble; }
+            set { textBubble = value; }
+        }
+
+        public PlayerStateController.PlayerState CurrentState
+        {
+            get { return currentState; }
+            set { currentState = value; }
+        }
+
+        public string Outputinfo
+        {
+            get { return outputinfo; }
+            set { outputinfo = value; }
+        }
+
+        public GameObject TargetAgent
+        {
+            get { return _targetAgent; }
+            set
+            {
+                _characterBehaviourWrapper.TargetAgent = value;
+                _targetAgent = value;
+            }
+        }
 
         #endregion
 
@@ -469,65 +504,7 @@ namespace Assets.Scripts.Character
 
         #region class functions implemented from ICharacter
 
-        public Vector3 PosVector3
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
-
-        public Vector3 VelVector3
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
-
-        public Vector3 AccelVector3
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
-
-        public float orientation
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
-
-        public float maxAcceleration
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
-
-        public float maxVelocity
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
-
-        public CharacterBehaviourWrapper characterBehaviourWrapper
-        {
-            get { return _characterBehaviourWrapper; }
-            set { _characterBehaviourWrapper = value; }
-        }
-
-        public ShowTextBubble TextBubble
-        {
-            get { return textBubble; }
-            set { textBubble = value; }
-        }
-
-        public PlayerStateController.PlayerState CurrentState
-        {
-            get { return currentState; }
-            set { currentState = value; }
-        }
-
-        public string Outputinfo
-        {
-            get { return outputinfo; }
-            set { outputinfo = value; }
-        }
+      
 
 /*        public MovementBehaviour _characterBehaviourWrapper
         {

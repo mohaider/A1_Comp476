@@ -43,11 +43,15 @@ namespace Assets.Scripts.Character.CharacterWrapper
                 if (_movementBehaviour == null)
                     Debug.Log("there is no assigned movement behaviour");
                 else
+                {
                     _movementBehaviour.TargetGameObject = value;
-                _targetAgent = value;
+                    _targetAgent = value;
+                }
 
             }
+
         }
+
         #endregion
 
         #region class functions
@@ -85,7 +89,7 @@ namespace Assets.Scripts.Character.CharacterWrapper
         public void Rotate()
         {
             if (currentState == InputController.MovementTypeState.kinematic)
-            MovementBehaviour1.InterpolateRotate();
+                MovementBehaviour1.InterpolateRotate();
 
         }
 
@@ -100,15 +104,15 @@ namespace Assets.Scripts.Character.CharacterWrapper
             _movementBehaviour.ReynoldsWander(3f, Time.fixedDeltaTime);
         }
 
-        public bool     CheckStop()
+        public bool CheckStop()
         {
             if (rigidbody.velocity.magnitude < 1f)
             {
                 playerAnimation.Play("idle");
                 return true;
             }
-            
-                return false;
+
+            return false;
         }
 
 
@@ -117,16 +121,16 @@ namespace Assets.Scripts.Character.CharacterWrapper
             playerAnimation.Play("idle");
             Vector3 directionVector3 = TargetAgent.transform.position - transform.position;
             directionVector3.y = 0;//flatten y
-      
+
             float distanceForRay = directionVector3.magnitude + 10f;
-            int layermask = 1<<TargetAgent.layer;
+            int layermask = 1 << TargetAgent.layer;
 
 
-          // transform.position = TargetAgent.transform.position + TargetAgent.transform.position.normalized * MovementBehaviour1.ArrivalRadius;
+            // transform.position = TargetAgent.transform.position + TargetAgent.transform.position.normalized * MovementBehaviour1.ArrivalRadius;
             //get the bound of the object
             Collider targetCollider = TargetAgent.GetComponent<Collider>();
-            if(targetCollider == null )
-                Debug.Log("there is no collider attached to the target object  "+ TargetAgent.name);
+            if (targetCollider == null)
+                Debug.Log("there is no collider attached to the target object  " + TargetAgent.name);
 
             RaycastHit hit;
 
@@ -134,10 +138,10 @@ namespace Assets.Scripts.Character.CharacterWrapper
             {
                 Vector3 desiredPos = hit.point;
                 desiredPos.y = 0; //flatten 0
-                transform.position =desiredPos;
-              
+                transform.position = desiredPos;
+
             }
-  
+
 
             //TODO Fix hopping
         }
