@@ -10,7 +10,7 @@ using UnityEngine;
  */
 namespace Assets.Scripts.Character
 {
-    class PlayerStateController : MonoBehaviour
+   public class PlayerStateController : MonoBehaviour
     {
 
         #region class variables and properties

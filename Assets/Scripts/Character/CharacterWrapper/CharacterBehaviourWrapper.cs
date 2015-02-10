@@ -84,7 +84,7 @@ namespace Assets.Scripts.Character.CharacterWrapper
 
         public void Rotate()
         {
-
+            if (currentState == InputController.MovementTypeState.kinematic)
             MovementBehaviour1.InterpolateRotate();
 
         }
@@ -100,7 +100,7 @@ namespace Assets.Scripts.Character.CharacterWrapper
             _movementBehaviour.ReynoldsWander(3f, Time.fixedDeltaTime);
         }
 
-        public bool CheckStop()
+        public bool     CheckStop()
         {
             if (rigidbody.velocity.magnitude < 1f)
             {
@@ -114,7 +114,31 @@ namespace Assets.Scripts.Character.CharacterWrapper
 
         public void Hop()
         {
-            transform.position = TargetAgent.transform.position + TargetAgent.transform.position.normalized * MovementBehaviour1.ArrivalRadius / 4;
+            playerAnimation.Play("idle");
+            Vector3 directionVector3 = TargetAgent.transform.position - transform.position;
+            directionVector3.y = 0;//flatten y
+      
+            float distanceForRay = directionVector3.magnitude + 10f;
+            int layermask = 1<<TargetAgent.layer;
+
+
+          // transform.position = TargetAgent.transform.position + TargetAgent.transform.position.normalized * MovementBehaviour1.ArrivalRadius;
+            //get the bound of the object
+            Collider targetCollider = TargetAgent.GetComponent<Collider>();
+            if(targetCollider == null )
+                Debug.Log("there is no collider attached to the target object  "+ TargetAgent.name);
+
+            RaycastHit hit;
+
+            if (Physics.Raycast(transform.position, directionVector3.normalized, out hit, distanceForRay, layermask))
+            {
+                Vector3 desiredPos = hit.point;
+                desiredPos.y = 0; //flatten 0
+                transform.position =desiredPos;
+              
+            }
+  
+
             //TODO Fix hopping
         }
 

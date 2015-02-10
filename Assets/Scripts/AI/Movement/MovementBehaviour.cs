@@ -197,6 +197,7 @@ public class MovementBehaviour : MonoBehaviour
         outputInfo = name + " velocity =" + _characterVelocity + "\n Character Acceleration= " + characterAcceleration
             + "\n Target velocity " + targetVelocity + "\n Target speed " + targetspeed + "\n Distance to target " + dist + "\n slow down radius" + SlowDownRadius
             + "\n arrival radius" + ArrivalRadius + "\n t2t" + timeToTarget;
+        flattenYtoZero();
         rigidbody.velocity = _characterVelocity;
         // character.rigidbody.velocity
     }
@@ -364,7 +365,7 @@ public class MovementBehaviour : MonoBehaviour
 
         _characterVelocity = _characterVelocity + (characterAcceleration * Time.fixedDeltaTime);
         _characterVelocity = AdditionalVector3Tools.Limit(_characterVelocity, maxVelocity);
-
+        flattenYtoZero();
         rigidbody.velocity = _characterVelocity;
 
     }
@@ -654,71 +655,10 @@ public class MovementBehaviour : MonoBehaviour
         else return character.transform.rotation.eulerAngles.y;
 
     }*/
-    float Align3(GameObject target)
-    {
-
-        if (target.transform.rotation.eulerAngles.y != transform.rotation.eulerAngles.y)
-        {
-            float rotation = target.transform.rotation.eulerAngles.y - transform.rotation.eulerAngles.y;
-            rotation = AdditionalVector3Tools.mapAngleToRange(rotation);
-            //if we are within the range of satisfaction, stop rotating and return the targets rotation
-            if (Mathf.Abs(target.transform.rotation.eulerAngles.y - transform.rotation.eulerAngles.y) < satisfactionRotation)
-                return target.transform.rotation.eulerAngles.y;
+    
 
 
-            //rotation sign
-
-            float sign = Mathf.Sign(rotation);
-            //now we compute the goal angular velocity
-
-            float goalVelocity = (sign * maxAngularVelocity) * rotation / (sign * slowDownOrientation);
-
-            //current character velocity
-
-            float currCharVelocity = Vector3.Magnitude(rigidbody.velocity);
-
-            //compute the angular acceleration
-
-            float angularAcceleration = (goalVelocity - currCharVelocity) / timeToTarget;
-
-
-            if (Mathf.Abs(angularAcceleration) > Mathf.Abs(maxAngularAcceleration))
-                angularAcceleration = maxAngularAcceleration * sign;
-
-            //ensure angular velocity sign is the same as rotation
-            if (Mathf.Sign(maxAngularVelocity) != sign)
-                angularVelocity *= sign;
-            angularVelocity += angularAcceleration * Time.fixedDeltaTime;
-
-            if (Mathf.Abs(angularVelocity) > maxAngularVelocity)
-                angularVelocity = Mathf.Abs(maxAngularVelocity) * sign;
-
-
-
-
-            float newAngle = character.transform.rotation.eulerAngles.y + Time.fixedDeltaTime * angularVelocity;
-            return newAngle;
-        }
-        else return character.transform.rotation.eulerAngles.y;
-
-
-    }
-
-
-    /// <summary>
-    /// faces the character towards the target
-    /// </summary>
-    public void Face(Transform target, float timeStep)
-    {
-        Vector3 direction = target.position - character.transform.position;
-        if (direction.magnitude < 0.01f && direction.magnitude > 0.01f)
-            return;
-
-
-        float targetOrientation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-        Align2(targetOrientation, timeStep);
-
-    }
+    
     /// <summary>
     /// faces the character away from the target
     /// </summary>
@@ -736,9 +676,24 @@ public class MovementBehaviour : MonoBehaviour
 
     }
 
-    public void FaceAway(Transform target)
+    public void FaceAway(Transform t)
     {
+        print("in Face() and aligning face" +
+          "");
+        //calculate the target to delegate to Align
+        Vector3 direction = character.transform.position -t.position;
+        //if direction is marginally small, do nothing
+        if (direction.sqrMagnitude < 0.1f)
+            return;
+        //put the target into the holder
+        holder.transform.position = t.position;
+        float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+        Quaternion rotQuaternion = Quaternion.Euler(new Vector3(0, targetAngle, 0));
+        holder.transform.rotation = rotQuaternion;
 
+
+
+        Align(holder.transform.transform);
     }
 
     public void LookWhereYoureGoing(float timeStep)

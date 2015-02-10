@@ -41,8 +41,7 @@ namespace Assets.Scripts.Character
         private PlayerStateController.PlayerState currentState = PlayerStateController.PlayerState.idle;
         //current state
 
-        [SerializeField]
-
+        [SerializeField] private string outputinfo="";
 
 
         #endregion
@@ -51,7 +50,7 @@ namespace Assets.Scripts.Character
 
         public string GetCurrentState()
         {
-            return currentState.ToString();
+            return name+ "'s current state: "+currentState.ToString();
         }
 
 
@@ -76,6 +75,10 @@ namespace Assets.Scripts.Character
 
                     Chase();
                    
+                    break;
+
+                case PlayerStateController.PlayerState.runningAway:
+                    Escape();
                     break;
                 /*  
                                 case PlayerStateController.PlayerState.left:
@@ -360,11 +363,11 @@ namespace Assets.Scripts.Character
 
         }
 
-        private void Escape()
-        {
+ 
 
-        }
-
+        /// <summary>
+        /// implemented according to the requirements set by the assigment
+        /// </summary>
         private void Chase()
         {
             Vector3 directionalVector3 = _characterBehaviourWrapper.Target.transform.position - transform.position;
@@ -372,41 +375,71 @@ namespace Assets.Scripts.Character
 
             float currentAngle = transform.rotation.eulerAngles.y % 360;//wrap it within 360 degrees
             float angleBetweenDirAndTar = Vector3.Angle(directionalVector3, transform.forward);
+            float distance = directionalVector3.magnitude;
+            float currentSpeed = rigidbody.velocity.magnitude;
 
-            if (rigidbody.velocity.sqrMagnitude <= 0.1f )
+            if (currentSpeed <= 5f)//A
             {
-                if (Vector3.Distance(transform.position, _characterBehaviourWrapper.Target.transform.position) < _characterBehaviourWrapper.MovementBehaviour1.ArrivalRadius / 2)
+                outputinfo = "In A";
+             //   print("slow player");
+               // print("Distance is " + distance + "and ar/2 is :" + _characterBehaviourWrapper.MovementBehaviour1.ArrivalRadius / 2);
+                //if the character is really close to the target(A.1)
+                if (distance < _characterBehaviourWrapper.MovementBehaviour1.ArrivalRadius *0.5f)
                 {
+                    outputinfo = "In A.i";
                     _characterBehaviourWrapper.Hop();
-                //    print("chase state 1");
+                       print(name + "Hopped over to target");
                 }
                 else
                 {
+                    outputinfo = "In A.ii";
                     _characterBehaviourWrapper.Rotate();
                     _characterBehaviourWrapper.Arrive();
-                 ///   print("chase state 2");
+                    ///   print("chase state 2");
                 }
             }
             else
             {
-
+                outputinfo = "In B";
                 if (Mathf.Abs(angleBetweenDirAndTar) < 30f)
                 {
                     _characterBehaviourWrapper.Rotate();
                     _characterBehaviourWrapper.Arrive();
-                  //  print("chase state 3");
+                    //  print("chase state 3");
+                    outputinfo = "In B.i";
                 }
                 else
                 {
-                  //  rigidbody.velocity = Vector3.zero;
-                  //stop the character
+                    //  rigidbody.velocity = Vector3.zero;
+                    //stop the character
                     rigidbody.velocity = Vector3.zero;
                     _characterBehaviourWrapper.Rotate();
-                  //  print("chase state 4");
-  
+                    outputinfo = "In B.ii";
+                    //  print("chase state 4");
+
                 }
             }
-           
+
+        }/// <summary>
+        /// implemented according to the requirements set by the assigment
+        /// </summary>
+        private void Escape()
+        {
+            Vector3 directionalVector3 = _characterBehaviourWrapper.Target.transform.position - transform.position;
+            float distance = directionalVector3.magnitude;
+            //teleport
+            if (distance < _characterBehaviourWrapper.MovementBehaviour1.ArrivalRadius*0.15f)
+            {
+                transform.position = (transform.forward.normalized*3f) + transform.forward; //move 3 steps forward
+            }
+            else
+            {
+                _characterBehaviourWrapper.Rotate();
+                _characterBehaviourWrapper.Flee();
+            }
+
+
+
         }
 
         private void Crawl()
@@ -482,6 +515,18 @@ namespace Assets.Scripts.Character
         {
             get { return textBubble; }
             set { textBubble = value; }
+        }
+
+        public PlayerStateController.PlayerState CurrentState
+        {
+            get { return currentState; }
+            set { currentState = value; }
+        }
+
+        public string Outputinfo
+        {
+            get { return outputinfo; }
+            set { outputinfo = value; }
         }
 
 /*        public MovementBehaviour _characterBehaviourWrapper

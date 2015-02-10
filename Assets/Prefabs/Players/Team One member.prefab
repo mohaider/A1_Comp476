@@ -849,7 +849,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 159992}
   m_LocalRotation: {x: 0, y: .707106829, z: 0, w: .707106829}
-  m_LocalPosition: {x: -3.59900117, y: -.360085368, z: -11.9621744}
+  m_LocalPosition: {x: 725.845825, y: 0, z: 795.89624}
   m_LocalScale: {x: 25, y: 25, z: 25}
   m_Children:
   - {fileID: 460000}
@@ -998,8 +998,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: .982996345, y: 1.37768912, z: 1.053128}
-  m_Center: {x: -.00850097649, y: .703686535, z: .0265624989}
+  m_Size: {x: 1.47111714, y: 1.37768912, z: 1.06866503}
+  m_Center: {x: .00312743778, y: .703686535, z: .0343310572}
 --- !u!95 &9556974
 Animator:
   serializedVersion: 3
@@ -1124,7 +1124,7 @@ MonoBehaviour:
   maxAngularVelocity: 20
   maxAcceleration: 5
   maxAngularAcceleration: 20
-  ArrivalRadius: 40
+  ArrivalRadius: 70
   SlowDownRadius: 200
   slowDownRotationRadius: 20
   turnSmoothing: 15

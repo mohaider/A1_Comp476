@@ -7,11 +7,16 @@ public class TeamBuilder : MonoBehaviour
 
     #region class variables and properties
 
-    [SerializeField]  int playerPerTeam;
-    [SerializeField] private GameObject flag1;
-    [SerializeField] private GameObject flag2;
-    [SerializeField] private GameObject teamOneMember;
-    [SerializeField] private GameObject teamTwoMember;
+    [SerializeField]
+    int playerPerTeam;
+    [SerializeField]
+    private GameObject flag1;
+    [SerializeField]
+    private GameObject flag2;
+    [SerializeField]
+    private GameObject teamOneMember;
+    [SerializeField]
+    private GameObject teamTwoMember;
     [SerializeField]
     private GameObject TeamOneSpawnAreaA;
     [SerializeField]
@@ -20,10 +25,16 @@ public class TeamBuilder : MonoBehaviour
     private GameObject TeamOneSpawnAreaB;
     [SerializeField]
     private GameObject TeamTWoSpawningAreaB;
-    [SerializeField] private int positionalRadius; //this will be used for randomizing team members positons around the spawning points
+    [SerializeField]
+    private int positionalRadius; //this will be used for randomizing team members positons around the spawning points
     private GameObject[] teamAgents;
     private ArrayList teamOnePool;
     private ArrayList teamTwoPool;
+    [SerializeField]
+    private TeamManager teamManager1;
+    [SerializeField]
+    private TeamManager teamManager2;
+
 
     public ArrayList TeamOnePool
     {
@@ -52,41 +63,42 @@ public class TeamBuilder : MonoBehaviour
 
     //  private List<GameObject> teamOnePool;
     //private List<GameObject> teamTwoPool;
-    
-  /*  public List<GameObject> TeamOnePool
-    {
-        get { return teamOnePool; }
-    }
 
-    public List<GameObject> TeamTwoPool
-    {
-        get { return teamTwoPool; }
-    }*/
+    /*  public List<GameObject> TeamOnePool
+      {
+          get { return teamOnePool; }
+      }
+
+      public List<GameObject> TeamTwoPool
+      {
+          get { return teamTwoPool; }
+      }*/
 
     #endregion
 
     #region unity functions
     // Use this for initialization
-	void Awake () {
+    void Awake()
+    {
         print("Teambuilder");
-        teamAgents = new GameObject[playerPerTeam * 2]; 
+        teamAgents = new GameObject[playerPerTeam * 2];
         teamOnePool = new ArrayList();
         teamTwoPool = new ArrayList();
-	    bool switchSides = false;
+        bool switchSides = false;
         //instantiate players in a random area around the spawning point
-	    for (int i = 0; i < playerPerTeam; i++)
-	    {
+        for (int i = 0; i < playerPerTeam; i++)
+        {
             //get random position
-	        Vector3 teamOnePos = Vector3.zero;
-            Vector3 teamTwoPos = Vector3.zero; 
+            Vector3 teamOnePos = Vector3.zero;
+            Vector3 teamTwoPos = Vector3.zero;
 
-	        if (!switchSides)
-	        {
+            if (!switchSides)
+            {
                 teamOnePos = UnityEngine.Random.insideUnitSphere * positionalRadius +
                TeamOneSpawnAreaA.transform.position;
                 teamTwoPos = UnityEngine.Random.insideUnitSphere * positionalRadius +
                    TeamTWoSpawningAreaA.transform.position;
-	        }
+            }
             else
             {
                 teamOnePos = UnityEngine.Random.insideUnitSphere * positionalRadius +
@@ -94,26 +106,33 @@ public class TeamBuilder : MonoBehaviour
                 teamTwoPos = UnityEngine.Random.insideUnitSphere * positionalRadius +
                    TeamTWoSpawningAreaB.transform.position;
             }
-	         
-            
-	        teamOnePos.y = 0;
-	        teamTwoPos.y = 0;
-            
-	        GameObject tm1 = Instantiate(teamOneMember,teamOnePos,teamOneMember.transform.rotation) as GameObject;//Team Member one
-            tm1.name = "Agent A" +i;
-	        teamAgents[i] = tm1;
-	        teamOnePool.Add(tm1);
+
+
+            teamOnePos.y = 0;
+            teamTwoPos.y = 0;
+
+            GameObject tm1 = Instantiate(teamOneMember, teamOnePos, teamOneMember.transform.rotation) as GameObject;//Team Member one
+            tm1.name = "Agent A" + i;
+            teamAgents[i] = tm1;
+            teamOnePool.Add(tm1);
 
             GameObject tm2 = Instantiate(teamTwoMember, teamTwoPos, teamTwoMember.transform.rotation) as GameObject;//Team Member one
             teamAgents[i] = tm2;
             teamTwoPool.Add(tm2);
             tm2.name = "Agent B" + i;
 
-	        switchSides = !switchSides;
+            switchSides = !switchSides;
 
-	    }
-	}
-	
+        }
+        if (teamManager1 != null && teamManager2 != null)
+        {
+            teamManager1.TeamPool = TeamOnePool;
+            teamManager2.TeamPool = TeamTwoPool;
+        }
+        else 
+            Debug.Log("Team manager's haven't been set in the TeamBuilder");
+    }
+
 
     #endregion
 }
