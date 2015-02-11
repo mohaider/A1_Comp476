@@ -27,7 +27,7 @@ namespace Assets.Scripts.Character
 
         public  float[] stateDelayTimer = new float[(int)PlayerState.holdingFlag]; //in the case we need to add various timers to various states
 
-        public delegate void playerStateHandler(PlayerStateController.PlayerState newState);
+        public delegate void playerStateHandler(PlayerState newState);
 
         public event playerStateHandler OnStateChange;
 
@@ -37,7 +37,7 @@ namespace Assets.Scripts.Character
 
         #region class functions
 
-        public void ChangeState(PlayerStateController.PlayerState newState)
+        public void ChangeState(PlayerState newState)
         {
             if (OnStateChange != null)
                 OnStateChange(newState);

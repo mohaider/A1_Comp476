@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using Assets.Scripts.Character;
 
@@ -12,15 +13,25 @@ public class FCSetterSM : MonoBehaviour
     [SerializeField]
     private GameObject flagCarrier;
 
-    [SerializeField] private float timeBeforeDistCheck;
-    [SerializeField] private float timerReset;
+    [SerializeField]
+    private float timeBeforeDistCheck;
+    [SerializeField]
+    private float timerReset;
     [SerializeField]
     private float maxDistance;
     [SerializeField]
     private float SpeedUpFactor;
+
+    private float originalSpeed;
     private ArrayList teamPool;
     private ArrayList enemyPool;
-    
+
+    public GameObject FlagCarrier
+    {
+        get { return flagCarrier; }
+        set { flagCarrier = value; }
+    }
+
     #endregion
 
 
@@ -56,6 +67,7 @@ public class FCSetterSM : MonoBehaviour
                     flagCarrier.GetComponent<FlagCarrierSM>().IsAnFc = true;
                     player.GetComponent<PlayerStateListener>().TargetAgent = enemyFlag;
                     player.GetComponent<PlayerStateController>().ChangeState(PlayerStateController.PlayerState.chasing);
+                    originalSpeed = flagCarrier.GetComponent<MovementBehaviour>().MaxSpeed;                        //set the original speed
                     break;
 
                 }
@@ -64,39 +76,64 @@ public class FCSetterSM : MonoBehaviour
         }
         if (flagCarrier != null)
         {
-            if (flagCarrier.GetComponent<PlayerStateListener>().CurrentState !=
-                PlayerStateController.PlayerState.holdingFlag)
+            if (flagCarrier.GetComponent<FlagCarrierSM>().HasFlag)
             {
-                if (timeBeforeDistCheck <= 0f)
+
+                if (timeBeforeDistCheck <= 0f) //are there any enemies close by? 
                 {
-                    GameObject enemy = FindClosestEnemy();
-                    if (enemy != null) //found enemy!
+
+                    if (flagCarrier.GetComponent<CharacterBoundsController>().CurrentLocation ==
+                         CharacterBoundsController.state.inEnemyBase)  //is he in the enemy location?
                     {
-                        if (flagCarrier.GetComponent<PlayerStateListener>().CurrentState !=
-                            PlayerStateController.PlayerState.EscapingState)
+                        GameObject enemy = FindClosestEnemy();
+                        if (enemy != null) //yes, found a nearby enemy
                         {
-                            if (flagCarrier.GetComponent<MovementBehaviour>() == null)
-                                Debug.Log("no movement behaviour is set to the flagcarrier " + flagCarrier.name);
-                            else
+                            if (flagCarrier.GetComponent<PlayerStateListener>().CurrentState !=
+                                //is his state set to escaping already?
+                                PlayerStateController.PlayerState.EscapingState)
                             {
-                                float desiredSpeed = flagCarrier.GetComponent<MovementBehaviour>().MaxSpeed*
-                                                     SpeedUpFactor;
-                                flagCarrier.GetComponent<MovementBehaviour>().MaxSpeed = desiredSpeed; //increase max speed
-                                flagCarrier.GetComponent<PlayerStateListener>().TargetAgent = enemy;
-                                flagCarrier.GetComponent<PlayerStateController>().ChangeState(PlayerStateController.PlayerState.EscapingState); //change the state to escape
+                                if (flagCarrier.GetComponent<MovementBehaviour>() == null)
+                                    Debug.Log("no movement behaviour is set to the flagcarrier " + flagCarrier.name);
+                                else //set it to escape from the player
+                                {
+                                    /*
+                                                                    float desiredSpeed = flagCarrier.GetComponent<MovementBehaviour>().MaxSpeed*
+                                                                                         SpeedUpFactor;*/
+
+                                    float desiredSpeed = originalSpeed * SpeedUpFactor;
+                                    flagCarrier.GetComponent<MovementBehaviour>().MaxSpeed = desiredSpeed;
+                                    //increase max speed
+                                    flagCarrier.GetComponent<PlayerStateListener>().TargetAgent = enemy;
+                                    flagCarrier.GetComponent<PlayerStateController>()
+                                        .ChangeState(PlayerStateController.PlayerState.EscapingState);
+                                    //change the state to escape
+                                }
                             }
                         }
-                    }
-                    else if (flagCarrier.GetComponent<FlagCarrierSM>().HasFlag ) //no enemies close by and he has the flag
-                    {
-                        float desiredSpeed = flagCarrier.GetComponent<MovementBehaviour>().MaxSpeed / SpeedUpFactor;
-                        flagCarrier.GetComponent<MovementBehaviour>().MaxSpeed = desiredSpeed; //increase max speed
-                        flagCarrier.GetComponent<PlayerStateListener>().TargetAgent = homeBase;
-                        flagCarrier.GetComponent<PlayerStateController>().ChangeState(PlayerStateController.PlayerState.chasing);
+                        else
+                        //if (flagCarrier.GetComponent<FlagCarrierSM>().HasFlag ) //no enemies close by and he has the flag
+                        {
+                            // float desiredSpeed = flagCarrier.GetComponent<MovementBehaviour>().MaxSpeed / SpeedUpFactor;
+                            float desiredSpeed = originalSpeed;
+                            flagCarrier.GetComponent<MovementBehaviour>().MaxSpeed = desiredSpeed; //increase max speed
+                            flagCarrier.GetComponent<PlayerStateListener>().TargetAgent = homeBase;
+                            flagCarrier.GetComponent<PlayerStateController>()
+                                .ChangeState(PlayerStateController.PlayerState.chasing);
 
-                    }
+                        }
 
-                    timeBeforeDistCheck = timerReset;
+                        timeBeforeDistCheck = timerReset;
+                    }
+                }
+
+                if (flagCarrier.GetComponent<CharacterBoundsController>().CurrentLocation !=
+                    CharacterBoundsController.state.inEnemyBase) //is he not in the enemy location?
+                {
+                    float desiredSpeed = originalSpeed;
+                    flagCarrier.GetComponent<MovementBehaviour>().MaxSpeed = desiredSpeed; //increase max speed
+                    flagCarrier.GetComponent<PlayerStateListener>().TargetAgent = homeBase;
+                    flagCarrier.GetComponent<PlayerStateController>()
+                        .ChangeState(PlayerStateController.PlayerState.chasing);
                 }
 
             }
@@ -112,19 +149,22 @@ public class FCSetterSM : MonoBehaviour
     /// </summary>
     private GameObject FindClosestEnemy()
     {
+        float[] sortedDistances = new float[enemyPool.Count];
         for (int i = 0; i < enemyPool.Count; i++)
         {
-            GameObject enemy = (GameObject) enemyPool[i];
+            
+            GameObject enemy = (GameObject)enemyPool[i];
             Vector3 direction = enemy.transform.position - flagCarrier.transform.position;
             direction.y = 0;//flatten y
             float squareMag = direction.sqrMagnitude;
-            if (squareMag < maxDistance*maxDistance)
-            {
-                return enemy;
-                
-            }
+            sortedDistances[i] = squareMag;
 
         }
+        Array.Sort(sortedDistances);
+
+        if (sortedDistances[0] < maxDistance*maxDistance)
+            return (GameObject) enemyPool[0];
+        
         return null;
     }
 

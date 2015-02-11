@@ -47,7 +47,7 @@ public class ShowTextBubble : MonoBehaviour
             innerText.color = innerTextColor;
 	        if (alphaVal < 0.1f)
 	        {
-                print("deactivate ");
+             
 	            gameObject.SetActive(false);
 	        }
 

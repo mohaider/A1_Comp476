@@ -109,11 +109,12 @@ namespace Assets.Scripts.Character
                     break;
                 case PlayerStateController.PlayerState.chasing:
 
-                    Chase();
+                        Chase();
                    
                     break;
 
                 case PlayerStateController.PlayerState.EscapingState:
+
                     Escape();
                     break;
                 /*  
@@ -186,7 +187,7 @@ namespace Assets.Scripts.Character
         {
             //if the current state are the same, abort. No need to change the state we're in
 
-             if (newPlayerState == currentState)
+        /*     if (newPlayerState == currentState)
              {
                  return;
              }
@@ -195,7 +196,7 @@ namespace Assets.Scripts.Character
              if (CheckIfAbortState(newPlayerState))
              {
                  return;
-             }
+             }*/
              /*
               //check if the current is allowed to transition into this new state. if not, abort.
               if (!CheckValidStatePairing(newPlayerState))
@@ -360,44 +361,9 @@ namespace Assets.Scripts.Character
         }
 
 
-        private void MovementManagement(float horizontal, float vertical)
-        {
-
-            Rotating(horizontal, vertical);
-            Move();
-
-        }
-
-        private void Move()
-        {
-
-            // TODO: Change speeds if needed
-            // Crawl
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                rigidbody.MovePosition(transform.position + (transform.forward / 30.0f));
-
-            }
-            // Sprint
-            else if (Input.GetKey(KeyCode.LeftCommand) || Input.GetKey(KeyCode.LeftControl))
-            {
-                rigidbody.MovePosition(transform.position + (transform.forward / 10.0f));
-
-            }
-            // Walk
-            else
-            {
-                rigidbody.MovePosition(transform.position + (transform.forward / 20.0f));
-
-            }
 
 
-        }
 
-        private void Walk()
-        {
-
-        }
 
  
 
@@ -407,9 +373,9 @@ namespace Assets.Scripts.Character
         private void Chase()
         {
             Vector3 directionalVector3 = _characterBehaviourWrapper.Target.transform.position - transform.position;
-            float directionAngle = Mathf.Atan2(directionalVector3.z, directionalVector3.x) % 360; //wrap it to 360 degrees
-
-            float currentAngle = transform.rotation.eulerAngles.y % 360;//wrap it within 360 degrees
+            directionalVector3.y = 0; //flatten y;
+            Vector3 characterForward = transform.forward;
+            characterForward.y = 0;
             float angleBetweenDirAndTar = Vector3.Angle(directionalVector3, transform.forward);
             float distance = directionalVector3.magnitude;
             float currentSpeed = rigidbody.velocity.magnitude;
@@ -417,10 +383,9 @@ namespace Assets.Scripts.Character
             if (currentSpeed <= 5f)//A
             {
                 outputinfo = "In A";
-             //   print("slow player");
-               // print("Distance is " + distance + "and ar/2 is :" + _characterBehaviourWrapper.MovementBehaviour1.ArrivalRadius / 2);
+   
                 //if the character is really close to the target(A.1)
-                if (distance < _characterBehaviourWrapper.MovementBehaviour1.ArrivalRadius *0.5f)
+                if (distance < _characterBehaviourWrapper.MovementBehaviour1.ArrivalRadius *0.75f)
                 {
                     outputinfo = "In A.i";
                     _characterBehaviourWrapper.Hop();
@@ -428,9 +393,31 @@ namespace Assets.Scripts.Character
                 }
                 else
                 {
-                    outputinfo = "In A.ii";
-                    _characterBehaviourWrapper.Rotate();
-                    _characterBehaviourWrapper.Arrive();
+                    
+                    //need to stop and rotate:
+
+                    float difInAngles = Vector3.Angle(characterForward, directionalVector3.normalized);
+
+
+                    float targetAngle = Mathf.Atan2(directionalVector3.x, directionalVector3.z) * Mathf.Rad2Deg;
+                    targetAngle %= 360f;
+                    float currentAngle = transform.rotation.eulerAngles.y %360;
+                    float differenceInAngles = targetAngle - currentAngle;
+
+                    outputinfo = "In A.ii, difference between angles is "+difInAngles;
+
+                   // float diferen = curangle - angere;
+
+                    if (difInAngles > 9f)
+                    {
+                        outputinfo = "In A.ii difference between angles is "+difInAngles;
+                        _characterBehaviourWrapper.Rotate(CharacterBehaviourWrapper.HeuristicType.A2);
+                    }
+                else
+                    {
+                            _characterBehaviourWrapper.Move(CharacterBehaviourWrapper.HeuristicType.A2); 
+                    }
+               
                     ///   print("chase state 2");
                 }
             }
@@ -439,8 +426,8 @@ namespace Assets.Scripts.Character
                 outputinfo = "In B";
                 if (Mathf.Abs(angleBetweenDirAndTar) < 30f)
                 {
-                    _characterBehaviourWrapper.Rotate();
-                    _characterBehaviourWrapper.Arrive();
+                    _characterBehaviourWrapper.Rotate(CharacterBehaviourWrapper.HeuristicType.B1);
+                    _characterBehaviourWrapper.Move(CharacterBehaviourWrapper.HeuristicType.B2);
                     //  print("chase state 3");
                     outputinfo = "In B.i";
                 }
@@ -449,7 +436,7 @@ namespace Assets.Scripts.Character
                     //  rigidbody.velocity = Vector3.zero;
                     //stop the character
                     rigidbody.velocity = Vector3.zero;
-                    _characterBehaviourWrapper.Rotate();
+                    _characterBehaviourWrapper.Rotate(CharacterBehaviourWrapper.HeuristicType.B2);
                     outputinfo = "In B.ii";
                     //  print("chase state 4");
 
@@ -464,14 +451,17 @@ namespace Assets.Scripts.Character
             Vector3 directionalVector3 = _characterBehaviourWrapper.Target.transform.position - transform.position;
             float distance = directionalVector3.magnitude;
             //teleport
-            if (distance < _characterBehaviourWrapper.MovementBehaviour1.ArrivalRadius*0.15f)
+            if (distance < _characterBehaviourWrapper.MovementBehaviour1.ArrivalRadius*0.75f)
             {
-                transform.position = (transform.forward.normalized*3f) + transform.forward; //move 3 steps forward
+                //transform.position = (transform.forward.normalized*3f) + transform.forward; //move 3 steps forward
+                transform.position -= directionalVector3.normalized*3f;
+                outputinfo = "in c.i";
             }
             else
             {
-                _characterBehaviourWrapper.Rotate();
-                _characterBehaviourWrapper.Flee();
+                outputinfo = "in c.ii";
+                _characterBehaviourWrapper.Rotate(CharacterBehaviourWrapper.HeuristicType.C2);
+                _characterBehaviourWrapper.Move(CharacterBehaviourWrapper.HeuristicType.C2);
             }
 
 
@@ -561,10 +551,10 @@ namespace Assets.Scripts.Character
             //PlayerStateController.stateDelayTimer[(int)PlayerStateController.PlayerState.jump] = 1.0f;//can jump every 1.0 seconds
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             OnStateCycle();
-          
+
         }
 
 

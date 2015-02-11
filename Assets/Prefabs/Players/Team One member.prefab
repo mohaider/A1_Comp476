@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &144668
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 444668}
+  m_Layer: 0
+  m_Name: PlaceBananaHere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &159948
 GameObject:
   m_ObjectHideFlags: 1
@@ -559,6 +574,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &444668
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 144668}
+  m_LocalRotation: {x: .533793688, y: -.463750273, z: -.533793688, w: .463750273}
+  m_LocalPosition: {x: .0889063329, y: 1.08583999, z: -.660673916}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 459992}
+  m_RootOrder: 0
 --- !u!4 &459948
 Transform:
   m_ObjectHideFlags: 1
@@ -843,7 +870,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 459992}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!4 &459992
 Transform:
   m_ObjectHideFlags: 1
@@ -851,9 +878,10 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 159992}
   m_LocalRotation: {x: 0, y: .707106829, z: 0, w: .707106829}
-  m_LocalPosition: {x: 725.845825, y: 0, z: 795.89624}
+  m_LocalPosition: {x: 380.006989, y: 0, z: 676.628845}
   m_LocalScale: {x: 25, y: 25, z: 25}
   m_Children:
+  - {fileID: 444668}
   - {fileID: 460000}
   - {fileID: 459990}
   - {fileID: 22490496}
@@ -909,7 +937,7 @@ Transform:
   m_Children:
   - {fileID: 459978}
   m_Father: {fileID: 459992}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!4 &460002
 Transform:
   m_ObjectHideFlags: 1
@@ -1136,20 +1164,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 328ac17dc3e1f984589bd35ad1d84236, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 200
+  maxSpeed: 100
   maxAngularVelocity: 20
-  maxAcceleration: 5
-  maxAngularAcceleration: 20
-  ArrivalRadius: 70
-  SlowDownRadius: 100
-  slowDownRotationRadius: 20
-  turnSmoothing: 15
-  maxPredictionTime: 20
+  maxAcceleration: 50
+  maxAngularAcceleration: 200
+  ArrivalRadius: 25
+  SlowDownRadius: 35
+  slowDownRotationRadius: 10
+  turnSmoothing: 10
+  maxPredictionTime: 10
   satisfactionRotation: 20
-  slowDownOrientation: 20
-  timeToTarget: 5
+  slowDownOrientation: 10
+  timeToTarget: 1
   angularVelocity: 0
   characterAngularVelocity: 0
+  maxRotation: 1000
   textbubble: {fileID: 190498}
   holder: {fileID: 127548, guid: 6f63635784b756f4f9a2cde2ea583c44, type: 2}
 --- !u!114 &11460010
@@ -1180,6 +1209,8 @@ MonoBehaviour:
   hasFlag: 0
   isAnFC: 0
   touchingFlag: 0
+  flagPlacement: {fileID: 144668}
+  homeBase: {fileID: 0}
 --- !u!114 &11490492
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1408,7 +1439,7 @@ RectTransform:
   m_Children:
   - {fileID: 22490498}
   m_Father: {fileID: 459992}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 3.47000003}

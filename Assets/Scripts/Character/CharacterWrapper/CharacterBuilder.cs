@@ -32,6 +32,7 @@ namespace Assets.Scripts.CharacterWrapper
         public float timeToTarget = 5f;
         public float angularVelocity;
         public float characterAngularVelocity;
+        public float maxRotation;
         public GameObject textbubble;
         public GameObject holder;
         private MovementBehaviour movementBehaviour;
@@ -54,6 +55,7 @@ namespace Assets.Scripts.CharacterWrapper
             gameObject.GetComponent<MovementBehaviour>().slowDownOrientation = this.slowDownOrientation;
             gameObject.GetComponent<MovementBehaviour>().angularVelocity = this.angularVelocity;
             gameObject.GetComponent<MovementBehaviour>().characterAngularVelocity = this.characterAngularVelocity;
+            gameObject.GetComponent<MovementBehaviour>().maxRotation = maxRotation;
             GameObject tempHolder =(GameObject) Instantiate(holder);
             gameObject.GetComponent<MovementBehaviour>().holder = tempHolder;
             

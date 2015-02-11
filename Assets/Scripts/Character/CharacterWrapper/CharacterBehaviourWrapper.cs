@@ -22,11 +22,25 @@ namespace Assets.Scripts.Character.CharacterWrapper
         private MovementBehaviour _movementBehaviour;
         private GameObject _targetAgent;
         private Animation playerAnimation;
+        private float originalMaxSpeed;
 
+        public enum HeuristicType
+        {
+            A1,
+            A2,
+            B1,
+            B2,
+            C1,
+            C2
+        }
         public MovementBehaviour MovementBehaviour1
         {
             get { return _movementBehaviour; }
-            set { _movementBehaviour = value; }
+            set
+            {
+                originalMaxSpeed = value.MaxSpeed;
+                _movementBehaviour = value;
+            }
         }
 
         public GameObject Target
@@ -67,46 +81,199 @@ namespace Assets.Scripts.Character.CharacterWrapper
 
             currentState = newInputState;
 
-            print("current state has changed to " + newInputState);
+            //            print("current state has changed to " + newInputState);
         }
 
-        public void Arrive()
+        public void Move(HeuristicType heuristicType)
         {
-            if (!CheckStop())
-            {
-                if (currentState == InputController.MovementTypeState.kinematic)
-                    MovementBehaviour1.KinematicArrive();
-                else
-                {
-                    MovementBehaviour1.SteeringArrive();
-                }
+
+            //set maxspeed to original value
+            MovementBehaviour1.MaxSpeed = originalMaxSpeed;
+
+            //check if the player's speed is close to zero
+            if (_movementBehaviour.CharacterVelocity.magnitude < 1f)
+                playerAnimation.Play("idle");
+            //check if current speed is half,set animation to walk
+            else if (rigidbody.velocity.magnitude < originalMaxSpeed * 0.5f)
                 playerAnimation.Play("walk");
+            else
+            {
+                playerAnimation.Play("run");
+            }
+            if (currentState == InputController.MovementTypeState.kinematic)
+            {
+                KinematicMovement(heuristicType);
+                //print(name + " is moving kinematically");
+                // MovementBehaviour1.KinematicArrive();
+            }
+            else
+            {
+                SteeringMove(heuristicType);
+                //  print(name + " is moving by steering");
+                //MovementBehaviour1.SteeringArrive();
+            }
+
+
+
+
+        }
+
+        public void Rotate(CharacterBehaviourWrapper.HeuristicType heuristicType)
+        {
+            if (currentState == InputController.MovementTypeState.kinematic)
+                KinematicRotate(heuristicType);
+            // MovementBehaviour1.InterpolateRotate();
+            if (currentState == InputController.MovementTypeState.steering)
+                SteeringRotate(heuristicType);
+
+        }
+
+        private void KinematicRotate(HeuristicType heuristicType)
+        {
+            switch (heuristicType)
+            {
+                case HeuristicType.A1:
+                    break;
+
+                case HeuristicType.A2:
+                    MovementBehaviour1.InterpolateRotate();
+                    break;
+
+                case HeuristicType.B1:
+                    MovementBehaviour1.InterpolateRotate();
+                    break;
+
+                case HeuristicType.B2:
+                    MovementBehaviour1.InterpolateRotate();
+                    break;
+
+                case HeuristicType.C1:
+                   // MovementBehaviour1.InterpolateRotate();
+               
+                    break;
+
+                case HeuristicType.C2:
+
+                    MovementBehaviour1.InterpolateRotateWithEnemy();
+                    break;
 
 
             }
         }
 
-        public void Rotate()
+        private void SteeringRotate(CharacterBehaviourWrapper.HeuristicType heuristicType)
         {
-            if (currentState == InputController.MovementTypeState.kinematic)
-                MovementBehaviour1.InterpolateRotate();
+            switch (heuristicType)
+            {
+                case CharacterBehaviourWrapper.HeuristicType.A1:
+                    break;
 
+                case CharacterBehaviourWrapper.HeuristicType.A2:
+                    MovementBehaviour1.Face(MovementBehaviour1.TargetGameObject.transform);
+                    break;
+
+                case CharacterBehaviourWrapper.HeuristicType.B1:
+                    MovementBehaviour1.LookWhereYoureGoing();
+                    break;
+
+                case CharacterBehaviourWrapper.HeuristicType.B2:
+                    MovementBehaviour1.Face(MovementBehaviour1.TargetGameObject.transform);
+                    break;
+
+                case CharacterBehaviourWrapper.HeuristicType.C1:
+                    MovementBehaviour1.LookWhereYoureGoing();
+                    break;
+
+                case CharacterBehaviourWrapper.HeuristicType.C2:
+
+                    MovementBehaviour1.FaceAway(MovementBehaviour1.TargetGameObject.transform);
+                    break;
+
+
+            }
         }
 
+        private void KinematicMovement(HeuristicType heuristicType)
+        {
+            switch (heuristicType)
+            {
+                case HeuristicType.A1:
+                    MovementBehaviour1.KinematicArrive();
+                    break;
+
+                case HeuristicType.A2:
+                    MovementBehaviour1.KinematicArrive();
+                    break;
+
+                case HeuristicType.B1:
+                    MovementBehaviour1.KinematicArrive();
+                    break;
+
+                case HeuristicType.B2:
+                    MovementBehaviour1.KinematicArrive();
+                    break;
+
+                case HeuristicType.C1:
+                    MovementBehaviour1.KinematicFlee();
+                    break;
+
+                case HeuristicType.C2:
+                    
+                    MovementBehaviour1.KinematicFlee();
+                    break;
+
+
+            }
+        }
+
+        private void SteeringMove(HeuristicType heuristicType)
+        {
+            switch (heuristicType)
+            {
+                case HeuristicType.A1:
+                    MovementBehaviour1.SteeringArrive();
+                    break;
+
+                case HeuristicType.A2:
+                    MovementBehaviour1.KinematicArrive();
+                    break;
+
+                case HeuristicType.B1:
+                    MovementBehaviour1.KinematicArrive();
+                    break;
+
+                case HeuristicType.B2:
+                    MovementBehaviour1.SteeringArrive();
+                    break;
+
+                case HeuristicType.C1:
+                    MovementBehaviour1.SteeringFlee(); 
+                    break;
+
+                case HeuristicType.C2:
+                    MovementBehaviour1.Evade(); 
+                    break;
+
+
+            }
+        }
         public void Flee()
         {
         }
 
         public void Wander()
         {
-            if (!CheckStop())
+            if (_movementBehaviour.CharacterVelocity.magnitude < 1f)
+                playerAnimation.Play("idle");
+            else
                 playerAnimation.Play("walk");
             _movementBehaviour.ReynoldsWander(3f, Time.fixedDeltaTime);
+            _movementBehaviour.MaxSpeed = originalMaxSpeed / 2f; //walk slower
         }
 
         public bool CheckStop()
         {
-            if (rigidbody.velocity.magnitude < 1f)
+            if (_movementBehaviour.CharacterVelocity.magnitude < 1f)
             {
                 playerAnimation.Play("idle");
                 return true;

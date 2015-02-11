@@ -30,6 +30,8 @@ public class testerScript : MonoBehaviour
         evade,
         pursuit,
         seek,
+        face,
+        faceaway,
         FaceawayAndEvade
     }
 
@@ -86,6 +88,12 @@ public class testerScript : MonoBehaviour
             case testerScript.movementType.FaceawayAndEvade:
                 movementBehaviour.FaceAway(movementBehaviour._targetGameObject.transform);
                 movementBehaviour.Evade();
+                break;
+            case  testerScript.movementType.face:
+                movementBehaviour.Face((movementBehaviour._targetGameObject.transform));
+                break;
+            case testerScript.movementType.faceaway:
+                movementBehaviour.FaceAway((movementBehaviour._targetGameObject.transform));
                 break;
         }
 

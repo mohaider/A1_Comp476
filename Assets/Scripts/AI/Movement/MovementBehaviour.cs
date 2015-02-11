@@ -66,6 +66,7 @@ public class MovementBehaviour : MonoBehaviour
     public Vector3 CharacterVelocity
     {
         get { return _characterVelocity; }
+        set { _characterVelocity = value; }
     }
 
     public void InstatiateMovementBehaviour(GameObject character, float maxspeed, float maxAngularvelocity, float maxAcceleration,
@@ -162,24 +163,28 @@ public class MovementBehaviour : MonoBehaviour
 
     public void SteeringArrive()
     {
+        if (Input.GetKey(KeyCode.A))
+            print("start to debug");
         Vector3 targetVelocity = _targetGameObject.transform.position - character.transform.position;
         Vector3 direction = _targetGameObject.transform.position - character.transform.position;
         float targetspeed = 0;
         float dist = targetVelocity.magnitude;
         if (dist < ArrivalRadius)
         {
-            //  print("setting to zero");
+              print("setting to zero");
             character.rigidbody.velocity = Vector3.zero;
             return;
 
         }
-        else if (dist > SlowDownRadius)
+         if (dist > SlowDownRadius) //if we're outside the target radius, go at full speed
         {
+           
             targetspeed = MaxSpeed;
             //CharacterVelocity = desiredVel.normalized*MaxSpeed;
         }
-        else
+        else //he's actually inside the slow radius
         {
+         //   print(name+ " is in steering arrive and slowing down");
             targetspeed = MaxSpeed * dist / SlowDownRadius;
             // CharacterVelocity = desiredVel.normalized*MaxSpeed/SlowDownRadius;
         }
@@ -257,7 +262,7 @@ public class MovementBehaviour : MonoBehaviour
         //acceleration tries to get to the target rotation 
         angularAcceleration = targetRotation - character.transform.rotation.eulerAngles.y;
         angularAcceleration /= timeToTarget;
-
+        
         //check if acceleration is too great
         float angularAccelCheck = Mathf.Abs(angularAcceleration);
         if (angularAccelCheck > maxAngularAcceleration)
@@ -270,7 +275,7 @@ public class MovementBehaviour : MonoBehaviour
         //set the angle of the character
         float targetAngle = character.transform.rotation.eulerAngles.y + angularAcceleration * Time.fixedDeltaTime;
         Quaternion rotQuaternion = Quaternion.Euler(new Vector3(0, targetAngle, 0));
-        print("setting alignment");
+
         character.transform.rotation = rotQuaternion;
 
     }
@@ -290,11 +295,13 @@ public class MovementBehaviour : MonoBehaviour
         //calculate the target to delegate to Align
         Vector3 direction = t.position - character.transform.position;
         //if direction is marginally small, do nothing
-        if (direction.sqrMagnitude < 0.1f)
+        if (direction.magnitude < 0.1f)
             return;
         //put the target into the holder
         holder.transform.position = t.position;
         float targetAngle = Mathf.Atan2(direction.x, direction.z)*Mathf.Rad2Deg;
+
+        //float targetAngle = Mathf.Atan2(direction.z, direction.x) *-Mathf.Rad2Deg + 90;
         Quaternion rotQuaternion = Quaternion.Euler(new Vector3(0, targetAngle, 0));
         holder.transform.rotation = rotQuaternion;
         
@@ -426,7 +433,8 @@ public class MovementBehaviour : MonoBehaviour
         float distance = directionVector3.magnitude;
 
         //find our current speed
-        float speed = character.rigidbody.velocity.magnitude;
+       // float speed = character.rigidbody.velocity.magnitude;
+        float speed = CharacterVelocity.magnitude;
         //check if the speed is too small to give a reasonable prediction time
         float predictionTime; //prediction time
         if (speed <= distance / maxPredictionTime)
@@ -489,7 +497,7 @@ public class MovementBehaviour : MonoBehaviour
         {
 
             _characterVelocity = RandomDirection(6f, timeStep);
-            timer = resetTimer;
+            timer = Random.Range(1, resetTimer*2f);
         }
         //smoothen rotation
         SmoothRotation(_characterVelocity, timeStep);
@@ -682,13 +690,16 @@ public class MovementBehaviour : MonoBehaviour
 
     public void FaceAway(Transform t)
     {
-        print("in Face() and aligning face" +
+        print(name +" in FaceAway() and aligning face" +
           "");
         //calculate the target to delegate to Align
         Vector3 direction = character.transform.position -t.position;
         //if direction is marginally small, do nothing
         if (direction.sqrMagnitude < 0.1f)
-            return;
+        {
+            print("small margin"); return;
+        }
+            
         //put the target into the holder
         holder.transform.position = t.position;
         float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
@@ -835,6 +846,9 @@ public class MovementBehaviour : MonoBehaviour
     /// </summary>
     public void KinematicArrive()
     {
+/*        print("start to debug");
+        if (Input.GetKey(KeyCode.A))
+            print("start to debug");*/
         _characterVelocity = TargetGameObject.transform.position - character.transform.position;
         float mag = _characterVelocity.magnitude;
         float currentVelocity = 0;
@@ -882,15 +896,64 @@ public class MovementBehaviour : MonoBehaviour
          currentOrientation.y = angle;
        //  print(TargetGameObject.name + " and the angle " + angle);
          character.transform.rotation = Quaternion.Euler(currentOrientation);*/
-        Vector3 aimingDirection = _targetGameObject.transform.position - transform.position;
+       // Vector3 aimingDirection = _targetGameObject.transform.position - transform.position;
 
-        var heading = _targetGameObject.transform.position - transform.position;
+        //var heading = _targetGameObject.transform.position - transform.position;
+/*
+        var heading = CharacterVelocity;
         var newHeading = new Vector2(heading.x, heading.z).normalized;
         var currentHeading = new Vector2(transform.forward.x, transform.forward.z).normalized;
         float angle = Mathf.Atan2(newHeading.x, newHeading.y) * Mathf.Rad2Deg;
         Quaternion rot = Quaternion.Euler(new Vector3(0, angle, 0));
         transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.fixedDeltaTime * 2.0f);
+
+
+*/
+
+
+        Vector3 directionVector3 = (_targetGameObject.transform.position) - transform.position;
+        //Vector3 directionVector3 = _characterVelocity;
+        float angle = Mathf.Atan2(directionVector3.x, directionVector3.z) * Mathf.Rad2Deg;
+        Quaternion rotationQuaternion = Quaternion.Euler(new Vector3(0, angle, 0));
+
+        transform.rotation = Quaternion.Lerp(transform.rotation, rotationQuaternion, Time.deltaTime * 6f);
+
     }
+    public void InterpolateRotateWithEnemy()
+    {
+        /* Vector3 currentOrientation = character.transform.rotation.eulerAngles;
+         Vector3 directionVector3 = (TargetGameObject.transform.position - character.transform.position).normalized;
+        // print(gameObject.name + " is trying to point to " + TargetGameObject.transform.position + " and its direction is  " + directionVector3.x);
+         float angle = Mathf.Atan2(directionVector3.z, directionVector3.x)* Mathf.Rad2Deg;
+       // currentOrientation.y = Mathf.Lerp(currentOrientation.y, angle, Time.deltaTime * 5f);
+         currentOrientation.y = angle;
+       //  print(TargetGameObject.name + " and the angle " + angle);
+         character.transform.rotation = Quaternion.Euler(currentOrientation);*/
+        // Vector3 aimingDirection = _targetGameObject.transform.position - transform.position;
+
+        //var heading = _targetGameObject.transform.position - transform.position;
+        /*
+                var heading = CharacterVelocity;
+                var newHeading = new Vector2(heading.x, heading.z).normalized;
+                var currentHeading = new Vector2(transform.forward.x, transform.forward.z).normalized;
+                float angle = Mathf.Atan2(newHeading.x, newHeading.y) * Mathf.Rad2Deg;
+                Quaternion rot = Quaternion.Euler(new Vector3(0, angle, 0));
+                transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.fixedDeltaTime * 2.0f);
+
+
+        */
+
+
+        Vector3 directionVector3 = transform.position - (_targetGameObject.transform.position);
+        //Vector3 directionVector3 = _characterVelocity;
+        float angle = Mathf.Atan2(directionVector3.x, directionVector3.z) * Mathf.Rad2Deg;
+        Quaternion rotationQuaternion = Quaternion.Euler(new Vector3(0, angle, 0));
+
+        transform.rotation = Quaternion.Lerp(transform.rotation, rotationQuaternion, Time.deltaTime *6f);
+
+    }
+
+
 
     #endregion
 }

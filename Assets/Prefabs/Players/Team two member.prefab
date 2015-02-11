@@ -70,6 +70,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &125324
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 425324}
+  m_Layer: 0
+  m_Name: PlaceOrangeHere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &193592
 GameObject:
   m_ObjectHideFlags: 1
@@ -558,6 +573,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &425324
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 125324}
+  m_LocalRotation: {x: 0, y: .707106829, z: 0, w: .707106829}
+  m_LocalPosition: {x: -.148000002, y: .851000011, z: -.878000021}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 493610}
+  m_RootOrder: 3
 --- !u!4 &493592
 Transform:
   m_ObjectHideFlags: 1
@@ -681,12 +708,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 193610}
   m_LocalRotation: {x: 0, y: -.707106829, z: 0, w: .707106829}
-  m_LocalPosition: {x: 786.775146, y: 0, z: 798.941528}
+  m_LocalPosition: {x: 258.053619, y: 0, z: 680.69043}
   m_LocalScale: {x: 25, y: 25, z: 25}
   m_Children:
   - {fileID: 493602}
   - {fileID: 493612}
   - {fileID: 22402688}
+  - {fileID: 425324}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &493612
@@ -1227,6 +1255,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e31263fa0964cac449771dc5021e3930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  homebase: {fileID: 0}
+  enemybase: {fileID: 0}
+  currentLocation: 0
 --- !u!114 &11478970
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1241,6 +1272,8 @@ MonoBehaviour:
   hasFlag: 0
   isAnFC: 0
   touchingFlag: 0
+  flagPlacement: {fileID: 125324}
+  homeBase: {fileID: 0}
 --- !u!114 &11493652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1266,21 +1299,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 328ac17dc3e1f984589bd35ad1d84236, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 200
+  maxSpeed: 150
   maxAngularVelocity: 20
-  maxAcceleration: 20
-  maxAngularAcceleration: 20
-  ArrivalRadius: 50
-  SlowDownRadius: 90
-  slowDownRotationRadius: 20
-  turnSmoothing: 15
-  maxPredictionTime: 20
+  maxAcceleration: 50
+  maxAngularAcceleration: 200
+  ArrivalRadius: 25
+  SlowDownRadius: 35
+  slowDownRotationRadius: 10
+  turnSmoothing: 10
+  maxPredictionTime: 10
   satisfactionRotation: 20
-  slowDownOrientation: 20
-  timeToTarget: .0900000036
+  slowDownOrientation: 10
+  timeToTarget: 1
   angularVelocity: 0
   characterAngularVelocity: 0
-  textbubble: {fileID: 102688}
+  maxRotation: 1000
+  textbubble: {fileID: 102690}
   holder: {fileID: 127548, guid: 6f63635784b756f4f9a2cde2ea583c44, type: 2}
 --- !u!137 &13793654
 SkinnedMeshRenderer:

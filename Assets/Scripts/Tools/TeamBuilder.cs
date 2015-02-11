@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Character;
 
 public class TeamBuilder : MonoBehaviour
 {
@@ -27,13 +28,16 @@ public class TeamBuilder : MonoBehaviour
     private GameObject TeamTWoSpawningAreaB;
     [SerializeField]
     private int positionalRadius; //this will be used for randomizing team members positons around the spawning points
-    private GameObject[] teamAgents;
+
+    private ArrayList teamAgents;
     private ArrayList teamOnePool;
     private ArrayList teamTwoPool;
     [SerializeField]
     private TeamManager teamManager1;
     [SerializeField]
     private TeamManager teamManager2;
+    private ArrayList originalPositions ;
+    private ArrayList originalRotations;
 
 
     public ArrayList TeamOnePool
@@ -56,10 +60,12 @@ public class TeamBuilder : MonoBehaviour
         get { return flag2; }
     }
 
-    public GameObject[] TeamAgents
+    public ArrayList TeamAgents
     {
         get { return teamAgents; }
+        set { teamAgents = value; }
     }
+
 
     //  private List<GameObject> teamOnePool;
     //private List<GameObject> teamTwoPool;
@@ -81,9 +87,11 @@ public class TeamBuilder : MonoBehaviour
     void Awake()
     {
         print("Teambuilder");
-        teamAgents = new GameObject[playerPerTeam * 2];
+        teamAgents = new ArrayList();
         teamOnePool = new ArrayList();
         teamTwoPool = new ArrayList();
+        originalPositions = new ArrayList();
+        originalRotations = new ArrayList();
         bool switchSides = false;
         //instantiate players in a random area around the spawning point
         for (int i = 0; i < playerPerTeam; i++)
@@ -113,13 +121,16 @@ public class TeamBuilder : MonoBehaviour
 
             GameObject tm1 = Instantiate(teamOneMember, teamOnePos, teamOneMember.transform.rotation) as GameObject;//Team Member one
             tm1.name = "Agent A" + i;
-            teamAgents[i] = tm1;
+            teamAgents.Add(tm1);
             teamOnePool.Add(tm1);
+            originalPositions.Add(teamOnePos);
 
             GameObject tm2 = Instantiate(teamTwoMember, teamTwoPos, teamTwoMember.transform.rotation) as GameObject;//Team Member one
-            teamAgents[i] = tm2;
+            teamAgents.Add(tm2);
             teamTwoPool.Add(tm2);
             tm2.name = "Agent B" + i;
+            originalPositions.Add(teamTwoPos);
+            
 
             switchSides = !switchSides;
 
@@ -133,6 +144,28 @@ public class TeamBuilder : MonoBehaviour
         }
         else 
             Debug.Log("Team manager's haven't been set in the TeamBuilder");
+    }
+
+
+    #endregion
+
+    #region class function
+
+    public void ResetPositionsAndStates()
+    {
+        for (int i = 0; i < teamAgents.Count; i++)
+        {
+            GameObject obj = (GameObject) teamAgents[i];
+
+            obj.transform.position  = (Vector3) originalPositions[i];
+            PlayerStateController PScontroller = obj.GetComponent<PlayerStateController>();
+            PScontroller.ChangeState(PlayerStateController.PlayerState.idle);
+            obj.GetComponent<FlagCarrierSM>().HasFlag = false;
+            obj.GetComponent<MovementBehaviour>().CharacterVelocity = Vector3.zero;
+            print("WARNING RESET THE TAGGER AND UNTAGGER STATES! ");
+        }
+       //todo that !
+
     }
 
 

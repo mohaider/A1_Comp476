@@ -11,6 +11,8 @@ public class FlagCarrierSM : MonoBehaviour
     [SerializeField] private bool hasFlag =false;
     [SerializeField] private bool isAnFC =false;
     [SerializeField] private bool touchingFlag = false;
+    [SerializeField] private GameObject flagPlacement;
+    [SerializeField] private GameObject homeBase;
 
     public bool IsAnFc
     {
@@ -56,15 +58,31 @@ public class FlagCarrierSM : MonoBehaviour
             {
                 if (col.tag == "Orange")
                 {
-                    hasFlag = true;
-                    //notify the team manager
+                    
+                    //take the flag
+                    FlagScript flagScript = col.GetComponent<FlagScript>();
+                    if (flagScript ==null)
+                        Debug.Log("the flag doesn't have a flag script!");
+                    flagScript.PickupFlag(flagPlacement);
+                    
+                    //notify the team manager.
+
+                        hasFlag = true;
                 }
+
             }
             if (tag == "TeamOrange")
             {
                 if (col.tag == "Banana")
                 {
+                    //take the flag
+                    FlagScript flagScript = col.GetComponent<FlagScript>();
+                    if (flagScript == null)
+                        Debug.Log("the flag doesn't have a flag script!");
+                    flagScript.PickupFlag(flagPlacement);
+                    
                     hasFlag = true;
+                 
                     //notify the team manager
                 }
 

@@ -16,9 +16,14 @@ namespace Assets.Scripts.Director
 
         #region class variables and properties
 
+        public GameObject flag1;
+        public GameObject flag2;
+        public GameObject teammanager1;
+        public GameObject teamamanger2;
+
         private ArrayList teamOnePool = new ArrayList();
         private ArrayList teamTwoPool = new ArrayList();
-        private GameObject[] playerPool;
+        private ArrayList playerPool;
       //  private List<GameObject> teamOnePool = new List<GameObject>();
       //  private List<GameObject> teamTwoPool = new List<GameObject>();
         private TeamBuilder teamBuilder;
@@ -47,7 +52,11 @@ namespace Assets.Scripts.Director
 
         }
 
-
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.O))
+                ResetEverything();
+        }
         #endregion
 
         #region class functions
@@ -82,7 +91,16 @@ namespace Assets.Scripts.Director
         {
 
         }
-
+        public void ResetEverything()
+        {
+            teamBuilder.ResetPositionsAndStates();
+            flag1.GetComponent<FlagScript>().ResetToHomePosition();
+            flag2.GetComponent<FlagScript>().ResetToHomePosition();
+            teammanager1.GetComponent<FCSetterSM>().FlagCarrier = null;
+            teamamanger2.GetComponent<FCSetterSM>().FlagCarrier = null;
+            print("WARNING RESET FLAGS FOR UNTAGGERS AND TAGGER SMS AS WELL");
+            //TODO THAT
+        }
         #endregion
     }
 }
