@@ -149,6 +149,7 @@ public class FCSetterSM : MonoBehaviour
     /// </summary>
     private GameObject FindClosestEnemy()
     {
+        Debug.Log("THIS ISNT SORTING DIDLY!");
         float[] sortedDistances = new float[enemyPool.Count];
         for (int i = 0; i < enemyPool.Count; i++)
         {

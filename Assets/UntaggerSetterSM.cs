@@ -5,6 +5,14 @@ public class UntaggerSetterSM : MonoBehaviour
 {
     #region class variables and properties
 
+    [SerializeField] private GameObject untagger;
+
+    public GameObject Untagger
+    {
+        get { return untagger; }
+        set { untagger = value; }
+    }
+
     #endregion
 
     #region class functions

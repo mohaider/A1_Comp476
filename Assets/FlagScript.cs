@@ -12,12 +12,21 @@ public class FlagScript : MonoBehaviour
 
     public GameObject newParent;
     public GameObject home;
+
+    [SerializeField]
+    private GameObject enemyCarrier;
     FlagState _flagState = FlagState.AtHome;
 
     public FlagState flagState
     {
         get { return _flagState; }
         set { _flagState = value; }
+    }
+
+    public GameObject EnemyCarrier
+    {
+        get { return enemyCarrier; }
+        set { enemyCarrier = value; }
     }
 
     #region class function
@@ -54,6 +63,7 @@ public class FlagScript : MonoBehaviour
         this.gameObject.transform.position = newParent.transform.position; //set the position to that of the parent's position
         this.gameObject.transform.rotation= newParent.transform.rotation;  //set the rotation to that of the parent's rotation
         this.gameObject.transform.parent = newParent.transform;            //set the transforms parent to the new parent's
+        enemyCarrier = newParent.transform.parent.gameObject;
         _flagState = FlagState.Taken;
         //notify the tagger
 
@@ -70,6 +80,7 @@ public class FlagScript : MonoBehaviour
         this.gameObject.transform.position = newParent.transform.position; //set the position to that of the parent's position
         this.gameObject.transform.rotation = newParent.transform.rotation;  //set the rotation to that of the parent's rotation
         this.gameObject.transform.parent = newParent.transform;            //set the transforms parent to the new parent's
+        enemyCarrier = null;
         _flagState = FlagState.AtHome;
         ActivateCollider();
     }
