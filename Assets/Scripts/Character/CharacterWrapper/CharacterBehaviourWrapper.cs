@@ -314,7 +314,11 @@ namespace Assets.Scripts.Character.CharacterWrapper
         }
 
 
-
+        public void Tagged()
+        {
+            animation.Play("worry");
+            MovementBehaviour1.Stop();
+        }
 
 
 

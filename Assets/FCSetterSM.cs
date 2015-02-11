@@ -169,5 +169,11 @@ public class FCSetterSM : MonoBehaviour
         return null;
     }
 
+    public void UnsetFC()
+    {
+        flagCarrier = null;
+    }
+ 
+
     #endregion
 }

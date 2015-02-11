@@ -40,6 +40,9 @@ public class animationTester : MonoBehaviour
             if (index < 0)
                 index = clipsName.Count -1;
         }
-	    
+	    if (Input.GetKeyDown(KeyCode.R))
+	        index = 0;
+	    if (Input.GetKeyDown(KeyCode.A))
+	        animation.Play("worry");
 	}
 }

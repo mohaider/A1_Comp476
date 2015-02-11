@@ -98,8 +98,8 @@ namespace Assets.Scripts.Director
             flag2.GetComponent<FlagScript>().ResetToHomePosition();
             teammanager1.GetComponent<FCSetterSM>().FlagCarrier = null;
             teamamanger2.GetComponent<FCSetterSM>().FlagCarrier = null;
-            teammanager1.GetComponent<FlagSaverSetterSM>().Tagger = null;
-            teamamanger2.GetComponent<FlagSaverSetterSM>().Tagger = null;
+            teammanager1.GetComponent<FlagSaverSetterSM>().UnsetTagger();
+            teamamanger2.GetComponent<FlagSaverSetterSM>().UnsetTagger();
             teammanager1.GetComponent<UntaggerSetterSM>().Untagger = null;
             teamamanger2.GetComponent<UntaggerSetterSM>().Untagger = null;
             print("WARNING RESET FLAGS FOR UNTAGGERS AND TAGGER SM AS WELL");

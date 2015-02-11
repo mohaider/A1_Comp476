@@ -953,7 +953,11 @@ public class MovementBehaviour : MonoBehaviour
 
     }
 
-
+    public void Stop()
+    {
+        CharacterVelocity = Vector3.zero;
+        rigidbody.velocity = CharacterVelocity;
+    }
 
     #endregion
 }

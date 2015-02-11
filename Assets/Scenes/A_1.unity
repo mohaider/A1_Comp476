@@ -787,7 +787,7 @@ MeshCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 103322103}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_SmoothSphereCollisions: 0
@@ -1785,7 +1785,7 @@ GameObject:
   - 114: {fileID: 238053122}
   - 114: {fileID: 238053124}
   m_Layer: 0
-  m_Name: GameObjects
+  m_Name: _gm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2726,6 +2726,7 @@ GameObject:
   - 95: {fileID: 437530801}
   - 114: {fileID: 437530802}
   - 114: {fileID: 437530803}
+  - 114: {fileID: 437530804}
   - 114: {fileID: 437530800}
   m_Layer: 0
   m_Name: TesterTarget
@@ -2950,6 +2951,21 @@ MonoBehaviour:
   homebase: {fileID: 0}
   enemybase: {fileID: 0}
   currentLocation: 0
+--- !u!114 &437530804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11464540, guid: 8bbb7547688b6414aab8b344943cb3b6,
+    type: 2}
+  m_PrefabInternal: {fileID: 984105291}
+  m_GameObject: {fileID: 437530794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa29ed785b0679d4c9ef2c4a361735ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTagger: 0
+  enemy: {fileID: 0}
+  ourFlag: {fileID: 0}
 --- !u!1 &437591870
 GameObject:
   m_ObjectHideFlags: 0
@@ -3256,6 +3272,7 @@ GameObject:
   - 65: {fileID: 523568950}
   - 114: {fileID: 523568955}
   - 114: {fileID: 523568956}
+  - 114: {fileID: 523568957}
   m_Layer: 0
   m_Name: Team two member
   m_TagString: TeamBanana
@@ -3479,6 +3496,21 @@ MonoBehaviour:
   homebase: {fileID: 0}
   enemybase: {fileID: 0}
   currentLocation: 0
+--- !u!114 &523568957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11439322, guid: 8b5fc658ff1b66f49b56f6959337066c,
+    type: 2}
+  m_PrefabInternal: {fileID: 2002753772}
+  m_GameObject: {fileID: 523568948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa29ed785b0679d4c9ef2c4a361735ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTagger: 0
+  enemy: {fileID: 0}
+  ourFlag: {fileID: 0}
 --- !u!1 &527383234
 GameObject:
   m_ObjectHideFlags: 0
@@ -5116,6 +5148,7 @@ GameObject:
   - 95: {fileID: 844070697}
   - 114: {fileID: 844070698}
   - 114: {fileID: 844070699}
+  - 114: {fileID: 844070700}
   m_Layer: 0
   m_Name: Team One member
   m_TagString: TeamOrange
@@ -5355,6 +5388,21 @@ MonoBehaviour:
   homebase: {fileID: 0}
   enemybase: {fileID: 0}
   currentLocation: 0
+--- !u!114 &844070700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11464540, guid: 8bbb7547688b6414aab8b344943cb3b6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1819409072}
+  m_GameObject: {fileID: 844070690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa29ed785b0679d4c9ef2c4a361735ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTagger: 0
+  enemy: {fileID: 0}
+  ourFlag: {fileID: 0}
 --- !u!1 &846404243
 GameObject:
   m_ObjectHideFlags: 0
@@ -7381,6 +7429,46 @@ Prefab:
       propertyPath: teamamanger2
       value: 
       objectReference: {fileID: 1365384025}
+    - target: {fileID: 11479846, guid: 97006d22cf61e82449fb86674081925a, type: 2}
+      propertyPath: timerReset
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11479856, guid: 97006d22cf61e82449fb86674081925a, type: 2}
+      propertyPath: timerReset
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11479848, guid: 97006d22cf61e82449fb86674081925a, type: 2}
+      propertyPath: flag
+      value: 
+      objectReference: {fileID: 1427578275}
+    - target: {fileID: 11479854, guid: 97006d22cf61e82449fb86674081925a, type: 2}
+      propertyPath: flag
+      value: 
+      objectReference: {fileID: 1709034926}
+    - target: {fileID: 179866, guid: 97006d22cf61e82449fb86674081925a, type: 2}
+      propertyPath: m_Name
+      value: _gm
+      objectReference: {fileID: 0}
+    - target: {fileID: 11479854, guid: 97006d22cf61e82449fb86674081925a, type: 2}
+      propertyPath: maxDistance
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 11479848, guid: 97006d22cf61e82449fb86674081925a, type: 2}
+      propertyPath: maxDistance
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 11479846, guid: 97006d22cf61e82449fb86674081925a, type: 2}
+      propertyPath: SpeedUpFactor
+      value: 1.10000002
+      objectReference: {fileID: 0}
+    - target: {fileID: 179858, guid: 97006d22cf61e82449fb86674081925a, type: 2}
+      propertyPath: m_TagString
+      value: TeamBananaManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 179852, guid: 97006d22cf61e82449fb86674081925a, type: 2}
+      propertyPath: m_TagString
+      value: TeamOrangeManager
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 97006d22cf61e82449fb86674081925a, type: 2}
   m_RootGameObject: {fileID: 238053119}
@@ -7738,7 +7826,7 @@ GameObject:
   - 114: {fileID: 1365384028}
   m_Layer: 0
   m_Name: TeamManager2
-  m_TagString: TeamManager
+  m_TagString: TeamBananaManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7787,7 +7875,7 @@ MonoBehaviour:
   homeBase: {fileID: 283106695}
   flagCarrier: {fileID: 0}
   timeBeforeDistCheck: 1
-  timerReset: 2
+  timerReset: 1.5
   maxDistance: 100
   SpeedUpFactor: 1.25
 --- !u!114 &1365384029
@@ -7802,6 +7890,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6aa5ffbf6f295d488805d8fe0b0e32d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flag: {fileID: 1709034926}
+  tagger: {fileID: 0}
+  maxDistance: 75
 --- !u!1 &1367392690
 GameObject:
   m_ObjectHideFlags: 0
@@ -8135,7 +8226,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   newParent: {fileID: 0}
-  home: {fileID: 0}
+  home: {fileID: 13622388}
+  enemyCarrier: {fileID: 0}
 --- !u!1 &1439527088
 GameObject:
   m_ObjectHideFlags: 0
@@ -9306,7 +9398,7 @@ GameObject:
   - 23: {fileID: 1617101185}
   m_Layer: 0
   m_Name: Orange
-  m_TagString: Orange
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9503,49 +9595,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1565690403}
   m_RootOrder: 0
---- !u!1 &1638368942
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1638368944}
-  - 114: {fileID: 1638368943}
-  m_Layer: 0
-  m_Name: _GM
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1638368943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1638368942}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 261fddd0d3cb79d469bf234d31c5c85b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  flag1: {fileID: 0}
-  flag2: {fileID: 0}
-  teammanager1: {fileID: 0}
-  teamamanger2: {fileID: 0}
---- !u!4 &1638368944
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1638368942}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 467.047852, y: 58.7565613, z: 261.582642}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 16
 --- !u!1 &1645720164
 GameObject:
   m_ObjectHideFlags: 0
@@ -10043,7 +10092,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   newParent: {fileID: 0}
-  home: {fileID: 0}
+  home: {fileID: 283106695}
+  enemyCarrier: {fileID: 0}
 --- !u!1 &1713950088
 GameObject:
   m_ObjectHideFlags: 0
@@ -12755,7 +12805,7 @@ GameObject:
   - 114: {fileID: 2118027935}
   m_Layer: 0
   m_Name: TeamManager1
-  m_TagString: TeamManager
+  m_TagString: TeamOrangeManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12800,6 +12850,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16eaea2fe020a444597e025091a0d433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  untagger: {fileID: 0}
 --- !u!114 &2118027936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12812,6 +12863,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6aa5ffbf6f295d488805d8fe0b0e32d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flag: {fileID: 1427578275}
+  tagger: {fileID: 0}
+  maxDistance: 300
 --- !u!114 &2118027937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12828,9 +12882,9 @@ MonoBehaviour:
   homeBase: {fileID: 13622388}
   flagCarrier: {fileID: 0}
   timeBeforeDistCheck: 1
-  timerReset: 2
+  timerReset: 1.5
   maxDistance: 100
-  SpeedUpFactor: 1.25
+  SpeedUpFactor: 1.10000002
 --- !u!1 &2128618752
 GameObject:
   m_ObjectHideFlags: 0

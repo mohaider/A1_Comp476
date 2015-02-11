@@ -117,6 +117,20 @@ public class FlagSaverSetterSM : MonoBehaviour
     {
         tagger = null;
     }
+
+    public void UnsetTagger()
+    {
+        if (tagger)
+        {
+            tagger.GetComponent<PlayerStateListener>().TargetAgent = null;
+            tagger.GetComponent<PlayerStateController>().ChangeState(PlayerStateController.PlayerState.idle);
+            tagger.GetComponent<TagSM>().IsTagger = false;
+            tagger.GetComponent<TagSM>().Enemy = null;
+           
+            tagger = null;
+        }
+     
+    }
     #endregion
 
 

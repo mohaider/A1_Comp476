@@ -5,13 +5,14 @@ TagManager:
   tags:
   - NPC_Agent
   - WallBounds
-  - TeamManager
   - TeamOrange
   - TeamBanana
   - Orange
   - Banana
   - OrangeAreaTag
   - BananaAreaTag
+  - TeamOrangeManager
+  - TeamBananaManager
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX

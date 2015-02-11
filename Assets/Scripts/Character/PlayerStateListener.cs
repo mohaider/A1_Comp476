@@ -117,6 +117,13 @@ namespace Assets.Scripts.Character
 
                     Escape();
                     break;
+
+                case PlayerStateController.PlayerState.IsTagged:
+                    Tagged();
+                    break;
+
+
+
                 /*  
                                 case PlayerStateController.PlayerState.left:
 
@@ -466,6 +473,11 @@ namespace Assets.Scripts.Character
 
 
 
+        }
+
+        private void Tagged()
+        {
+            _characterBehaviourWrapper.Tagged();
         }
 
         private void Crawl()

@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.Scripts.Character;
+
 /// <summary>
 /// this class will check to see if the current gameobject is the flag carrier
 /// </summary>
@@ -13,6 +15,7 @@ public class FlagCarrierSM : MonoBehaviour
     [SerializeField] private bool touchingFlag = false;
     [SerializeField] private GameObject flagPlacement;
     [SerializeField] private GameObject homeBase;
+    private FCSetterSM _FCSetterManager;
 
     public bool IsAnFc
     {
@@ -37,7 +40,21 @@ public class FlagCarrierSM : MonoBehaviour
 	void Start () {
 	
 	}
-	
+
+    void Awake()
+    {
+        if (tag == "TeamOrange")
+        {
+            GameObject manager = GameObject.FindGameObjectWithTag("TeamOrangeManager");
+            _FCSetterManager = manager.GetComponent<FCSetterSM>();
+           
+        }
+        else
+        {
+            GameObject manager = GameObject.FindGameObjectWithTag("TeamBananaManager");
+            _FCSetterManager = manager.GetComponent<FCSetterSM>();
+        }
+    }
 	// Update is called once per frame
 	void Update () {
 	    if (isAnFC) //is a flag carrier
@@ -88,6 +105,16 @@ public class FlagCarrierSM : MonoBehaviour
 
             }
         }
+    }
+
+    public void TagThisFC()
+    {
+        hasFlag = false;
+        isAnFC = false;
+        gameObject.GetComponent<PlayerStateListener>().TargetAgent = null;
+        gameObject.GetComponent<PlayerStateController>().ChangeState(PlayerStateController.PlayerState.IsTagged);
+        //tell the FCSetterSM that we no longer have an FC
+        _FCSetterManager.UnsetFC();
     }
 
     #endregion
