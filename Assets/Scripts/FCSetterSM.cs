@@ -147,7 +147,7 @@ public class FCSetterSM : MonoBehaviour
     /// <summary>
     /// find the closest enemy within the predefined max distance 
     /// </summary>
-    private GameObject FindClosestEnemy()
+    private GameObject FindClosestEnemy2()
     {
         Debug.Log("THIS ISNT SORTING DIDLY!");
         float[] sortedDistances = new float[enemyPool.Count];
@@ -168,6 +168,36 @@ public class FCSetterSM : MonoBehaviour
         
         return null;
     }
+    private GameObject FindClosestEnemy()
+    {
+
+        float minDist = Mathf.Infinity;
+        int indexOfSmallest = -1;
+        for (int i = 0; i < teamPool.Count; i++)
+        {
+
+            GameObject enemy = (GameObject)enemyPool[i];
+            Vector3 direction = enemy.transform.position - flagCarrier.transform.position;
+            direction.y = 0;//flatten y
+
+            float tempDist = direction.magnitude;
+            if (tempDist < minDist)
+            {
+                indexOfSmallest = i;
+                minDist = tempDist;
+            }
+        }
+        //Array.Sort(sortedDistances);
+        if (indexOfSmallest != -1 && minDist < maxDistance)
+        {
+            GameObject returner = (GameObject)enemyPool[indexOfSmallest];
+            return returner;
+        }
+
+
+        return null;
+    }
+
 
     public void UnsetFC()
     {

@@ -20,7 +20,8 @@ namespace Assets.Scripts.Character
             slowlyChasing,
             EscapingState,
             idle, 
-            IsTagged, 
+            IsTagged,
+            IsTaggedRunningHome,
             untagger,
             holdingFlag
             }

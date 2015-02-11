@@ -236,6 +236,8 @@ GameObject:
   - 114: {fileID: 11478970}
   - 114: {fileID: 11405658}
   - 114: {fileID: 11439322}
+  - 135: {fileID: 13521628}
+  - 114: {fileID: 11415140}
   m_Layer: 0
   m_Name: Team two member
   m_TagString: TeamBanana
@@ -709,7 +711,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 193610}
   m_LocalRotation: {x: 0, y: -.707106829, z: 0, w: .707106829}
-  m_LocalPosition: {x: 258.053619, y: 0, z: 680.69043}
+  m_LocalPosition: {x: 1062.9668, y: 0, z: 313.975464}
   m_LocalScale: {x: 25, y: 25, z: 25}
   m_Children:
   - {fileID: 493602}
@@ -1028,8 +1030,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.37570357, y: 1.37768912, z: 1.06244862}
-  m_Center: {x: -.0371337906, y: .703686535, z: .0219018627}
+  m_Size: {x: 1.37570357, y: .210314929, z: 1.06244862}
+  m_Center: {x: -.0371337906, y: .119999386, z: .0219043028}
 --- !u!111 &11193654
 Animation:
   m_ObjectHideFlags: 1
@@ -1259,6 +1261,17 @@ MonoBehaviour:
   homebase: {fileID: 0}
   enemybase: {fileID: 0}
   currentLocation: 0
+--- !u!114 &11415140
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c56a3ae3c99502479ba5e6523e4de91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11439322
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1289,6 +1302,7 @@ MonoBehaviour:
   touchingFlag: 0
   flagPlacement: {fileID: 125324}
   homeBase: {fileID: 0}
+  homeArea: {fileID: 0}
 --- !u!114 &11493652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1331,6 +1345,18 @@ MonoBehaviour:
   maxRotation: 1000
   textbubble: {fileID: 102690}
   holder: {fileID: 127548, guid: 6f63635784b756f4f9a2cde2ea583c44, type: 2}
+--- !u!135 &13521628
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193610}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: .850000024
+  m_Center: {x: 0, y: 1.10000002, z: 0}
 --- !u!137 &13793654
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

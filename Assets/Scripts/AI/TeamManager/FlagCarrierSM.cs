@@ -10,12 +10,19 @@ public class FlagCarrierSM : MonoBehaviour
 
     #region class variables and properties
 
-    [SerializeField] private bool hasFlag =false;
-    [SerializeField] private bool isAnFC =false;
-    [SerializeField] private bool touchingFlag = false;
-    [SerializeField] private GameObject flagPlacement;
-    [SerializeField] private GameObject homeBase;
+    [SerializeField]
+    private bool hasFlag = false;
+    [SerializeField]
+    private bool isAnFC = false;
+    [SerializeField]
+    private bool touchingFlag = false;
+    [SerializeField]
+    private GameObject flagPlacement;
+    [SerializeField]
+    private GameObject homeBase;
     private FCSetterSM _FCSetterManager;
+    private UntaggerSetterSM _unteggerManager;
+    [SerializeField] private GameObject homeArea;
 
     public bool IsAnFc
     {
@@ -33,39 +40,46 @@ public class FlagCarrierSM : MonoBehaviour
 
     #region class functions
 
-    #endregion 
+    #endregion
 
     #region unity functions
     // Use this for initialization
-	void Start () {
-	
-	}
+    void Start()
+    {
+
+    }
 
     void Awake()
     {
+        GameObject manager;
+
         if (tag == "TeamOrange")
         {
-            GameObject manager = GameObject.FindGameObjectWithTag("TeamOrangeManager");
-            _FCSetterManager = manager.GetComponent<FCSetterSM>();
-           
+            manager = GameObject.FindGameObjectWithTag("TeamOrangeManager");
+            homeArea = GameObject.FindGameObjectWithTag("RunToOrangeHome");
         }
         else
         {
-            GameObject manager = GameObject.FindGameObjectWithTag("TeamBananaManager");
-            _FCSetterManager = manager.GetComponent<FCSetterSM>();
+            manager = GameObject.FindGameObjectWithTag("TeamBananaManager");
+            homeArea = GameObject.FindGameObjectWithTag("RunToBananaHome");
         }
+
+        _FCSetterManager = manager.GetComponent<FCSetterSM>();
+        _unteggerManager = manager.GetComponent<UntaggerSetterSM>();
+
     }
-	// Update is called once per frame
-	void Update () {
-	    if (isAnFC) //is a flag carrier
-	    {
-	        if (!hasFlag)
-	        {
+    // Update is called once per frame
+    void Update()
+    {
+        if (isAnFC) //is a flag carrier
+        {
+            if (!hasFlag)
+            {
 
-	        }
-	    }
+            }
+        }
 
-	}
+    }
 
     void OnTriggerEnter(Collider col)
     {
@@ -75,16 +89,16 @@ public class FlagCarrierSM : MonoBehaviour
             {
                 if (col.tag == "Orange")
                 {
-                    
+
                     //take the flag
                     FlagScript flagScript = col.GetComponent<FlagScript>();
-                    if (flagScript ==null)
+                    if (flagScript == null)
                         Debug.Log("the flag doesn't have a flag script!");
                     flagScript.PickupFlag(flagPlacement);
-                    
+
                     //notify the team manager.
 
-                        hasFlag = true;
+                    hasFlag = true;
                 }
 
             }
@@ -97,9 +111,9 @@ public class FlagCarrierSM : MonoBehaviour
                     if (flagScript == null)
                         Debug.Log("the flag doesn't have a flag script!");
                     flagScript.PickupFlag(flagPlacement);
-                    
+
                     hasFlag = true;
-                 
+
                     //notify the team manager
                 }
 
@@ -111,10 +125,11 @@ public class FlagCarrierSM : MonoBehaviour
     {
         hasFlag = false;
         isAnFC = false;
-        gameObject.GetComponent<PlayerStateListener>().TargetAgent = null;
-        gameObject.GetComponent<PlayerStateController>().ChangeState(PlayerStateController.PlayerState.IsTagged);
+        gameObject.GetComponent<PlayerStateListener>().TargetAgent = homeArea;
+        gameObject.GetComponent<PlayerStateController>().ChangeState(PlayerStateController.PlayerState.IsTaggedRunningHome);
         //tell the FCSetterSM that we no longer have an FC
         _FCSetterManager.UnsetFC();
+        //_unteggerManager.AddNewTaggedPlayer(gameObject); //notify the untagger manager that this game object is now tagged
     }
 
     #endregion

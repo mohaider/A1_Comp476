@@ -335,7 +335,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100032, guid: d09528fac9a464315b5cfd8a151d5b89, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: d09528fac9a464315b5cfd8a151d5b89, type: 3}
       propertyPath: m_LocalScale.x
@@ -2290,7 +2290,7 @@ GameObject:
   m_Icon: {fileID: -1203168336, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &388083803
 Transform:
   m_ObjectHideFlags: 0
@@ -2727,6 +2727,8 @@ GameObject:
   - 114: {fileID: 437530802}
   - 114: {fileID: 437530803}
   - 114: {fileID: 437530804}
+  - 135: {fileID: 437530805}
+  - 114: {fileID: 437530806}
   - 114: {fileID: 437530800}
   m_Layer: 0
   m_Name: TesterTarget
@@ -2750,7 +2752,7 @@ Transform:
   - {fileID: 591840041}
   - {fileID: 775715713}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
 --- !u!65 &437530796
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2762,8 +2764,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.47111714, y: 1.37768912, z: 1.06866503}
-  m_Center: {x: .00312743778, y: .703686535, z: .0343310572}
+  m_Size: {x: 1.37570405, y: .2103149, z: 1.06244898}
+  m_Center: {x: -.0371337906, y: .119999401, z: .0219043009}
 --- !u!54 &437530797
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2936,6 +2938,7 @@ MonoBehaviour:
   touchingFlag: 0
   flagPlacement: {fileID: 652616192}
   homeBase: {fileID: 0}
+  homeArea: {fileID: 0}
 --- !u!114 &437530803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2966,6 +2969,33 @@ MonoBehaviour:
   isTagger: 0
   enemy: {fileID: 0}
   ourFlag: {fileID: 0}
+--- !u!135 &437530805
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 13583416, guid: 8bbb7547688b6414aab8b344943cb3b6,
+    type: 2}
+  m_PrefabInternal: {fileID: 984105291}
+  m_GameObject: {fileID: 437530794}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: .850000024
+  m_Center: {x: 0, y: 1.10000002, z: 0}
+--- !u!114 &437530806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11468764, guid: 8bbb7547688b6414aab8b344943cb3b6,
+    type: 2}
+  m_PrefabInternal: {fileID: 984105291}
+  m_GameObject: {fileID: 437530794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c56a3ae3c99502479ba5e6523e4de91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerToUntag: {fileID: 0}
+  _untagging: 0
 --- !u!1 &437591870
 GameObject:
   m_ObjectHideFlags: 0
@@ -3257,6 +3287,33 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1177318076}
   m_GameObject: {fileID: 511895449}
   m_Mesh: {fileID: 4300012, guid: 81d0fe4263f4de3499b25bfd12531470, type: 3}
+--- !u!1 &522241274
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 522241275}
+  m_Layer: 13
+  m_Name: RunHomeToOrange
+  m_TagString: RunToOrangeHome
+  m_Icon: {fileID: -2065832391, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &522241275
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 522241274}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 300, y: 0, z: 500}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1593605563}
+  m_RootOrder: 2
 --- !u!1 &523568948
 GameObject:
   m_ObjectHideFlags: 0
@@ -3273,6 +3330,8 @@ GameObject:
   - 114: {fileID: 523568955}
   - 114: {fileID: 523568956}
   - 114: {fileID: 523568957}
+  - 135: {fileID: 523568958}
+  - 114: {fileID: 523568959}
   m_Layer: 0
   m_Name: Team two member
   m_TagString: TeamBanana
@@ -3295,7 +3354,7 @@ Transform:
   - {fileID: 1401142288}
   - {fileID: 95784555}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
 --- !u!65 &523568950
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3307,8 +3366,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.37570357, y: 1.37768912, z: 1.06244862}
-  m_Center: {x: -.0371337906, y: .703686535, z: .0219018627}
+  m_Size: {x: 1.37570357, y: .210314929, z: 1.06244862}
+  m_Center: {x: -.0371337906, y: .119999386, z: .0219043028}
 --- !u!54 &523568951
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3481,6 +3540,7 @@ MonoBehaviour:
   touchingFlag: 0
   flagPlacement: {fileID: 95784554}
   homeBase: {fileID: 0}
+  homeArea: {fileID: 0}
 --- !u!114 &523568956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3511,6 +3571,33 @@ MonoBehaviour:
   isTagger: 0
   enemy: {fileID: 0}
   ourFlag: {fileID: 0}
+--- !u!135 &523568958
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 13521628, guid: 8b5fc658ff1b66f49b56f6959337066c,
+    type: 2}
+  m_PrefabInternal: {fileID: 2002753772}
+  m_GameObject: {fileID: 523568948}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: .850000024
+  m_Center: {x: 0, y: 1.10000002, z: 0}
+--- !u!114 &523568959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11415140, guid: 8b5fc658ff1b66f49b56f6959337066c,
+    type: 2}
+  m_PrefabInternal: {fileID: 2002753772}
+  m_GameObject: {fileID: 523568948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c56a3ae3c99502479ba5e6523e4de91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerToUntag: {fileID: 0}
+  _untagging: 0
 --- !u!1 &527383234
 GameObject:
   m_ObjectHideFlags: 0
@@ -3800,6 +3887,7 @@ Transform:
   m_Children:
   - {fileID: 1661351595}
   - {fileID: 283106696}
+  - {fileID: 1138328245}
   m_Father: {fileID: 2015491138}
   m_RootOrder: 1
 --- !u!65 &626574627
@@ -4348,7 +4436,7 @@ RectTransform:
   - {fileID: 1758440401}
   - {fileID: 1107032620}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -4988,7 +5076,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 840283649}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 442c4dba1f8b3534e922171640e2d38c, type: 3}
   m_Name: 
@@ -5018,7 +5106,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 840283649}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d65a68986645064c8070cd94d308368, type: 3}
   m_Name: 
@@ -5149,6 +5237,8 @@ GameObject:
   - 114: {fileID: 844070698}
   - 114: {fileID: 844070699}
   - 114: {fileID: 844070700}
+  - 135: {fileID: 844070701}
+  - 114: {fileID: 844070702}
   m_Layer: 0
   m_Name: Team One member
   m_TagString: TeamOrange
@@ -5171,7 +5261,7 @@ Transform:
   - {fileID: 876557009}
   - {fileID: 1611780170}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
 --- !u!111 &844070692
 Animation:
   m_ObjectHideFlags: 0
@@ -5338,8 +5428,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.47111714, y: 1.37768912, z: 1.06866503}
-  m_Center: {x: .00312743778, y: .703686535, z: .0343310572}
+  m_Size: {x: 1.37570405, y: .2103149, z: 1.06244898}
+  m_Center: {x: -.0371337906, y: .119999401, z: .0219043009}
 --- !u!95 &844070697
 Animator:
   serializedVersion: 3
@@ -5373,6 +5463,7 @@ MonoBehaviour:
   touchingFlag: 0
   flagPlacement: {fileID: 209567968}
   homeBase: {fileID: 0}
+  homeArea: {fileID: 0}
 --- !u!114 &844070699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5403,6 +5494,33 @@ MonoBehaviour:
   isTagger: 0
   enemy: {fileID: 0}
   ourFlag: {fileID: 0}
+--- !u!135 &844070701
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 13583416, guid: 8bbb7547688b6414aab8b344943cb3b6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1819409072}
+  m_GameObject: {fileID: 844070690}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: .850000024
+  m_Center: {x: 0, y: 1.10000002, z: 0}
+--- !u!114 &844070702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11468764, guid: 8bbb7547688b6414aab8b344943cb3b6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1819409072}
+  m_GameObject: {fileID: 844070690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c56a3ae3c99502479ba5e6523e4de91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerToUntag: {fileID: 0}
+  _untagging: 0
 --- !u!1 &846404243
 GameObject:
   m_ObjectHideFlags: 0
@@ -5591,7 +5709,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
 --- !u!1 &865492410
 GameObject:
   m_ObjectHideFlags: 0
@@ -6049,7 +6167,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 459992, guid: 8bbb7547688b6414aab8b344943cb3b6, type: 2}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 11460010, guid: 8bbb7547688b6414aab8b344943cb3b6, type: 2}
       propertyPath: m_Enabled
@@ -6516,7 +6634,7 @@ Transform:
   - {fileID: 2015491138}
   - {fileID: 1254503424}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
 --- !u!1 &1065611392
 GameObject:
   m_ObjectHideFlags: 0
@@ -6900,6 +7018,33 @@ Transform:
   - {fileID: 1501578879}
   m_Father: {fileID: 2094539375}
   m_RootOrder: 1
+--- !u!1 &1138328244
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1138328245}
+  m_Layer: 16
+  m_Name: RunHomeToBanana
+  m_TagString: RunToBananaHome
+  m_Icon: {fileID: -1203168336, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1138328245
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1138328244}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1300, y: 0, z: 500}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 626574626}
+  m_RootOrder: 2
 --- !u!1001 &1177318076
 Prefab:
   m_ObjectHideFlags: 0
@@ -7469,6 +7614,10 @@ Prefab:
       propertyPath: m_TagString
       value: TeamOrangeManager
       objectReference: {fileID: 0}
+    - target: {fileID: 179866, guid: 97006d22cf61e82449fb86674081925a, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 97006d22cf61e82449fb86674081925a, type: 2}
   m_RootGameObject: {fileID: 238053119}
@@ -7824,6 +7973,7 @@ GameObject:
   - 114: {fileID: 1365384027}
   - 114: {fileID: 1365384029}
   - 114: {fileID: 1365384028}
+  - 114: {fileID: 1365384030}
   m_Layer: 0
   m_Name: TeamManager2
   m_TagString: TeamBananaManager
@@ -7893,6 +8043,18 @@ MonoBehaviour:
   flag: {fileID: 1709034926}
   tagger: {fileID: 0}
   maxDistance: 75
+--- !u!114 &1365384030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1365384025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16eaea2fe020a444597e025091a0d433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  untagger: {fileID: 0}
 --- !u!1 &1367392690
 GameObject:
   m_ObjectHideFlags: 0
@@ -9250,6 +9412,7 @@ Transform:
   m_Children:
   - {fileID: 103322104}
   - {fileID: 13622390}
+  - {fileID: 522241275}
   m_Father: {fileID: 2015491138}
   m_RootOrder: 0
 --- !u!65 &1593605564
@@ -10812,7 +10975,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 459992, guid: 8bbb7547688b6414aab8b344943cb3b6, type: 2}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 159992, guid: 8bbb7547688b6414aab8b344943cb3b6, type: 2}
       propertyPath: m_IsActive
@@ -11878,7 +12041,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 493610, guid: 8b5fc658ff1b66f49b56f6959337066c, type: 2}
       propertyPath: m_RootOrder
-      value: 12
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 193610, guid: 8b5fc658ff1b66f49b56f6959337066c, type: 2}
       propertyPath: m_IsActive

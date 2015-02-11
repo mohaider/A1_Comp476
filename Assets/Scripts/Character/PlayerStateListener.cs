@@ -33,6 +33,7 @@ namespace Assets.Scripts.Character
         public CharacterBehaviourWrapper _characterBehaviourWrapper;
         private ShowTextBubble textBubble;
         public GameObject TextBubbleGameObject;
+        private UntaggerSetterSM untaggerManager;
 
 
         //default the states to idle
@@ -43,8 +44,9 @@ namespace Assets.Scripts.Character
         private PlayerStateController.PlayerState currentState = PlayerStateController.PlayerState.idle;
         //current state
 
-        [SerializeField] private string outputinfo="";
-      
+        [SerializeField]
+        private string outputinfo = "";
+
 
         public CharacterBehaviourWrapper characterBehaviourWrapper
         {
@@ -86,7 +88,7 @@ namespace Assets.Scripts.Character
 
         public string GetCurrentState()
         {
-            return name+ "'s current state: "+currentState.ToString();
+            return name + "'s current state: " + currentState.ToString();
         }
 
 
@@ -95,22 +97,27 @@ namespace Assets.Scripts.Character
         /// </summary>
         private void OnStateCycle()
         {
-            //cache the input axis values 
-            // Cache the inputs.
-            float h = Input.GetAxis("Horizontal");
-            float v = Input.GetAxis("Vertical");
-            //todo fill this switch case after discussing the controls with the team. might need to change the player state enumerator depending on the decision
+            Vector3 directionVector3;
+            float dist=0f;
+            if (TargetAgent != null)
+            {
+                directionVector3 = TargetAgent.transform.position - transform.position;
+                dist = directionVector3.magnitude;
+            }
+
+
+            
             switch (currentState)
             {
                 case PlayerStateController.PlayerState.idle:
                     _characterBehaviourWrapper.Wander();
-                  
+
 
                     break;
                 case PlayerStateController.PlayerState.chasing:
 
-                        Chase();
-                   
+                    Chase();
+
                     break;
 
                 case PlayerStateController.PlayerState.EscapingState:
@@ -119,9 +126,28 @@ namespace Assets.Scripts.Character
                     break;
 
                 case PlayerStateController.PlayerState.IsTagged:
-                    Tagged();
+                    if (dist > 20f)
+                        OnStateChange(PlayerStateController.PlayerState.IsTaggedRunningHome);
+                    else
+                    {
+
+                        Tagged();
+                    }
                     break;
 
+                case PlayerStateController.PlayerState.IsTaggedRunningHome:
+
+                    if (dist > 33f)
+                        Chase();
+                    else
+                    {
+                        OnStateChange(PlayerStateController.PlayerState.IsTagged);
+                    }
+                    break;
+                case PlayerStateController.PlayerState.untagger:
+
+                    Chase();
+                    break;
 
 
                 /*  
@@ -194,49 +220,54 @@ namespace Assets.Scripts.Character
         {
             //if the current state are the same, abort. No need to change the state we're in
 
-        /*     if (newPlayerState == currentState)
+            /*     if (newPlayerState == currentState)
+                 {
+                     return;
+                 }
+            
+                 //check if any special conditions that would cause this new state to abort
+                 if (CheckIfAbortState(newPlayerState))
+                 {
+                     return;
+                 }*/
+            /*
+             //check if the current is allowed to transition into this new state. if not, abort.
+             if (!CheckValidStatePairing(newPlayerState))
              {
                  return;
              }
-            
-             //check if any special conditions that would cause this new state to abort
-             if (CheckIfAbortState(newPlayerState))
-             {
-                 return;
-             }*/
-             /*
-              //check if the current is allowed to transition into this new state. if not, abort.
-              if (!CheckValidStatePairing(newPlayerState))
-              {
-                  return;
-              }
 
-              //if we're here, then state change is allowed
+             //if we're here, then state change is allowed
 */
-              switch (newPlayerState) //for all cases, you must activate the text speech bubble
-              {
-                  case PlayerStateController.PlayerState.chasing:
-                      TextBubbleGameObject.SetActive(true);
-                      textBubble.ApplyNewText("I'm chasing "+_characterBehaviourWrapper.TargetAgent.name);
-                      break;
-                  case PlayerStateController.PlayerState.idle:
-                      TextBubbleGameObject.SetActive(true);
-                      textBubble.ApplyNewText("I'm wandering around");
-                      break;
-                  case PlayerStateController.PlayerState.holdingFlag:
-                      TextBubbleGameObject.SetActive(true);
-                      textBubble.ApplyNewText("I'm holding the flag!");
-                      break;
+            switch (newPlayerState) //for all cases, you must activate the text speech bubble
+            {
+                case PlayerStateController.PlayerState.chasing:
+                    TextBubbleGameObject.SetActive(true);
+                    textBubble.ApplyNewText("I'm chasing " + _characterBehaviourWrapper.TargetAgent.name);
+                    break;
+                case PlayerStateController.PlayerState.idle:
+                    TextBubbleGameObject.SetActive(true);
+                    textBubble.ApplyNewText("I'm wandering around");
+                    break;
+                case PlayerStateController.PlayerState.holdingFlag:
+                    TextBubbleGameObject.SetActive(true);
+                    textBubble.ApplyNewText("I'm holding the flag!");
+                    break;
+                case PlayerStateController.PlayerState.IsTaggedRunningHome:
+                    TextBubbleGameObject.SetActive(true);
+                    textBubble.ApplyNewText("I'm running home!");
+                    break;
 
 
-              }
-             
-             //store the current state as the previous state
-             previousState = currentState;
 
-             //store new state as the current state
-             currentState = newPlayerState;
-              
+            }
+
+            //store the current state as the previous state
+            previousState = currentState;
+
+            //store new state as the current state
+            currentState = newPlayerState;
+
 
         }
 
@@ -372,7 +403,7 @@ namespace Assets.Scripts.Character
 
 
 
- 
+
 
         /// <summary>
         /// implemented according to the requirements set by the assigment
@@ -390,17 +421,17 @@ namespace Assets.Scripts.Character
             if (currentSpeed <= 5f)//A
             {
                 outputinfo = "In A";
-   
+
                 //if the character is really close to the target(A.1)
-                if (distance < _characterBehaviourWrapper.MovementBehaviour1.ArrivalRadius *0.75f)
+                if (distance < _characterBehaviourWrapper.MovementBehaviour1.ArrivalRadius * 0.75f)
                 {
                     outputinfo = "In A.i";
                     _characterBehaviourWrapper.Hop();
-                       print(name + "Hopped over to target");
+                    print(name + "Hopped over to target");
                 }
                 else
                 {
-                    
+
                     //need to stop and rotate:
 
                     float difInAngles = Vector3.Angle(characterForward, directionalVector3.normalized);
@@ -408,23 +439,23 @@ namespace Assets.Scripts.Character
 
                     float targetAngle = Mathf.Atan2(directionalVector3.x, directionalVector3.z) * Mathf.Rad2Deg;
                     targetAngle %= 360f;
-                    float currentAngle = transform.rotation.eulerAngles.y %360;
+                    float currentAngle = transform.rotation.eulerAngles.y % 360;
                     float differenceInAngles = targetAngle - currentAngle;
 
-                    outputinfo = "In A.ii, difference between angles is "+difInAngles;
+                    outputinfo = "In A.ii, difference between angles is " + difInAngles;
 
-                   // float diferen = curangle - angere;
+                    // float diferen = curangle - angere;
 
                     if (difInAngles > 9f)
                     {
-                        outputinfo = "In A.ii difference between angles is "+difInAngles;
+                        outputinfo = "In A.ii difference between angles is " + difInAngles;
                         _characterBehaviourWrapper.Rotate(CharacterBehaviourWrapper.HeuristicType.A2);
                     }
-                else
+                    else
                     {
-                            _characterBehaviourWrapper.Move(CharacterBehaviourWrapper.HeuristicType.A2); 
+                        _characterBehaviourWrapper.Move(CharacterBehaviourWrapper.HeuristicType.A2);
                     }
-               
+
                     ///   print("chase state 2");
                 }
             }
@@ -458,10 +489,10 @@ namespace Assets.Scripts.Character
             Vector3 directionalVector3 = _characterBehaviourWrapper.Target.transform.position - transform.position;
             float distance = directionalVector3.magnitude;
             //teleport
-            if (distance < _characterBehaviourWrapper.MovementBehaviour1.ArrivalRadius*0.75f)
+            if (distance < _characterBehaviourWrapper.MovementBehaviour1.ArrivalRadius * 0.75f)
             {
                 //transform.position = (transform.forward.normalized*3f) + transform.forward; //move 3 steps forward
-                transform.position -= directionalVector3.normalized*3f;
+                transform.position -= directionalVector3.normalized * 3f;
                 outputinfo = "in c.i";
             }
             else
@@ -477,6 +508,8 @@ namespace Assets.Scripts.Character
 
         private void Tagged()
         {
+
+            untaggerManager.AddNewTaggedPlayer(gameObject);
             _characterBehaviourWrapper.Tagged();
         }
 
@@ -505,32 +538,6 @@ namespace Assets.Scripts.Character
         #endregion
 
 
-        #region class functions implemented from ICharacter
-
-      
-
-/*        public MovementBehaviour _characterBehaviourWrapper
-        {
-            get { return _movementBehaviour; }
-            set { _movementBehaviour = value; }
-        }
-
-        public GameObject TargetAgent
-        {
-            get { return _targetAgent;}
-            set
-            {
-               
-                if (_movementBehaviour == null)
-                    Debug.Log("there is no assigned movement behaviour");
-                else
-                    _movementBehaviour.TargetGameObject = value;
-                _targetAgent = value;
-                
-            }
-        }*/
-
-        #endregion
 
         #region unity functions
 
@@ -556,9 +563,21 @@ namespace Assets.Scripts.Character
 
 
 
-        private void State()
+        private void Start()
         {
-           
+            //TeamOrangeManager
+            //TeamBananaManager
+            GameObject manager;
+            if (tag == "TeamOrange")
+            {
+                manager = GameObject.FindGameObjectWithTag("TeamOrangeManager");
+                
+            }
+            else
+            {
+                manager = GameObject.FindGameObjectWithTag("TeamBananaManager");
+            }
+            untaggerManager = manager.GetComponent<UntaggerSetterSM>();
             // PlayerStateController.stateDelayTimer[(int)PlayerStateController.PlayerState.jump] = 1.0f;//can jump every 1.0 seconds
             //PlayerStateController.stateDelayTimer[(int)PlayerStateController.PlayerState.jump] = 1.0f;//can jump every 1.0 seconds
         }

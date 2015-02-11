@@ -34,6 +34,7 @@ public class MovementBehaviour : MonoBehaviour
     public float angularVelocity;
     public float characterAngularVelocity;
     public string outputInfo;
+
     public float maxRotation;
     public GameObject holder;
 
@@ -205,7 +206,8 @@ public class MovementBehaviour : MonoBehaviour
         flattenYtoZero();
         outputInfo = name + " velocity =" + _characterVelocity + "\n Character Acceleration= " + characterAcceleration
             + "\n Target velocity " + targetVelocity + "\n Target speed " + targetspeed + "\n Distance to target " + dist + "\n slow down radius" + SlowDownRadius
-            + "\n arrival radius" + ArrivalRadius + "\n t2t" + timeToTarget;
+            + "\n arrival radius" + ArrivalRadius + "\n t2t" + timeToTarget + "\n current pos: " + gameObject.transform.position +
+   "\n targetPos = " + TargetGameObject.transform.position; ;
         flattenYtoZero();
         rigidbody.velocity = _characterVelocity;
         // character.rigidbody.velocity
@@ -862,7 +864,9 @@ public class MovementBehaviour : MonoBehaviour
             currentVelocity = 0;
         }
 
-        outputInfo = "Character Velocity: " + _characterVelocity + "\n Arrival radius is " + ArrivalRadius + "\n Current speed is" + currentVelocity;
+        outputInfo = "Character Velocity: " + _characterVelocity + "\n Arrival radius is " + ArrivalRadius + "\n Current speed is" + currentVelocity
+            + "\n distance to target " + TargetGameObject.name + " is " + mag+"\n current pos: "+ gameObject.transform.position+ 
+   "\n targetPos = "+TargetGameObject.transform.position;
         character.rigidbody.velocity = _characterVelocity.normalized * currentVelocity;
         // KinematicSeek();
     }
