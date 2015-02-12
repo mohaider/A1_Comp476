@@ -42,6 +42,8 @@ public class MovementBehaviour : MonoBehaviour
 
     public SeekTargetDelegate seekTargetDelegate;
 
+    private Separation seperation; 
+
 
     #region constructors and setters
 
@@ -84,6 +86,15 @@ public class MovementBehaviour : MonoBehaviour
         this.timeToTarget = timeToTarget;
         resetTimer = 3.5f;
         originalMaxSpeed = maxspeed;
+    }
+
+    #endregion
+
+    #region unity function
+
+    private void Start()
+    {
+        seperation = GetComponent<Separation>();
     }
 
     #endregion

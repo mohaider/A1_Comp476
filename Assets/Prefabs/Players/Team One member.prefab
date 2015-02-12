@@ -1188,8 +1188,8 @@ MonoBehaviour:
   maxAngularVelocity: 20
   maxAcceleration: 50
   maxAngularAcceleration: 200
-  ArrivalRadius: 25
-  SlowDownRadius: 35
+  ArrivalRadius: 30
+  SlowDownRadius: 200
   slowDownRotationRadius: 10
   turnSmoothing: 10
   maxPredictionTime: 10
