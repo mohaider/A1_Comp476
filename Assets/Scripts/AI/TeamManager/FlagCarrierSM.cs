@@ -132,5 +132,16 @@ public class FlagCarrierSM : MonoBehaviour
         //_unteggerManager.AddNewTaggedPlayer(gameObject); //notify the untagger manager that this game object is now tagged
     }
 
+    public void Reset()
+    {
+        hasFlag = false;
+        isAnFC = false;
+       gameObject.GetComponent<PlayerStateController>().ChangeState(PlayerStateController.PlayerState.idle);
+
+        //tell the FCSetterSM that we no longer have an FC
+        _FCSetterManager.UnsetFC();
+        //_unteggerManager.AddNewTaggedPlayer(gameObject); //notify the untagger manager that this game object is now tagged
+    }
+
     #endregion
 }

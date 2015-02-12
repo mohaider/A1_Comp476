@@ -144,7 +144,7 @@ public class FCSetterSM : MonoBehaviour
     #endregion
 
     #region class functions
-    /// <summary>
+/*    /// <summary>
     /// find the closest enemy within the predefined max distance 
     /// </summary>
     private GameObject FindClosestEnemy2()
@@ -167,7 +167,7 @@ public class FCSetterSM : MonoBehaviour
             return (GameObject) enemyPool[0];
         
         return null;
-    }
+    }*/
     private GameObject FindClosestEnemy()
     {
 

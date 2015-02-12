@@ -98,7 +98,7 @@ namespace Assets.Scripts.Character
         private void OnStateCycle()
         {
             Vector3 directionVector3;
-            float dist=0f;
+            float dist = 0f;
             if (TargetAgent != null)
             {
                 directionVector3 = TargetAgent.transform.position - transform.position;
@@ -106,7 +106,7 @@ namespace Assets.Scripts.Character
             }
 
 
-            
+
             switch (currentState)
             {
                 case PlayerStateController.PlayerState.idle:
@@ -243,20 +243,68 @@ namespace Assets.Scripts.Character
             {
                 case PlayerStateController.PlayerState.chasing:
                     TextBubbleGameObject.SetActive(true);
-                    textBubble.ApplyNewText("I'm chasing " + _characterBehaviourWrapper.TargetAgent.name);
+
+                    switch (TargetAgent.tag)
+                    {
+                        case "RunToOrangeHome":
+                            textBubble.ApplyNewImage(ShowTextBubble.imagetype.goHome, "");
+                            break;
+                        case "RunToBananaHome":
+                            textBubble.ApplyNewImage(ShowTextBubble.imagetype.goHome, "");
+                            break;
+                        case "TeamOrangeFlagArea":
+                            textBubble.ApplyNewImage(ShowTextBubble.imagetype.goHome, "");
+                            break;
+                        case "TeamBananaFlagArea":
+                            textBubble.ApplyNewImage(ShowTextBubble.imagetype.goHome, "");
+                            break;
+                        case "TeamOrange":
+                            if (tag == "TeamOrange")
+                                textBubble.ApplyNewImage(ShowTextBubble.imagetype.untag, "");
+                            else
+                                textBubble.ApplyNewImage(ShowTextBubble.imagetype.stop, "");
+                            break;
+                        case "TeamBanana":
+                            if (tag == "TeamBanana")
+                                textBubble.ApplyNewImage(ShowTextBubble.imagetype.untag, "");
+                            else
+                                textBubble.ApplyNewImage(ShowTextBubble.imagetype.stop, "");
+                            break;
+                        case "Orange":
+                            textBubble.ApplyNewImage(ShowTextBubble.imagetype.chaseFlag, "orange");
+                            break;
+                        case "Banana":
+                            textBubble.ApplyNewImage(ShowTextBubble.imagetype.chaseFlag, "");
+                            break;
+
+                    }
+                   
                     break;
                 case PlayerStateController.PlayerState.idle:
                     TextBubbleGameObject.SetActive(true);
-                    textBubble.ApplyNewText("I'm wandering around");
+                    textBubble.ApplyNewImage(ShowTextBubble.imagetype.wandering, "");
                     break;
                 case PlayerStateController.PlayerState.holdingFlag:
                     TextBubbleGameObject.SetActive(true);
-                    textBubble.ApplyNewText("I'm holding the flag!");
+                    textBubble.ApplyNewImage(ShowTextBubble.imagetype.goHome, "");
+
+                    // textBubble.ApplyNewText("I'm holding the flag!");
                     break;
                 case PlayerStateController.PlayerState.IsTaggedRunningHome:
                     TextBubbleGameObject.SetActive(true);
-                    textBubble.ApplyNewText("I'm running home!");
+                    textBubble.ApplyNewImage(ShowTextBubble.imagetype.taggedRunningHome, "");
                     break;
+
+                case PlayerStateController.PlayerState.IsTagged:
+                    TextBubbleGameObject.SetActive(true);
+                    textBubble.ApplyNewImage(ShowTextBubble.imagetype.tagged, "");
+                    break;
+
+                case PlayerStateController.PlayerState.untagger:
+                    TextBubbleGameObject.SetActive(true);
+                    textBubble.ApplyNewImage(ShowTextBubble.imagetype.untag, "");
+                    break;
+           
 
 
 
@@ -571,7 +619,7 @@ namespace Assets.Scripts.Character
             if (tag == "TeamOrange")
             {
                 manager = GameObject.FindGameObjectWithTag("TeamOrangeManager");
-                
+
             }
             else
             {

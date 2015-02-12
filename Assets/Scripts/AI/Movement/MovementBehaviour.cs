@@ -164,8 +164,7 @@ public class MovementBehaviour : MonoBehaviour
 
     public void SteeringArrive()
     {
-        if (Input.GetKey(KeyCode.A))
-            print("start to debug");
+
         Vector3 targetVelocity = _targetGameObject.transform.position - character.transform.position;
         Vector3 direction = _targetGameObject.transform.position - character.transform.position;
         float targetspeed = 0;
